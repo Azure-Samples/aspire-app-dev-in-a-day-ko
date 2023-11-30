@@ -1,6 +1,6 @@
 ## Install additional apt packages
 sudo apt-get update \
-    && sudo apt-get install -y dos2unix libsecret-1-0 xdg-utils \
+    && sudo apt-get install -y dos2unix libsecret-1-0 xdg-utils fonts-naver-d2coding \
     && sudo apt-get clean -y && sudo rm -rf /var/lib/apt/lists/*
 
 ## Configure git
@@ -12,6 +12,15 @@ dotnet dev-certs https --trust
 
 ## Add .NET Aspire workload
 sudo dotnet workload update && sudo dotnet workload install aspire
+
+# D2Coding Nerd Font
+# Uncomment the below to install the D2Coding Nerd Font
+mkdir $HOME/.local
+mkdir $HOME/.local/share
+mkdir $HOME/.local/share/fonts
+wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/D2Coding.zip
+unzip D2Coding.zip -d $HOME/.local/share/fonts
+rm D2Coding.zip
 
 ## AZURE BICEP CLI ##
 # Uncomment the below to install Azure Bicep CLI.
