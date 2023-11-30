@@ -1,0 +1,108 @@
+{
+  "name": "DevContainer for .NET",
+  "build": {
+    "dockerfile": "./Dockerfile",
+    "context": ".",
+    "args": {
+      "VARIANT": "8.0"
+    }
+  },
+
+  "features": {
+    // Uncomment the below to install .NET SDK
+    "ghcr.io/devcontainers/features/dotnet:latest": {
+      "version": "6.0",
+      "additionalVersions": "7.0"
+    },
+
+    // Uncomment the below to install Azure CLI
+    "ghcr.io/devcontainers/features/azure-cli:latest": {
+      "version": "latest",
+      "extensions": "account,alias,containerapp,deploy-to-azure,subscription"
+    },
+
+    // Uncomment the below to install GitHub CLI
+    "ghcr.io/devcontainers/features/github-cli:latest": {
+      "version": "latest"
+    },
+
+    // Uncomment the below to install node.js
+    "ghcr.io/devcontainers/features/node:latest": {
+      "version": "lts",
+      "nodeGypDependencies": true,
+      "nvmInstallPath": "/usr/local/share/nvm"
+    },
+
+    // Uncomment the below to install Docker-in-Docker
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+
+    // Install common utilities
+    "ghcr.io/devcontainers/features/common-utils:latest": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": false,
+      "installOhMyZsh": true,
+      "installOhMyZshConfig": true,
+      "upgradePackages": true,
+      "username": "vscode",
+      "uid": "1000",
+      "gid": "1000"
+    }
+  },
+
+  "overrideFeatureInstallOrder": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ],
+
+  // Configure tool-specific properties.
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        // Recommended extensions - GitHub
+        "GitHub.vscode-github-actions",
+        "GitHub.vscode-pull-request-github",
+
+        // Recommended extensions - Azure
+        "ms-azuretools.vscode-bicep",
+
+        // Recommended extensions - Collaboration
+        "EditorConfig.EditorConfig",
+        "streetsidesoftware.code-spell-checker",
+
+        // Recommended extensions - Markdown
+        "bierner.github-markdown-preview",
+        "DavidAnson.vscode-markdownlint",
+        "docsmsft.docs-linting",
+        "johnpapa.read-time",
+        "yzhang.markdown-all-in-one",
+
+        // Required extensions
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "ms-dotnettools.csdevkit",
+        "ms-vscode.PowerShell",
+        "ms-vscode.vscode-node-azure-pack",
+        "VisualStudioExptTeam.vscodeintellicode"
+      ],
+      "settings": {
+        // Uncomment if you want to disable the minimap view
+        "editor.minimap.enabled": false,
+
+        // Recommended settings for the explorer pane
+        "explorer.sortOrder": "type",
+        "explorer.fileNesting.enabled": true,
+        "explorer.fileNesting.patterns": {
+          "*.bicep": "${capture}.json, ${capture}.parameters.json",
+          "*.razor": "${capture}.razor.css, ${capture}.razor.cs",
+          "*.js": "${capture}.js.map"
+        }
+      }
+    }
+  },
+
+  // Uncomment if you want to use bash in 'onCreateCommand' after the container is created
+  "onCreateCommand": "/bin/bash ./.devcontainer/on-create.sh > ~/on-create.log",
+
+  "remoteUser": "vscode"
+}
