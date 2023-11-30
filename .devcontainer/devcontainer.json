@@ -89,6 +89,12 @@
         // Uncomment if you want to disable the minimap view
         "editor.minimap.enabled": false,
 
+        // Uncomment if you want to change the default font family to D2Coding
+        "editor.fontFamily": "D2Coding, Consolas, 'Courier New', monospace",
+
+        // Uncomment if you want to use D2CodingLigature Nerd Font as the default terminal font
+        "terminal.integrated.fontFamily": "D2CodingLigature Nerd Font",
+
         // Recommended settings for the explorer pane
         "explorer.sortOrder": "type",
         "explorer.fileNesting.enabled": true,
