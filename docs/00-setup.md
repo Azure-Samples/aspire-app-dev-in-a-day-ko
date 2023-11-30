@@ -13,7 +13,7 @@
 
 1. 아래 링크를 통해 Azure OpenAI 프록시 코드가 제대로 작동하는지 확인합니다.
 
-   👉 Azure OpenAI 프록시 플레이그라운드 링크: [https://proxy.aoai.kr/playground]
+   👉 Azure OpenAI 프록시 플레이그라운드 링크: [https://proxy.aoai.kr/playground](https://proxy.aoai.kr/playground)
 
 ## GitHub Codespaces 시작
 
