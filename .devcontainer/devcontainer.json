@@ -4,7 +4,7 @@
     "dockerfile": "./Dockerfile",
     "context": ".",
     "args": {
-      "VARIANT": "8.0"
+      "VARIANT": "8.0-jammy"
     }
   },
 
@@ -34,7 +34,7 @@
     },
 
     // Uncomment the below to install Docker-in-Docker
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:latest": {},
 
     // Install common utilities
     "ghcr.io/devcontainers/features/common-utils:latest": {
