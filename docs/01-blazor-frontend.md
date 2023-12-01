@@ -274,3 +274,7 @@
 1. 그러면 아래와 같이 에러 메시지가 나오는 것을 확인할 수 있습니다.
 
     ![YouTubeSummariserComponent #2](./images/01-blazor-frontend-02.png)
+
+---
+
+축하합니다! Blazor 프론트엔드 웹 앱 개발이 끝났습니다. 이제 [Session 02: ASP.NET Core 백엔드 API 앱 개발](./02-aspnet-core-backend.md)로 넘어가세요.
