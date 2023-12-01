@@ -28,6 +28,8 @@
    dotnet run --project AspireYouTubeSummariser.WebApp
    ```
 
+> 여기까지 생성한 프로젝트는 [save-points/session-00](../save-points/session-00/)에서 확인할 수 있습니다.
+
 ## 01-2: UI Component 생성하기
 
 1. Solution Explorer에서 `Components` 디렉토리 밑에 `UI` 디렉토리를 생성합니다.
