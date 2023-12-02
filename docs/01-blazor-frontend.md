@@ -9,6 +9,7 @@
 1. 터미널을 열고 아래 명령어를 차례로 실행시켜 실습 디렉토리를 만들고 이동합니다.
 
    ```bash
+   cd $CODESPACE_VSCODE_FOLDER
    mkdir workshop
    cd workshop
    ```
@@ -31,6 +32,15 @@
 > 여기까지 생성한 프로젝트는 [save-points/session-00](../save-points/session-00/)에서 확인할 수 있습니다.
 
 ## 01-2: UI Component 생성하기
+
+> 세이브 포인트에서 가져온 프로젝트를 사용하려면 아래 명령어를 차례로 실행시켜 프로젝트를 복원합니다.
+
+   ```bash
+   cd $CODESPACE_VSCODE_FOLDER
+   mkdir -p workshop && cp -a save-points/session-00/. workshop/
+   cd workshop
+   dotnet restore && dotnet build
+   ```
 
 1. Solution Explorer에서 `Components` 디렉토리 밑에 `UI` 디렉토리를 생성합니다.
 1. `UI` 디렉토리 밑에 `YouTubeSummariserComponent`라는 이름으로 Razor Component 파일을 생성합니다. 생성된 파일 안에는 아래와 비슷한 내용이 이미 들어 있습니다.
@@ -261,7 +271,6 @@
     ```
 
 1. 네임스페이스 참조를 할 수 없다는 오류가 발생합니다. 오류가 발생한 곳에 커서를 두고 `CTRL`+`.` 키 또는 `CMD`+`.` 키를 눌러 네임스페이스를 추가합니다.
-
 
 ## 01-6: Blazor 웹 앱 실행하기
 
