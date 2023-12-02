@@ -1,4 +1,4 @@
-# 세션 02: Aspire 통합
+# 세션 03: Aspire 통합
 
 이 세션에서는 [.NET Aspire](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-113934-juyoo)를 활용해 [Blazor 프론트엔드 웹 앱](https://learn.microsoft.com/ko-kr/aspnet/core/blazor?WT.mc_id=dotnet-113934-juyoo)과 [ASP.NET Core 백엔드 API 앱](https://learn.microsoft.com/ko-kr/aspnet/core/fundamentals/apis?WT.mc_id=dotnet-113934-juyoo)을 Cloud-Native 방식으로 통합해 보겠습니다.
 
