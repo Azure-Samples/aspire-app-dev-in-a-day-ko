@@ -7,13 +7,13 @@
 ## 02-1: Web API 프로젝트 생성하기
 
 > 세이브 포인트에서 가져온 프로젝트를 사용하려면 아래 명령어를 차례로 실행시켜 프로젝트를 복원합니다.
-
-   ```bash
-   cd $CODESPACE_VSCODE_FOLDER
-   mkdir -p workshop && cp -a save-points/session-01/. workshop/
-   cd workshop
-   dotnet restore && dotnet build
-   ```
+>
+>    ```bash
+>    cd $CODESPACE_VSCODE_FOLDER
+>    mkdir -p workshop && cp -a save-points/session-01/. workshop/
+>    cd workshop
+>    dotnet restore && dotnet build
+>    ```
 
 1. 아래 명령어를 차례로 실행시켜 ASP.NET Core Web API 프로젝트를 생성합니다.
 
