@@ -1,5 +1,7 @@
 # 세션 00: 개발 환경 설정
 
+이 세션에서는 워크샵 진행을 위해 필요한 개발 환경 설정을 진행합니다.
+
 ## Azure OpenAI 프록시 구독 및 GitHub Copilot 구독 신청
 
 1. 아래 링크를 클릭해서 Azure OpenAI 프록시 구독 및 GitHub Copilot 구독을 신청합니다.

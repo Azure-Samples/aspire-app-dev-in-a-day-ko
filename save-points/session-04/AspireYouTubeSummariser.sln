@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireYouTubeSummariser.WebApp", "AspireYouTubeSummariser.WebApp\AspireYouTubeSummariser.WebApp.csproj", "{D7ABC601-8182-415F-8477-7F9B635F2428}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireYouTubeSummariser.ApiApp", "AspireYouTubeSummariser.ApiApp\AspireYouTubeSummariser.ApiApp.csproj", "{D771A49F-841F-4951-B4D0-9EF5367125FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireYouTubeSummariser.AppHost", "AspireYouTubeSummariser.AppHost\AspireYouTubeSummariser.AppHost.csproj", "{A6326B6C-C157-46AD-B627-DDA39689DBB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireYouTubeSummariser.ServiceDefaults", "AspireYouTubeSummariser.ServiceDefaults\AspireYouTubeSummariser.ServiceDefaults.csproj", "{40C48C94-130E-4B08-ABFD-9A78C77AF9FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7ABC601-8182-415F-8477-7F9B635F2428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7ABC601-8182-415F-8477-7F9B635F2428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7ABC601-8182-415F-8477-7F9B635F2428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7ABC601-8182-415F-8477-7F9B635F2428}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D771A49F-841F-4951-B4D0-9EF5367125FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D771A49F-841F-4951-B4D0-9EF5367125FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D771A49F-841F-4951-B4D0-9EF5367125FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D771A49F-841F-4951-B4D0-9EF5367125FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6326B6C-C157-46AD-B627-DDA39689DBB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6326B6C-C157-46AD-B627-DDA39689DBB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6326B6C-C157-46AD-B627-DDA39689DBB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6326B6C-C157-46AD-B627-DDA39689DBB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40C48C94-130E-4B08-ABFD-9A78C77AF9FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40C48C94-130E-4B08-ABFD-9A78C77AF9FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40C48C94-130E-4B08-ABFD-9A78C77AF9FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40C48C94-130E-4B08-ABFD-9A78C77AF9FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
