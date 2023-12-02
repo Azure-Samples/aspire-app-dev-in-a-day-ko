@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>$(TargetFrameworkVersion)</TargetFramework>
+    <LangVersion>latest</LangVersion>
+
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <IsAspireHost>true</IsAspireHost>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting" Version="$(AspireVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AspireYouTubeSummariser.WebApp\AspireYouTubeSummariser.WebApp.csproj" />
+    <ProjectReference Include="..\AspireYouTubeSummariser.ApiApp\AspireYouTubeSummariser.ApiApp.csproj" />
+  </ItemGroup>
+
+</Project>
