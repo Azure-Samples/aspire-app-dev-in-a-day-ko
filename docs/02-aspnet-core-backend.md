@@ -15,27 +15,30 @@
 >    dotnet restore && dotnet build
 >    ```
 
-1. 아래 명령어를 차례로 실행시켜 ASP.NET Core Web API 프로젝트를 생성합니다.
+1. 아래 명령어를 차례로 실행시켜 ASP.NET Core Web API 앱 프로젝트를 생성합니다.
 
-   ```bash
-   dotnet new webapi -n AspireYouTubeSummariser.ApiApp
-   dotnet sln add AspireYouTubeSummariser.ApiApp
-   ```
+    ```bash
+    dotnet new webapi -n AspireYouTubeSummariser.ApiApp
+    dotnet sln add AspireYouTubeSummariser.ApiApp
+    ```
 
-1. 아래 명령어를 차례로 실행시켜 Blazor 웹 앱 프로젝트를 빌드하고 실행시킵니다.
+1. 아래 명령어를 차례로 실행시켜 ASP.NET Core Web API 앱 프로젝트를 빌드하고 실행시킵니다.
 
-   ```bash
-   dotnet restore && dotnet build
-   dotnet run --project AspireYouTubeSummariser.ApiApp
-   ```
+    ```bash
+    dotnet restore && dotnet build
+    dotnet run --project AspireYouTubeSummariser.ApiApp
+    ```
 
 1. 브라우저에서 404 에러가 나는 것을 확인합니다.
 1. `Program.cs` 파일을 열고 `app.UseHttpsRedirection();` 라인을 찾아 그 바로 아래에서 `CTRL`+`I` 키 또는 `CMD`+`I` 키를 눌러 GitHub Copilot Chat 창을 활성화 시킵니다.
 1. 아래 프롬프트를 GitHub Copilot Chat에 입력합니다.
 
-   ```text
-   Add a minimal API logic to redirect from "/" to "/swagger", when the app is running in development environment, but exclude it from the OpenAPI documentation.
-   ```
+    ```text
+    Add a minimal API logic with the following conditions:
+    
+    - It should redirect from "/" to "/swagger", when the app is running in development environment,
+    - It should exclude this endpoint from the OpenAPI documentation.
+    ```
 
    그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `Program.cs` 파일을 수정합니다.
 
@@ -51,7 +54,7 @@
 1. `Program.cs` 파일을 열고 `app.MapGet("/weatherforecast", ...)` 메서드와 `app.Run();` 메서드 사이의 라인을 찾아 거기서 아래 프롬프트를 GitHub Copilot Chat에 입력합니다.
 
     ```text
-    Add a minimal API logic with the following condition:
+    Add a minimal API logic with the following conditions:
 
     - It should be of the endpoint, "/summarise".
     - It should process the HTTP POST request.
@@ -84,7 +87,7 @@
 1. `Program.cs` 파일의 맨 아랫 부분에 `YouTubeSummariserService` 클래스를 생성합니다. GitHub Copilot Chat 창을 활성화 시킨 후 아래 프롬프트를 입력합니다.
 
     ```text
-    Add a class of YouTubeSummariserService with the following condition:
+    Add a class of YouTubeSummariserService with the following conditions:
 
     - It should have a method, "SummariseAsync" with a parameter of SummaryRequest.
     - It should return a string.

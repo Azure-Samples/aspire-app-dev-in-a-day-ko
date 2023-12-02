@@ -8,26 +8,26 @@
 
 1. 터미널을 열고 아래 명령어를 차례로 실행시켜 실습 디렉토리를 만들고 이동합니다.
 
-   ```bash
-   cd $CODESPACE_VSCODE_FOLDER
-   mkdir workshop
-   cd workshop
-   ```
+    ```bash
+    cd $CODESPACE_VSCODE_FOLDER
+    mkdir workshop
+    cd workshop
+    ```
 
 1. 아래 명령어를 차례로 실행시켜 Blazor 웹 앱 프로젝트를 생성합니다.
 
-   ```bash
-   dotnet new sln -n AspireYouTubeSummariser
-   dotnet new blazor -n AspireYouTubeSummariser.WebApp -int server -ai true
-   dotnet sln add AspireYouTubeSummariser.WebApp
-   ```
+    ```bash
+    dotnet new sln -n AspireYouTubeSummariser
+    dotnet new blazor -n AspireYouTubeSummariser.WebApp -int server -ai true
+    dotnet sln add AspireYouTubeSummariser.WebApp
+    ```
 
 1. 아래 명령어를 차례로 실행시켜 Blazor 웹 앱 프로젝트를 빌드하고 실행시킵니다.
 
-   ```bash
-   dotnet restore && dotnet build
-   dotnet run --project AspireYouTubeSummariser.WebApp
-   ```
+    ```bash
+    dotnet restore && dotnet build
+    dotnet run --project AspireYouTubeSummariser.WebApp
+    ```
 
 > 여기까지 생성한 프로젝트는 [save-points/session-00](../save-points/session-00/)에서 확인할 수 있습니다.
 
@@ -45,13 +45,13 @@
 1. Solution Explorer에서 `Components` 디렉토리 밑에 `UI` 디렉토리를 생성합니다.
 1. `UI` 디렉토리 밑에 `YouTubeSummariserComponent`라는 이름으로 Razor Component 파일을 생성합니다. 생성된 파일 안에는 아래와 비슷한 내용이 이미 들어 있습니다.
 
-   ```razor
-   <h3>YouTubeSummariserComponent</h3>
-   
-   @code {
-   
-   }
-   ```
+    ```razor
+    <h3>YouTubeSummariserComponent</h3>
+    
+    @code {
+    
+    }
+    ```
 
 1. 위 내용을 모두 지운 후 `CTRL`+`I` 키 또는 `CMD`+`I` 키를 눌러 GitHub Copilot Chat 창을 활성화 시킵니다.
 1. 아래 프롬프트를 GitHub Copilot Chat에 입력합니다.

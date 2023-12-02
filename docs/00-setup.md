@@ -20,36 +20,36 @@
 1. 이 리포지토리를 자신의 GitHub 계정으로 포크합니다.
 1. 포크한 리포지토리에서 GitHub Codespaces 인스턴스를 생성합니다.
 
-   ![GitHub Codespaces 인스턴스 생성하기](./images/00-setup-01.png)
+    ![GitHub Codespaces 인스턴스 생성하기](./images/00-setup-01.png)
 
 1. GitHub Codespaces 인스턴스 안에서 아래 명령어를 실행시켜 애저 및 GitHub에 로그인합니다.
 
-   ```bash
-   # Azure Developer CLI login
-   azd auth login --use-device-code=false
-
-   # Azure CLI login
-   az login
-
-   # GitHub CLI login
-   GITHUB_TOKEN=
-   gh auth login
-   ```
+    ```bash
+    # Azure Developer CLI login
+    azd auth login --use-device-code=false
+    
+    # Azure CLI login
+    az login
+    
+    # GitHub CLI login
+    GITHUB_TOKEN=
+    gh auth login
+    ```
 
    > **중요**: 만약 `azd auth login --use-device-code false` 또는 `az login` 명령어 실행시 새 브라우저 탭이 뜨면서 404 에러가 날 경우, 주소창의 URL 값을 복사해서 새 zsh 터미널을 열고 `curl <복사한 URL>`을 해 줍니다.
 
 1. 로그인이 끝났다면 아래 명령어를 통해 제대로 로그인이 되어 있는지 확인합니다.
 
-   ```bash
-   # Azure Developer CLI
-   azd auth login --check-status
-
-   # Azure CLI
-   az account show
-
-   # GitHub CLI
-   gh auth status
-   ```
+    ```bash
+    # Azure Developer CLI
+    azd auth login --check-status
+    
+    # Azure CLI
+    az account show
+    
+    # GitHub CLI
+    gh auth status
+    ```
 
 ---
 
