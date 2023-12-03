@@ -111,6 +111,8 @@
     builder.Services.AddHttpClient<IApiAppClient, ApiAppClient>(p => p.BaseAddress = new Uri("https://apiapp"));
     ```
 
+    > 위 수정 사항은 GitHub Codespaces 환경에서만 필요합니다. 로컬 개발 환경에서는 항상 `https://apiapp`으로 설정해두면 됩니다.
+
 1. 수정이 끝난 후 아래 명령어를 실행시켜 다시 앱을 배포합니다.
 
     ```bash
