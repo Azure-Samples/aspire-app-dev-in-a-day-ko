@@ -2,6 +2,8 @@
 
 [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview)와 [GitHub Copilot](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business)을 이용해서 [.NET Aspire](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-113934-juyoo) 기반의 [Cloud-Native 앱](https://learn.microsoft.com/ko-kr/dotnet/architecture/cloud-native/?WT.mc_id=dotnet-113934-juyoo)을 개발해 보는 핸즈온 워크샵 자료입니다.
 
+![Overall Architecture](./docs/images/99-architecture.png)
+
 ## Prerequisites
 
 이 워크샵을 진행하기 위해서는 아래와 같은 준비사항이 필요합니다.
