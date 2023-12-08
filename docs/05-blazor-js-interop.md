@@ -4,6 +4,8 @@
 
 > [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 환경에서 작업하는 것을 기준으로 진행합니다. 로컬 개발 환경의 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-113934-juyoo)를 사용할 경우 대부분 비슷하지만 살짝 다를 수 있습니다.
 
+![Architecture](./images/05-architecture.png)
+
 ## 05-1: React 기반 UI 컴포넌트 생성하기 - Fluid UI Progress Indicator
 
 1. 아래 명령어를 차례로 실행시켜 Aspire 프로젝트를 복원합니다.
