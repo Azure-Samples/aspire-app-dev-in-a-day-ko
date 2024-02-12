@@ -26,14 +26,16 @@
 
 ## Sessions
 
-| 세션                                           | 제목                                           |
-|------------------------------------------------|------------------------------------------------|
-| [Session 00](./docs/00-setup.md)               | 개발 환경 설정                                 |
-| [Session 01](./docs/01-blazor-frontend.md)     | Blazor 프론트엔드 웹 앱 개발                   |
-| [Session 02](./docs/02-aspnet-core-backend.md) | ASP.NET Core 백엔드 API 앱 개발                |
-| [Session 03](./docs/03-aspire-integration.md)  | Aspire 통합                                    |
-| [Session 04](./docs/04-azure-deployment.md)    | Azure 배포                                     |
-| [Session 05](./docs/05-blazor-js-interop.md)   | Blazor JavaScript Interoperability 적용 (선택) |
+| 세션                                            | 제목                                           |
+|-------------------------------------------------|------------------------------------------------|
+| [Session 00](./docs/00-setup.md)                | 개발 환경 설정                                 |
+| [Session 01](./docs/01-blazor-frontend.md)      | Blazor 프론트엔드 웹 앱 개발                   |
+| [Session 02](./docs/02-aspnet-core-backend.md)  | ASP.NET Core 백엔드 API 앱 개발                |
+| [Session 03](./docs/03-aspire-integration.md)   | Aspire 통합                                    |
+| [Session 04](./docs/04-azure-deployment-aca.md) | Azure 배포 &ndash; Azure Container Apps        |
+| [Session 05](./docs/04-azure-deployment-aks.md) | Azure 배포 &ndash; Azure Kubernetes Service    |
+| [Session 06](./docs/06-blazor-js-interop.md)    | Blazor JavaScript Interoperability 적용 (선택) |
+
 
 ## Resources
 
@@ -41,6 +43,6 @@
 - [Build your first Blazor app](https://dotnet.microsoft.com/ko-kr/apps/aspnet/web-apps/blazor?WT.mc_id=dotnet-113934-juyoo)
 - [What is Aspire?](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-113934-juyoo)
 - [Build your first Aspire app](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/quickstart-build-your-first-aspire-app?tabs=dotnet-cli&WT.mc_id=dotnet-113934-juyoo)
-- [What is GitHub Copilot?](https://docs.github.com/ko/copilot)
+<!-- - [What is GitHub Copilot?](https://docs.github.com/ko/copilot) -->
 - [Building an intelligent app with Blazor and Azure OpenAI](https://www.youtube.com/watch?v=TH12YSLLe9E&t=8464s)
 - [Your stack for building Cloud Native apps](https://www.youtube.com/live/5IjKH-gy2Y0?si=dSMvC7arUeRpqBmz)
