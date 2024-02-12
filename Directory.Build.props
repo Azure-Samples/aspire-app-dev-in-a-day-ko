@@ -4,7 +4,8 @@
     <TargetFrameworkVersion>net8.0</TargetFrameworkVersion>
     <AspNetCoreVersion>8.0.0</AspNetCoreVersion>
     <SwashbuckleVersion>6.5.0</SwashbuckleVersion>
-    <AzureOpenAISdkVersion>1.0.0-beta.9</AzureOpenAISdkVersion>
+    <!-- <AzureOpenAISdkVersion>1.0.0-beta.9</AzureOpenAISdkVersion> -->
+    <AzureOpenAISdkVersion>1.0.0-beta.13</AzureOpenAISdkVersion>
     <YouTubeSubtitlesExtractorVersion>2.0.0</YouTubeSubtitlesExtractorVersion>
     <AspireVersion>8.0.0-preview.1.23557.2</AspireVersion>
   </PropertyGroup>

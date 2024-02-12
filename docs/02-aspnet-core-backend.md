@@ -1,6 +1,8 @@
 # 세션 02: ASP.NET Core 백엔드 API 앱 개발
 
-이 세션에서는 [GitHub Copilot](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business) 기능을 활용해 빠르게 [ASP.NET Core 백엔드 API 앱](https://learn.microsoft.com/ko-kr/aspnet/core/fundamentals/apis?WT.mc_id=dotnet-113934-juyoo) 개발을 해 보겠습니다.
+이 세션에서는 [ASP.NET Core 백엔드 API 앱](https://learn.microsoft.com/ko-kr/aspnet/core/fundamentals/apis?WT.mc_id=dotnet-113934-juyoo) 개발을 해 보겠습니다.
+
+<!-- 이 세션에서는 [GitHub Copilot](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business) 기능을 활용해 빠르게 [ASP.NET Core 백엔드 API 앱](https://learn.microsoft.com/ko-kr/aspnet/core/fundamentals/apis?WT.mc_id=dotnet-113934-juyoo) 개발을 해 보겠습니다. -->
 
 > [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 환경에서 작업하는 것을 기준으로 진행합니다. 로컬 개발 환경의 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-113934-juyoo)를 사용할 경우 대부분 비슷하지만 살짝 다를 수 있습니다.
 
@@ -32,7 +34,8 @@
     ```
 
 1. 브라우저에서 404 에러가 나는 것을 확인합니다.
-1. `Program.cs` 파일을 열고 `app.UseHttpsRedirection();` 라인을 찾아 그 바로 아래에서 `CTRL`+`I` 키 또는 `CMD`+`I` 키를 눌러 GitHub Copilot Chat 창을 활성화 시킵니다.
+1. `Program.cs` 파일을 열고 `app.UseHttpsRedirection();` 라인을 찾아 그 바로 아래에 아래 코드를 추가합니다.
+<!-- 1. `Program.cs` 파일을 열고 `app.UseHttpsRedirection();` 라인을 찾아 그 바로 아래에서 `CTRL`+`I` 키 또는 `CMD`+`I` 키를 눌러 GitHub Copilot Chat 창을 활성화 시킵니다.
 1. 아래 프롬프트를 GitHub Copilot Chat에 입력합니다.
 
     ```text
@@ -42,7 +45,7 @@
     - It should exclude this endpoint from the OpenAPI documentation.
     ```
 
-   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `Program.cs` 파일을 수정합니다.
+   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `Program.cs` 파일을 수정합니다. -->
 
     ```csharp
     if (app.Environment.IsDevelopment())
@@ -53,7 +56,8 @@
 
 ## 02-2: Summary 엔드포인트 생성하기
 
-1. `Program.cs` 파일을 열고 `app.MapGet("/weatherforecast", ...)` 메서드와 `app.Run();` 메서드 사이의 라인을 찾아 거기서 아래 프롬프트를 GitHub Copilot Chat에 입력합니다.
+1. `Program.cs` 파일을 열고 `app.MapGet("/weatherforecast", ...)` 메서드와 `app.Run();` 메서드 사이의 라인을 찾아 거기서 아래 코드를 입력합니다.
+<!-- 1. `Program.cs` 파일을 열고 `app.MapGet("/weatherforecast", ...)` 메서드와 `app.Run();` 메서드 사이의 라인을 찾아 거기서 아래 프롬프트를 GitHub Copilot Chat에 입력합니다.
 
     ```text
     Add a minimal API logic with the following conditions:
@@ -66,7 +70,7 @@
     - It should be documented in the OpenAPI documentation.
     ```
 
-   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `Program.cs` 파일을 수정합니다.
+   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `Program.cs` 파일을 수정합니다. -->
 
     ```csharp
     app.MapPost("/summarise", ([FromBody] SummaryRequest req) =>
@@ -86,7 +90,8 @@
 
 ## 02-3: YouTubeSummariserService 생성하기
 
-1. `Program.cs` 파일의 맨 아랫 부분에 `YouTubeSummariserService` 클래스를 생성합니다. GitHub Copilot Chat 창을 활성화 시킨 후 아래 프롬프트를 입력합니다.
+1. `Program.cs` 파일의 맨 아랫 부분에 아래와 같이 `YouTubeSummariserService` 클래스를 생성합니다.
+<!-- 1. `Program.cs` 파일의 맨 아랫 부분에 `YouTubeSummariserService` 클래스를 생성합니다. GitHub Copilot Chat 창을 활성화 시킨 후 아래 프롬프트를 입력합니다.
 
     ```text
     Add a class of YouTubeSummariserService with the following conditions:
@@ -95,7 +100,7 @@
     - It should return a string.
     ```
 
-   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `YouTubeSummariserService` 클래스를 수정합니다.
+   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `YouTubeSummariserService` 클래스를 수정합니다. -->
 
     ```csharp
     class YouTubeSummariserService
@@ -171,7 +176,8 @@
 
    > 만약 네임스페이스 참조를 할 수 없다는 오류가 발생한다면 오류가 발생한 곳에 커서를 두고 `CTRL`+`.` 키 또는 `CMD`+`.` 키를 눌러 네임스페이스를 추가합니다.
 
-1. `SummariseAsync` 메서드 안에서 YouTube 자막을 다운로드 받는 로직을 구현합니다. GitHub Copilot을 이용해 아래와 같이 수정합니다.
+1. `SummariseAsync` 메서드를 아래와 같이 수정합니다.
+<!-- 1. `SummariseAsync` 메서드 안에서 YouTube 자막을 다운로드 받는 로직을 구현합니다. GitHub Copilot을 이용해 아래와 같이 수정합니다.
 
     ```text
     Download the YouTube video transcript with the following conditions:
@@ -180,7 +186,7 @@
     - It should aggregate the YouTube video transcript into a single string.
     ```
 
-   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `SummariseAsync` 메서드를 수정합니다.
+   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `SummariseAsync` 메서드를 수정합니다. -->
 
     ```csharp
     public async Task<string> SummariseAsync(SummaryRequest req)
@@ -191,7 +197,8 @@
 
    > 만약 네임스페이스 참조를 할 수 없다는 오류가 발생한다면 오류가 발생한 곳에 커서를 두고 `CTRL`+`.` 키 또는 `CMD`+`.` 키를 눌러 네임스페이스를 추가합니다.
 
-1. 계속해서 `SummariseAsync` 메서드 안에서 자막 내용을 요약하는 로직을 구현합니다. GitHub Copilot을 이용해 아래와 같이 수정합니다.
+1. 계속해서 `SummariseAsync` 메서드 안에서 자막 내용을 요약하는 로직을 아래와 같이 구현합니다.
+<!-- 1. 계속해서 `SummariseAsync` 메서드 안에서 자막 내용을 요약하는 로직을 구현합니다. GitHub Copilot을 이용해 아래와 같이 수정합니다.
 
     ```text
     Create a ChatCompletionsOptions instance with the following conditions:
@@ -205,7 +212,7 @@
       - A message of "ChatRole.User" with the value of "caption".
     ```
 
-   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `SummariseAsync` 메서드를 수정합니다.
+   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `SummariseAsync` 메서드를 수정합니다. -->
 
     ```csharp
     public async Task<string> SummariseAsync(SummaryRequest req)

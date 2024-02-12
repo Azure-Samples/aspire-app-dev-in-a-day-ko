@@ -294,4 +294,4 @@
 
 ---
 
-축하합니다! Aspire 통합 작업이 끝났습니다. 이제 [Session 04: Azure 배포](./04-azure-deployment.md)으로 넘어가세요.
+축하합니다! Aspire 통합 작업이 끝났습니다. 이제 [Session 04: Azure 배포 &ndash; Azure Container Apps](./04-azure-deployment-aca.md)으로 넘어가세요.
