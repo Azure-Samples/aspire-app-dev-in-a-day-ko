@@ -1,12 +1,107 @@
 # 세션 05: Azure 배포 - Azure Kubernetes Service
 
-이 세션에서는 [.NET Aspire](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-113934-juyoo)로 개발한 애플리케이션을 [Aspirate](https://github.com/prom3theu5/aspirational-manifests)를 이용해 [Azure Kubernetes Service](https://learn.microsoft.com/ko-kr/azure/aks/intro-kubernetes?WT.mc_id=dotnet-113934-juyoo)로 배포해 보겠습니다.
+이 세션에서는 [.NET Aspire](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-113934-juyoo)로 개발한 애플리케이션을 [Aspirate](https://github.com/prom3theu5/aspirational-manifests)를 이용해 [Azure Kubernetes Service(AKS)](https://learn.microsoft.com/ko-kr/azure/aks/intro-kubernetes?WT.mc_id=dotnet-113934-juyoo)로 배포해 보겠습니다.
 
 > [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 환경에서 작업하는 것을 기준으로 진행합니다. 로컬 개발 환경의 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-113934-juyoo)를 사용할 경우 대부분 비슷하지만 살짝 다를 수 있습니다.
 
 ![Architecture](./images/04-architecture.png)
 
-## 05-1: Aspire 프로젝트 준비하기
+## 05-1: Azure CLI 로그인하기
+
+1. GitHub Codespaces 인스턴스 안에서 아래 명령어를 실행시켜 Azure에 로그인합니다.
+
+    ```bash
+    # Azure CLI login
+    az login
+    ```
+
+   > **중요**: 만약 `az login` 명령어 실행시 새 브라우저 탭이 뜨면서 404 에러가 날 경우, 주소창의 URL 값을 복사해서 새 zsh 터미널을 열고 `curl <복사한 URL>`을 해 줍니다.
+
+1. 로그인이 끝났다면 아래 명령어를 통해 제대로 로그인이 되어 있는지 확인합니다.
+
+    ```bash
+    # Azure CLI
+    az account show
+    ```
+
+## 05-2: Azure CLI로 Azure Kubernetes Service로 배포 준비하기
+
+1. 아래 명령어를 차례로 실행시켜 배포 환경을 준비합니다.
+
+    ```bash
+    AZURE_ENV_NAME="aspir8$RANDOM"
+    AZ_RESOURCE_GROUP=rg-$AZURE_ENV_NAME
+    AZ_NODE_RESOURCE_GROUP=rg-$AZURE_ENV_NAME-mc
+    AZ_LOCATION=koreacentral
+    ACR_NAME=acr$AZURE_ENV_NAME
+    AKS_CLUSTER_NAME=aks-$AZURE_ENV_NAME
+    ```
+
+1. 아래 명령어를 실행시켜 리소스 그룹을 생성합니다.
+
+    ```bash
+    az group create -n $AZ_RESOURCE_GROUP -l $AZ_LOCATION
+    ```
+
+1. 아래 명령어를 실행시켜 [Azure Container Registry(ACR)](https://learn.microsoft.com/azure/container-registry/container-registry-intro?WT.mc_id=dotnet-113934-juyoo) 인스턴스를 생성합니다.
+
+    ```bash
+    az acr create \
+        -g $AZ_RESOURCE_GROUP \
+        -n $ACR_NAME \
+        -l $AZ_LOCATION \
+        --sku Basic \
+        --admin-enabled true
+    ```
+
+1. 아래 명령어를 실행시켜 ACR 로그인 디테일을 저장합니다.
+
+    ```bash
+    ACR_LOGIN_SERVER=$(az acr show \
+        -g $AZ_RESOURCE_GROUP \
+        -n $ACR_NAME \
+        --query "loginServer" -o tsv)
+    ACR_USERNAME=$(az acr credential show \
+        -g $AZ_RESOURCE_GROUP \
+        -n $ACR_NAME \
+        --query "username" -o tsv)
+    ACR_PASSWORD=$(az acr credential show \
+        -g $AZ_RESOURCE_GROUP \
+        -n $ACR_NAME \
+        --query "passwords[0].value" -o tsv)
+    ```
+
+1. 아래 명령어를 실행시켜 AKS 클러스터를 생성합니다.
+
+    ```bash
+    az aks create \
+        -g $AZ_RESOURCE_GROUP \
+        -n $AKS_CLUSTER_NAME \
+        -l $AZ_LOCATION \
+        --node-resource-group $AZ_NODE_RESOURCE_GROUP \
+        --node-vm-size Standard_B2s \
+        --network-plugin azure \
+        --generate-ssh-keys \
+        --attach-acr $ACR_NAME
+    ```
+
+1. 아래 명령어를 통해 AKS 클러스터에 연결합니다.
+
+    ```bash
+    az aks get-credentials \
+        -g $AZ_RESOURCE_GROUP \
+        -n $AKS_CLUSTER_NAME \
+    ```
+
+1. 아래 명령어를 통해 ACR에 연결합니다.
+
+   > **NOTE**: 여기서는 username과 password 값을 입력했지만, 실제로는 인풋 프롬프트를 통해 입력해야 합니다.
+
+    ```bash
+    docker login $ACR_LOGIN_SERVER -u $ACR_USERNAME -p $ACR_PASSWORD
+    ```
+
+## 05-3: Aspire 프로젝트 준비하기
 
 1. 아래 명령어를 차례로 실행시켜 Aspire 프로젝트를 복원합니다.
 
@@ -17,46 +112,73 @@
     dotnet restore && dotnet build
     ```
 
-## 04-3: Azure Developer CLI로 배포 준비하기
+## 05-4: Aspirate 설치하기
 
-1. 아래 명령어를 차례로 실행시켜 배포 환경을 준비합니다.
+1. 아래 명령어를 통해 Aspirate를 설치합니다.
 
-    ```bash
-    cd $CODESPACE_VSCODE_FOLDER/workshop
-    AZURE_ENV_NAME="aspire$RANDOM"
-    azd init -e $AZURE_ENV_NAME
-    ```
+```bash
+dotnet tool install -g aspirate --prerelease
+```
 
-1. 배포 환경 초기화 방법을 물어보면 `Use code in the current directory` 옵션을 선택합니다.
-1. Azure Container Apps를 사용해 배포한다고 물어봅니다. `Confirm and continue initializing my app` 옵션을 선택합니다.
-1. 어느 앱을 인터넷으로 공개할 것인지 물어봅니다. `webapp`만 선택합니다.
-1. 아래 그림과 같이 `workshop` 디렉토리 아래 `.azure` 디렉토리와 `next-step.md`, `azure.yaml` 파일이 생성되었습니다.
+## 05-5: Aspirate로 배포하기
 
-    ![azd init](./images/04-azure-deployment-01.png)
-
-## 04-4: Azure Container Apps로 배포하기
-
-1. 아래 명령어를 실행시켜 Aspire 앱을 Azure로 배포합니다.
+1. 아래 디렉토리로 이동합니다.
 
     ```bash
-    azd up
+    cd $CODESPACE_VSCODE_FOLDER/workshop/AspireYouTubeSummariser.AppHost
     ```
 
-1. 어떤 Azure 구독을 사용할 것인지 물어봅니다. 사용할 구독을 선택합니다.
-1. 어느 지역에 배포할 것인지 물어봅니다. 아무 지역이나 선택해도 되지만, 여기서는 `Korea Central`을 선택합니다.
-1. 배포가 끝나고 나면 아래와 같은 화면이 나옵니다.
+1. Aspirate 프로젝트를 초기화 합니다.
 
-    ![azd up](./images/04-azure-deployment-02.png)
+    ```bash
+    aspirate init -cr $ACR_LOGIN_SERVER -ct latest --non-interactive
+    ```
 
-1. Azure Portal에 가 보면 아래와 같이 앱이 배포된 것을 확인할 수 있습니다.
+   > **NOTE**: 만약 `enter or skip the repository prefix` 라는 질문이 나오면 `n`을 입력해서 건너뜁니다.
 
-    ![Azure Portal](./images/04-azure-deployment-03.png)
+1. 아래 명령어를 통해 Aspire 앱을 빌드하고 ACR로 배포합니다.
 
-1. `webapp` 컨테이너 앱을 클릭하고 `Overview` 탭을 클릭하면 아래와 같이 앱의 URL을 확인할 수 있습니다.
+    ```bash
+    aspirate generate --image-pull-policy IfNotPresent --non-interactive
+    ```
 
-    ![Azure Container Apps overview](./images/04-azure-deployment-04.png)
+1. 아래 명령어를 통해 AKS 클러스터로 앱을 배포합니다.
 
-## 04-5: 배포된 앱 테스트하기
+    ```bash
+    aspirate apply -k $AKS_CLUSTER_NAME --non-interactive
+    ```
+
+1. 아래 명령어를 통해 AKS 클러스터에 로드밸런서를 추가합니다.
+
+    ```bash
+    kubectl apply -f - <<EOF
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: webfrontend-lb
+    spec:
+      ports:
+      - port: 80
+        targetPort: 8080
+      selector:
+        app: webfrontend
+      type: LoadBalancer
+    EOF
+    ```
+
+1. 아래 명령어를 통해 `webfrontend-lb` 서비스가 `LoadBalancer` 타입인지 확인합니다. 그리고 외부 IP주소를 확인합니다.
+
+    ```bash
+    kubectl get services
+    ```
+
+1. 방금 확인한 외부 IP 주소를 웹 브라우저로 접속해서 애플리케이션이 잘 작동하는지 확인합니다.
+
+    ```text
+    http://<EXTERNAL_IP_ADDRESS>
+    ```
+
+## 05-6: 배포된 앱 테스트하기
 
 1. 홈페이지에서 YouTube 링크를 입력하고 `Summarise` 버튼을 클릭합니다.
 
@@ -64,13 +186,7 @@
 
    > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
 
-1. 요약 결과가 나오지 않습니다. `webapp`의 Log Stream 탭에서 아래와 같은 에러가 발생한 것을 확인해 보세요.
-
-    ![Azure Container Apps log stream](./images/04-azure-deployment-06.png)
-
-    > 위 에러는 GitHub Codespaces 환경에서만 발생하는 문제입니다. 로컬 개발 환경에서는 발생하지 않습니다.
-
-## 04-6: Aspire 프로젝트 수정 후 다시 배포하기
+## 05-7: Aspire 프로젝트 수정 후 다시 배포하기
 
 1. `AspireYouTubeSummariser.WebApp` 프로젝트의 `Program.cs` 파일을 열고 아래 라인을 수정합니다.
 
@@ -87,10 +203,15 @@
 1. 수정이 끝난 후 아래 명령어를 실행시켜 다시 앱을 배포합니다.
 
     ```bash
-    azd deploy
+    aspirate generate --image-pull-policy IfNotPresent --non-interactive
+    aspirate apply -k $AKS_CLUSTER_NAME --non-interactive
     ```
 
-1. 배포가 끝난 후 다시 `webapp` 컨테이너 앱을 실행시켜 홈페이지에서 YouTube 링크를 입력하고 `Summarise` 버튼을 클릭합니다.
+1. 배포가 끝난 후 다시 외부 IP 주소를 웹 브라우저로 접속해서 YouTube 링크를 입력하고 `Summarise` 버튼을 클릭합니다.
+
+    ```text
+    http://<EXTERNAL_IP_ADDRESS>
+    ```
 
     ![Home page #2](./images/04-azure-deployment-07.png)
 
@@ -102,11 +223,13 @@
 
 ---
 
-축하합니다! Azure 배포 작업이 끝났습니다.
+축하합니다! Azure Kubernetes Serive 클러스토로 배포해 보는 작업이 끝났습니다.
 
 ## 끝내기
 
-지금까지 [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 환경에서 [GitHub Copilot](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business) 기능을 활용해서 빠르게 [Blazor 프론트엔드 웹 앱](https://learn.microsoft.com/ko-kr/aspnet/core/blazor?WT.mc_id=dotnet-113934-juyoo)과 [ASP.NET Core 백엔드 API 앱](https://learn.microsoft.com/ko-kr/aspnet/core/fundamentals/apis?WT.mc_id=dotnet-113934-juyoo)을 개발해 봤습니다. 이후 [.NET Aspire](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-113934-juyoo)를 활용해 Cloud-Native 앱으로 변환시켰고, [Azure Developer CLI](https://learn.microsoft.com/ko-kr/azure/developer/azure-developer-cli/overview?WT.mc_id=dotnet-113934-juyoo)를 이용해 [Azure Container Apps](https://learn.microsoft.com/ko-kr/azure/container-apps/overview?WT.mc_id=dotnet-113934-juyoo)로 배포해 보았습니다.
+지금까지 [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 환경에서 [Blazor 프론트엔드 웹 앱](https://learn.microsoft.com/ko-kr/aspnet/core/blazor?WT.mc_id=dotnet-113934-juyoo)과 [ASP.NET Core 백엔드 API 앱](https://learn.microsoft.com/ko-kr/aspnet/core/fundamentals/apis?WT.mc_id=dotnet-113934-juyoo)을 개발해 봤습니다. 이후 [.NET Aspire](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-113934-juyoo)를 활용해 Cloud-Native 앱으로 변환시켰고, [Azure Developer CLI](https://learn.microsoft.com/ko-kr/azure/developer/azure-developer-cli/overview?WT.mc_id=dotnet-113934-juyoo)를 이용해 [Azure Container Apps](https://learn.microsoft.com/ko-kr/azure/container-apps/overview?WT.mc_id=dotnet-113934-juyoo)로 배포해 보았습니다. 또한 [Azure CLI](https://learn.microsoft.com/ko-kr/cli/azure/what-is-azure-cli?WT.mc_id=dotnet-113934-juyoo)와 [Aspirate](https://github.com/prom3theu5/aspirational-manifests)를 이용해 [Azure Kubernetes Service(AKS)](https://learn.microsoft.com/ko-kr/azure/aks/intro-kubernetes?WT.mc_id=dotnet-113934-juyoo)로 배포해 보았습니다.
+
+<!-- 지금까지 [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 환경에서 [GitHub Copilot](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business) 기능을 활용해서 빠르게 [Blazor 프론트엔드 웹 앱](https://learn.microsoft.com/ko-kr/aspnet/core/blazor?WT.mc_id=dotnet-113934-juyoo)과 [ASP.NET Core 백엔드 API 앱](https://learn.microsoft.com/ko-kr/aspnet/core/fundamentals/apis?WT.mc_id=dotnet-113934-juyoo)을 개발해 봤습니다. 이후 [.NET Aspire](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-113934-juyoo)를 활용해 Cloud-Native 앱으로 변환시켰고, [Azure Developer CLI](https://learn.microsoft.com/ko-kr/azure/developer/azure-developer-cli/overview?WT.mc_id=dotnet-113934-juyoo)를 이용해 [Azure Container Apps](https://learn.microsoft.com/ko-kr/azure/container-apps/overview?WT.mc_id=dotnet-113934-juyoo)로 배포해 보았습니다. -->
 
 이 모든 것들에 대해 좀 더 공부해 보고 싶다면 아래 리소스를 참고하세요.
 
@@ -114,6 +237,6 @@
 - [Build your first Blazor app](https://dotnet.microsoft.com/ko-kr/apps/aspnet/web-apps/blazor?WT.mc_id=dotnet-113934-juyoo)
 - [What is Aspire?](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-113934-juyoo)
 - [Build your first Aspire app](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/quickstart-build-your-first-aspire-app?tabs=dotnet-cli&WT.mc_id=dotnet-113934-juyoo)
-- [What is GitHub Copilot?](https://docs.github.com/ko/copilot)
+<!-- - [What is GitHub Copilot?](https://docs.github.com/ko/copilot) -->
 - [Building an intelligent app with Blazor and Azure OpenAI](https://www.youtube.com/watch?v=TH12YSLLe9E&t=8464s)
 - [Your stack for building Cloud Native apps](https://www.youtube.com/live/5IjKH-gy2Y0?si=dSMvC7arUeRpqBmz)
