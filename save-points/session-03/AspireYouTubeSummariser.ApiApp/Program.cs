@@ -100,9 +100,9 @@ class YouTubeSummariserService(IYouTubeVideo youtube, OpenAIClient openai, IConf
             MaxTokens = int.Parse(this._config["Prompt:MaxTokens"]),
             Temperature = float.Parse(this._config["Prompt:Temperature"]),
         };
-        options.Messages.Add(new ChatMessage(ChatRole.System, this._config["Prompt:System"]));
-        options.Messages.Add(new ChatMessage(ChatRole.System, $"Here's the transcript. Summarise it in 5 bullet point items in the given language code of \"{req.SummaryLanguageCode}\"."));
-        options.Messages.Add(new ChatMessage(ChatRole.User, caption));
+        options.Messages.Add(new ChatRequestSystemMessage(this._config["Prompt:System"]));
+        options.Messages.Add(new ChatRequestSystemMessage($"Here's the transcript. Summarise it in 5 bullet point items in the given language code of \"{req.SummaryLanguageCode}\"."));
+        options.Messages.Add(new ChatRequestUserMessage(caption));
 
         var response = await this._openai.GetChatCompletionsAsync(options).ConfigureAwait(false);
         string summary = response.Value.Choices[0].Message.Content;
