@@ -225,9 +225,9 @@
             MaxTokens = Convert.ToInt32(this._config["Prompt:MaxTokens"]),
             Temperature = Convert.ToSingle(this._config["Prompt:Temperature"]),
         };
-        options.Messages.Add(new ChatMessage(ChatRole.System, this._config["Prompt:System"]));
-        options.Messages.Add(new ChatMessage(ChatRole.System, $"Here's the transcript. Summarise it in 5 bullet point items in the given language code of \"{req.SummaryLanguageCode}\"."));
-        options.Messages.Add(new ChatMessage(ChatRole.User, caption));
+        options.Messages.Add(new ChatRequestSystemMessage(this._config["Prompt:System"]));
+        options.Messages.Add(new ChatRequestSystemMessage($"Here's the transcript. Summarise it in 5 bullet point items in the given language code of \"{req.SummaryLanguageCode}\"."));
+        options.Messages.Add(new ChatRequestUserMessage(caption));
     }
     ```
 
