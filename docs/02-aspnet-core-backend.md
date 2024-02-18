@@ -40,7 +40,7 @@
 
     ```text
     Add a minimal API logic with the following conditions:
-    
+
     - It should redirect from "/" to "/swagger", when the app is running in development environment,
     - It should exclude this endpoint from the OpenAPI documentation.
     ```
@@ -108,7 +108,7 @@
         public async Task<string> SummariseAsync(SummaryRequest req)
         {
             string summary = "This is a summary of the YouTube video.";
-    
+
             return await Task.FromResult(summary).ConfigureAwait(false);
         }
     }
@@ -181,7 +181,7 @@
 
     ```text
     Download the YouTube video transcript with the following conditions:
-    
+
     - It should use IYouTubeVideo instance to download the YouTube video transcript.
     - It should aggregate the YouTube video transcript into a single string.
     ```
@@ -202,7 +202,7 @@
 
     ```text
     Create a ChatCompletionsOptions instance with the following conditions:
-    
+
     - It should have the "DeploymentName" property set to the value of "OpenAI:DeploymentName" in the configuration.
     - It should have the "MaxTokens" property set to the value of "Prompt:MaxTokens" in the configuration.
     - It should have the "Temperature" property set to the value of "Prompt:Temperature" in the configuration.
@@ -257,7 +257,7 @@
         var endpoint = new Uri(config["OpenAI:Endpoint"]);
         var credential = new AzureKeyCredential(config["OpenAI:ApiKey"]);
         var client = new OpenAIClient(endpoint, credential);
-    
+
         return client;
     });
     ```
@@ -294,7 +294,7 @@
     public async Task<List<WeatherForecast>> WeatherForecastAsync()
     {
         using var response = await _http.GetAsync("weatherforecast").ConfigureAwait(false);
-    
+
         var forecasts = await response.Content.ReadFromJsonAsync<List<WeatherForecast>>().ConfigureAwait(false);
         return forecasts ?? [];
     }
@@ -325,9 +325,17 @@
 1. `Components/Pages` 디렉토리 안의 `Weather.razor` 파일을 열고 그 안의 `@code { ... }` 블록을 아래와 같이 수정합니다.
 
     ```razor
+    @page "/weather"
+    @using AspireYouTubeSummariser.WebApp.Clients
+
+    // 추가
+    @inject IApiAppClient ApiApp
+
+    ...
+
     @code {
         private List<ApiAppClient.WeatherForecast>? forecasts;
-    
+
         protected override async Task OnInitializedAsync()
         {
             forecasts = await ApiApp.WeatherForecastAsync();

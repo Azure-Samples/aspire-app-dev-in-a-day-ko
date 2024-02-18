@@ -7,6 +7,6 @@
     <!-- <AzureOpenAISdkVersion>1.0.0-beta.9</AzureOpenAISdkVersion> -->
     <AzureOpenAISdkVersion>1.0.0-beta.13</AzureOpenAISdkVersion>
     <YouTubeSubtitlesExtractorVersion>2.0.0</YouTubeSubtitlesExtractorVersion>
-    <AspireVersion>8.0.0-preview.1.23557.2</AspireVersion>
+    <AspireVersion>8.0.0-preview.3.24105.21</AspireVersion>
   </PropertyGroup>
 </Project>
