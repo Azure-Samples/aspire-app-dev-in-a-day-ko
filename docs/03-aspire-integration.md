@@ -51,7 +51,7 @@
 
     ```csharp
     var apiapp = builder.AddProject<Projects.AspireYouTubeSummariser_ApiApp>("apiapp");
-    
+
     builder.AddProject<Projects.AspireYouTubeSummariser_WebApp>("webapp")
            .WithReference(apiapp);
     ```
@@ -75,7 +75,7 @@
     ```csharp
     // 수정 전
     builder.Services.AddHttpClient<IApiAppClient, ApiAppClient>(p => p.BaseAddress = new Uri("http://localhost:5050"));
-    
+
     // 수정 후
     builder.Services.AddHttpClient<IApiAppClient, ApiAppClient>(p => p.BaseAddress = new Uri("http://apiapp"));
     ```
@@ -85,13 +85,13 @@
     ```csharp
     var builder = WebApplication.CreateBuilder(args);
 
-    // 추가    
+    // 추가
     builder.AddServiceDefaults();
 
     ...
 
     var app = builder.Build();
-    
+
     // 추가
     app.MapDefaultEndpoints();
     ```
@@ -101,13 +101,13 @@
     ```csharp
     var builder = WebApplication.CreateBuilder(args);
 
-    // 추가    
+    // 추가
     builder.AddServiceDefaults();
 
     ...
 
     var app = builder.Build();
-    
+
     // 추가
     app.MapDefaultEndpoints();
     ```
@@ -151,7 +151,7 @@
     ```csharp
     // 수정 전 - 기본 타임아웃 설정값은 10초
     http.AddStandardResilienceHandler();
-    
+
     // 수정 후 - 타임아웃 설정값을 60초로 변경
     http.AddResilienceHandler("custom", builder =>
     {
@@ -207,7 +207,7 @@
 
     ```bash
     cd $CODESPACE_VSCODE_FOLDER/workshop/AspireYouTubeSummariser.WebApp
-    dotnet add package Aspire.StackExchange.Redis.OutputCaching --prerelease
+    dotnet add package Aspire.StackExchange.Redis.OutputCaching --version=8.0.0-preview.3.24105.21
     ```
 
 1. `AspireYouTubeSummariser.WebApp` 프로젝트의 `Program.cs` 파일에 아래 두 라인을 추가합니다.
@@ -216,7 +216,7 @@
     var builder = WebApplication.CreateBuilder(args);
     builder.AddServiceDefaults();
 
-    // 추가    
+    // 추가
     builder.AddRedisOutputCache("cache");
 
     ...
@@ -248,7 +248,7 @@
 
     ```csharp
     var builder = DistributedApplication.CreateBuilder(args);
-    
+
     // 추가
     var cache = builder.AddRedisContainer("cache");
     ```
@@ -269,10 +269,10 @@
     ```csharp
     var builder = DistributedApplication.CreateBuilder(args);
     var cache = builder.AddRedisContainer("cache");
-    
+
     // 추가
     var config = builder.Configuration;
-    
+
     // 수정
     var apiapp = builder.AddProject<Projects.AspireYouTubeSummariser_ApiApp>("apiapp")
                         .WithEnvironment("OpenAI__Endpoint", config["OpenAI:Endpoint"])
