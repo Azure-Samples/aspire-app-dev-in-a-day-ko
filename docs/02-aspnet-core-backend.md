@@ -146,9 +146,9 @@
 
     ```json
     "OpenAI": {
-      "Endpoint": "<Azure OpenAI Proxy Service Endpoint>",
-      "ApiKey": "<Azure OpenAI Proxy Service Access Code>",
-      "DeploymentName": "<Azure OpenAI Proxy Service Deployment Name>"
+      "Endpoint": "{{ Azure OpenAI Proxy Service Endpoint }}",
+      "ApiKey": "{{ Azure OpenAI Proxy Service Access Code }}",
+      "DeploymentName": "{{ Azure OpenAI Proxy Service Deployment Name }}"
     }
     ```
 
