@@ -90,7 +90,7 @@
     ```bash
     az aks get-credentials \
         -g $AZ_RESOURCE_GROUP \
-        -n $AKS_CLUSTER_NAME \
+        -n $AKS_CLUSTER_NAME
     ```
 
 1. 아래 명령어를 통해 ACR에 연결합니다.
@@ -139,8 +139,10 @@ dotnet tool install -g aspirate --prerelease
 1. 아래 명령어를 통해 Aspire 앱을 빌드하고 ACR로 배포합니다.
 
     ```bash
-    aspirate generate --image-pull-policy IfNotPresent --non-interactive
+    aspirate generate --image-pull-policy Always --disable-secrets --non-interactive
     ```
+
+   > **NOTE**: 실습의 편의를 위해 `--disable-secrets` 옵션을 사용합니다. 실제로는 패스워드를 사용해야 합니다.
 
 1. 아래 명령어를 통해 AKS 클러스터로 앱을 배포합니다.
 
@@ -155,18 +157,18 @@ dotnet tool install -g aspirate --prerelease
     apiVersion: v1
     kind: Service
     metadata:
-      name: webfrontend-lb
+      name: webapp-lb
     spec:
       ports:
       - port: 80
         targetPort: 8080
       selector:
-        app: webfrontend
+        app: webapp
       type: LoadBalancer
     EOF
     ```
 
-1. 아래 명령어를 통해 `webfrontend-lb` 서비스가 `LoadBalancer` 타입인지 확인합니다. 그리고 외부 IP주소를 확인합니다.
+1. 아래 명령어를 통해 `webapp-lb` 서비스가 `LoadBalancer` 타입인지 확인합니다. 그리고 외부 IP주소를 확인합니다.
 
     ```bash
     kubectl get services
@@ -188,22 +190,29 @@ dotnet tool install -g aspirate --prerelease
 
 ## 05-7: Aspire 프로젝트 수정 후 다시 배포하기
 
-1. `AspireYouTubeSummariser.WebApp` 프로젝트의 `Program.cs` 파일을 열고 아래 라인을 수정합니다.
+1. `AspireYouTubeSummariser.WebApp` 프로젝트의 `Components/UI/YouTubeSummariserComponent.razor` 파일을 열고 아래 라인을 수정합니다.
 
-    ```csharp
-    // 수정 전
-    builder.Services.AddHttpClient<IApiAppClient, ApiAppClient>(p => p.BaseAddress = new Uri("http://apiapp"));
-    
-    // 수정 후
-    builder.Services.AddHttpClient<IApiAppClient, ApiAppClient>(p => p.BaseAddress = new Uri("https://apiapp"));
+    ```razor
+        <div class="row">
+            <div class="mb-3">
+                <button type="button" class="btn btn-primary" @onclick="SummariseAsync">Summarise!</button>
+
+                @* 수정 전 *@
+                <button type="button" class="btn btn-secondary" @onclick="ClearAsync">Clear!</button>
+
+                @* 수정 후 *@
+                <button type="button" class="btn btn-secondary" @onclick="ClearAsync">Reset!</button>
+            </div>
+        </div>
     ```
-
-    > 위 수정 사항은 GitHub Codespaces 환경에서만 필요합니다. 로컬 개발 환경에서는 항상 `https://apiapp`으로 설정해두면 됩니다.
 
 1. 수정이 끝난 후 아래 명령어를 실행시켜 다시 앱을 배포합니다.
 
     ```bash
-    aspirate generate --image-pull-policy IfNotPresent --non-interactive
+    # 앱 빌드 후 컨테이너 배포
+    aspirate build --non-interactive
+
+    # AKS 클러스터 배포
     aspirate apply -k $AKS_CLUSTER_NAME --non-interactive
     ```
 
@@ -213,13 +222,62 @@ dotnet tool install -g aspirate --prerelease
     http://<EXTERNAL_IP_ADDRESS>
     ```
 
-    ![Home page #2](./images/04-azure-deployment-07.png)
+    ![Home page #2](./images/05-azure-deployment-07.png)
 
    > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
 
 1. 요약 결과가 잘 나오는 것을 확인합니다.
 
-    ![Home page #3](./images/04-azure-deployment-08.png)
+    ![Home page #3](./images/05-azure-deployment-08.png)
+
+1. 만약 앱 수정 결과가 반영되지 않았다면, 아래와 같이 컨테이너 이미지를 지우고 다시 배포해 보세요.
+
+    ```bash
+    # AKS 노드 삭제
+    aspirate destroy -k $AKS_CLUSTER_NAME --non-interactive
+
+    # 컨테이너 이미지 삭제
+    az acr repository delete -n $ACR_NAME --repository webapp -y
+    az acr repository delete -n $ACR_NAME --repository apiapp -y
+
+    # Aspirate로 다시 배포
+    aspirate build --non-interactive
+    aspirate apply -k $AKS_CLUSTER_NAME --non-interactive
+    ```
+
+   > **NOTE**: 필요한 경우 아래 명령어를 통해 `webapp-lb` 서비스를 삭제하고 다시 생성해야 할 수도 있습니다.
+   > 
+   > ```bash
+   > # 로드 밸런서 삭제
+   > kubectl delete -f - <<EOF
+   > apiVersion: v1
+   > kind: Service
+   > metadata:
+   >   name: webapp-lb
+   > spec:
+   >   ports:
+   >   - port: 80
+   >     targetPort: 8080
+   >   selector:
+   >     app: webapp
+   >   type: LoadBalancer
+   > EOF
+   > 
+   > # 로드 밸런서 재추가
+   > kubectl apply -f - <<EOF
+   > apiVersion: v1
+   > kind: Service
+   > metadata:
+   >   name: webapp-lb
+   > spec:
+   >   ports:
+   >   - port: 80
+   >     targetPort: 8080
+   >   selector:
+   >     app: webapp
+   >   type: LoadBalancer
+   > EOF
+   > ```
 
 ---
 

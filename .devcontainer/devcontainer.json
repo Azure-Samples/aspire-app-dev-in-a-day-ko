@@ -36,6 +36,9 @@
     // Uncomment the below to install Docker-in-Docker
     "ghcr.io/devcontainers/features/docker-in-docker:latest": {},
 
+    // Uncomment the below to install Kubernetes CLI
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube:latest": {},
+
     // Install common utilities
     "ghcr.io/devcontainers/features/common-utils:latest": {
       "installZsh": true,
