@@ -1,6 +1,6 @@
 # Aspire App Dev in a Day
 
-[GitHub Codespaces](https://docs.github.com/ko/codespaces/overview)와 [GitHub Copilot](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business)을 이용해서 [.NET Aspire](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-113934-juyoo) 기반의 [Cloud-Native 앱](https://learn.microsoft.com/ko-kr/dotnet/architecture/cloud-native/?WT.mc_id=dotnet-113934-juyoo)을 개발해 보는 핸즈온 워크샵 자료입니다.
+[GitHub Codespaces](https://docs.github.com/ko/codespaces/overview)와 [GitHub Copilot](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business)을 이용해서 [.NET Aspire](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-121695-juyoo) 기반의 [Cloud-Native 앱](https://learn.microsoft.com/ko-kr/dotnet/architecture/cloud-native/?WT.mc_id=dotnet-121695-juyoo)을 개발해 보는 핸즈온 워크샵 자료입니다.
 
 ![Overall Architecture](./docs/images/99-architecture.png)
 
@@ -9,13 +9,13 @@
 이 워크샵을 진행하기 위해서는 아래와 같은 준비사항이 필요합니다.
 
 - [GitHub Account](https://github.com/signup) 및 GitHub Copilot 구독 ([개인](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-individual), [비지니스](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business) 또는 [엔터프라이즈](https://docs.github.com/ko/copilot/github-copilot-enterprise/overview/about-github-copilot-enterprise))
-- [Visual Studio 2022 17.9+](https://visualstudio.microsoft.com/?WT.mc_id=dotnet-113934-juyoo) 또는 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-113934-juyoo) + [C# Dev Kit 익스텐션](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit&WT.mc_id=dotnet-113934-juyoo)
-- [.NET 8 SDK](https://dotnet.microsoft.com/ko-kr/download/dotnet/8.0?WT.mc_id=dotnet-113934-juyoo) + [Aspire 워크로드](https://learn.microsoft.com/ko-kr/dotnet/core/tools/dotnet-workload-install?WT.mc_id=dotnet-113934-juyoo)
+- [Visual Studio 2022 17.9+](https://visualstudio.microsoft.com/?WT.mc_id=dotnet-121695-juyoo) 또는 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo) + [C# Dev Kit 익스텐션](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit&WT.mc_id=dotnet-121695-juyoo)
+- [.NET 8 SDK](https://dotnet.microsoft.com/ko-kr/download/dotnet/8.0?WT.mc_id=dotnet-121695-juyoo) + [Aspire 워크로드](https://learn.microsoft.com/ko-kr/dotnet/core/tools/dotnet-workload-install?WT.mc_id=dotnet-121695-juyoo)
 - [node.js](https://nodejs.org/en/download) (선택)
-- [Azure 구독](https://azure.microsoft.com/ko-kr/free/?WT.mc_id=dotnet-113934-juyoo)
+- [Azure 구독](https://azure.microsoft.com/ko-kr/free/?WT.mc_id=dotnet-121695-juyoo)
 - [Azure OpenAI 서비스 구독](https://aka.ms/aoaiapply)
-- [Azure Developer CLI](https://learn.microsoft.com/ko-kr/azure/developer/azure-developer-cli/overview?WT.mc_id=dotnet-113934-juyoo)
-- [Azure CLI](https://learn.microsoft.com/ko-kr/cli/azure/what-is-azure-cli?WT.mc_id=dotnet-113934-juyoo)
+- [Azure Developer CLI](https://learn.microsoft.com/ko-kr/azure/developer/azure-developer-cli/overview?WT.mc_id=dotnet-121695-juyoo)
+- [Azure CLI](https://learn.microsoft.com/ko-kr/cli/azure/what-is-azure-cli?WT.mc_id=dotnet-121695-juyoo)
 - [GitHub CLI](https://cli.github.com/)
 
 ## Getting Started
@@ -39,10 +39,10 @@
 
 ## Resources
 
-- [What is Blazor?](https://learn.microsoft.com/ko-kr/aspnet/core/blazor?WT.mc_id=dotnet-113934-juyoo)
-- [Build your first Blazor app](https://dotnet.microsoft.com/ko-kr/apps/aspnet/web-apps/blazor?WT.mc_id=dotnet-113934-juyoo)
-- [What is Aspire?](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-113934-juyoo)
-- [Build your first Aspire app](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/quickstart-build-your-first-aspire-app?tabs=dotnet-cli&WT.mc_id=dotnet-113934-juyoo)
+- [What is Blazor?](https://learn.microsoft.com/ko-kr/aspnet/core/blazor?WT.mc_id=dotnet-121695-juyoo)
+- [Build your first Blazor app](https://dotnet.microsoft.com/ko-kr/apps/aspnet/web-apps/blazor?WT.mc_id=dotnet-121695-juyoo)
+- [What is Aspire?](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-121695-juyoo)
+- [Build your first Aspire app](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/quickstart-build-your-first-aspire-app?tabs=dotnet-cli&WT.mc_id=dotnet-121695-juyoo)
 <!-- - [What is GitHub Copilot?](https://docs.github.com/ko/copilot) -->
 - [Building an intelligent app with Blazor and Azure OpenAI](https://www.youtube.com/watch?v=TH12YSLLe9E&t=8464s)
 - [Your stack for building Cloud Native apps](https://www.youtube.com/live/5IjKH-gy2Y0?si=dSMvC7arUeRpqBmz)
