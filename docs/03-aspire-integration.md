@@ -37,6 +37,19 @@
     dotnet restore && dotnet build
     ```
 
+1. `AspireYouTubeSummariser.ApiApp` 프로젝트에 `appsettings.json` 파일을 2장에서 등록한 OpenAI 정보를 다시 입력합니다.
+
+    ```json
+    "OpenAI": {
+      "Endpoint": "{{ Azure OpenAI Proxy Service Endpoint }}",
+      "ApiKey": "{{ Azure OpenAI Proxy Service Access Code }}",
+      "DeploymentName": "{{ Azure OpenAI Proxy Service Deployment Name }}"
+    }
+    ```
+
+   > **중요**: `appsettings.json` 파일에 추가한 Azure OpenAI 서비스의 값들은 절대로 GitHub에 커밋하지 마세요. 대신 `appsettings.Development.json` 파일에 추가하세요. `.gitignore` 파일에 이미 `appsettings.Development.json` 파일에 대한 제외 옵션이 추가되어 있습니다.
+
+
 ## 03-2: Aspire 프로젝트에 기존 애플리케이션 통합하기
 
 1. 아래 명령어를 차례로 실행시켜 `AspireYouTubeSummariser.AppHost` 프로젝트에 Blazor 프론트엔드 웹 앱과 ASP.NET Core 백엔드 API 앱을 추가합니다.
@@ -251,6 +264,13 @@
 
     // 추가
     var cache = builder.AddRedisContainer("cache");
+
+    ...
+
+    // WithReference 추가
+    builder.AddProject<Projects.AspireYouTubeSummariser_WebApp>("webapp")
+       .WithReference(cache)
+       .WithReference(apiapp);
     ```
 
 1. Solution Explorer에서 `AspireYouTubeSummariser.AppHost` 프로젝트를 선택하고 마우스 오른쪽 버튼을 눌러 디버깅 모드로 실행합니다.
@@ -264,7 +284,7 @@
    > **중요**: `appsettings.json` 파일에 추가한 Azure OpenAI 서비스의 값들은 절대로 GitHub에 커밋하지 마세요. 대신 `appsettings.Development.json` 또는  `appsettings.Production.json` 파일에 추가하세요. `.gitignore` 파일에 이미 `appsettings.Development.json`과 `appsettings.Production.json` 파일에 대한 제외 옵션이 추가되어 있습니다.
 
 
-1. `AspireYouTubeSummariser.ApiHost` 프로젝트의 `Program.cs` 파일을 열고 아래와 같이 수정합니다.
+1. `AspireYouTubeSummariser.AppHost` 프로젝트의 `Program.cs` 파일을 열고 아래와 같이 수정합니다.
 
     ```csharp
     var builder = DistributedApplication.CreateBuilder(args);
