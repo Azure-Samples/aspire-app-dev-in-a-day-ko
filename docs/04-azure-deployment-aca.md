@@ -13,10 +13,10 @@
     ```bash
     # Azure Developer CLI login
     azd auth login --use-device-code=false
-    
+
     # Azure CLI login
     az login
-    
+
     # GitHub CLI login
     GITHUB_TOKEN=
     gh auth login
@@ -29,10 +29,10 @@
     ```bash
     # Azure Developer CLI
     azd auth login --check-status
-    
+
     # Azure CLI
     az account show
-    
+
     # GitHub CLI
     gh auth status
     ```
@@ -47,6 +47,18 @@
     cd workshop
     dotnet restore && dotnet build
     ```
+
+1. `AspireYouTubeSummariser.AppHost` 프로젝트에 `appsettings.json` 파일을 3장에서 등록한 OpenAI 정보를 다시 입력합니다.
+
+    ```json
+    "OpenAI": {
+      "Endpoint": "{{ Azure OpenAI Proxy Service Endpoint }}",
+      "ApiKey": "{{ Azure OpenAI Proxy Service Access Code }}",
+      "DeploymentName": "{{ Azure OpenAI Proxy Service Deployment Name }}"
+    }
+    ```
+
+   > **중요**: `appsettings.json` 파일에 추가한 Azure OpenAI 서비스의 값들은 절대로 GitHub에 커밋하지 마세요. 대신 `appsettings.Development.json` 파일에 추가하세요. `.gitignore` 파일에 이미 `appsettings.Development.json` 파일에 대한 제외 옵션이 추가되어 있습니다.
 
 ## 04-3: Azure Developer CLI로 배포 준비하기
 
@@ -108,7 +120,7 @@
     ```csharp
     // 수정 전
     builder.Services.AddHttpClient<IApiAppClient, ApiAppClient>(p => p.BaseAddress = new Uri("http://apiapp"));
-    
+
     // 수정 후
     builder.Services.AddHttpClient<IApiAppClient, ApiAppClient>(p => p.BaseAddress = new Uri("https://apiapp"));
     ```
