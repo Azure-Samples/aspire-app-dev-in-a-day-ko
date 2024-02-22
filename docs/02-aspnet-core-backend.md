@@ -177,16 +177,6 @@
    > 만약 네임스페이스 참조를 할 수 없다는 오류가 발생한다면 오류가 발생한 곳에 커서를 두고 `CTRL`+`.` 키 또는 `CMD`+`.` 키를 눌러 네임스페이스를 추가합니다.
 
 1. `SummariseAsync` 메서드를 아래와 같이 수정합니다.
-<!-- 1. `SummariseAsync` 메서드 안에서 YouTube 자막을 다운로드 받는 로직을 구현합니다. GitHub Copilot을 이용해 아래와 같이 수정합니다.
-
-    ```text
-    Download the YouTube video transcript with the following conditions:
-
-    - It should use IYouTubeVideo instance to download the YouTube video transcript.
-    - It should aggregate the YouTube video transcript into a single string.
-    ```
-
-   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `SummariseAsync` 메서드를 수정합니다. -->
 
     ```csharp
     public async Task<string> SummariseAsync(SummaryRequest req)
@@ -198,21 +188,6 @@
    > 만약 네임스페이스 참조를 할 수 없다는 오류가 발생한다면 오류가 발생한 곳에 커서를 두고 `CTRL`+`.` 키 또는 `CMD`+`.` 키를 눌러 네임스페이스를 추가합니다.
 
 1. 계속해서 `SummariseAsync` 메서드 안에서 자막 내용을 요약하는 로직을 아래와 같이 구현합니다.
-<!-- 1. 계속해서 `SummariseAsync` 메서드 안에서 자막 내용을 요약하는 로직을 구현합니다. GitHub Copilot을 이용해 아래와 같이 수정합니다.
-
-    ```text
-    Create a ChatCompletionsOptions instance with the following conditions:
-
-    - It should have the "DeploymentName" property set to the value of "OpenAI:DeploymentName" in the configuration.
-    - It should have the "MaxTokens" property set to the value of "Prompt:MaxTokens" in the configuration.
-    - It should have the "Temperature" property set to the value of "Prompt:Temperature" in the configuration.
-    - It should have the "Messages" property set to the following messages:
-      - A message of "ChatRole.System" with the value of "Prompt:System" in the configuration.
-      - A message of "ChatRole.System" with the value of "Here's the transcript. Summarise it in 5 bullet point items in the given language code of \"{req.SummaryLanguageCode}\".".
-      - A message of "ChatRole.User" with the value of "caption".
-    ```
-
-   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `SummariseAsync` 메서드를 수정합니다. -->
 
     ```csharp
     public async Task<string> SummariseAsync(SummaryRequest req)
