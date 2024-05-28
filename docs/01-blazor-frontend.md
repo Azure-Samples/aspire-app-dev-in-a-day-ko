@@ -57,7 +57,22 @@
     }
     ```
 
-1. 위 내용을 모두 지운 후 아래 코드를 입력합니다.
+1. 위 내용을 모두 지운 후 `CTRL`+`I` 키 또는 `CMD`+`I` 키를 눌러 GitHub Copilot Chat 창을 활성화 시킵니다.
+1. 아래 프롬프트를 GitHub Copilot Chat에 입력합니다.
+
+    ```text
+    It's a razor component of a Blazor app. Add the following input controls with Bootstrap style:
+    
+    - 1 text input for YouTube link URL
+    - 1 drop down list for the video language code selection of English and Korean
+    - 1 drop down list for the summary language code selection of English and Korean
+    - 2 buttons for summary and clear
+    - 1 textarea for summary result
+    
+    Also add the corresponding code block.
+    ```
+
+   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `YouTubeSummariserComponent.razor` 파일을 수정합니다.
 
     ```razor
     <div class="container">
@@ -132,7 +147,13 @@
     @inject IApiAppClient ApiApp
     ```
 
-1. `YouTubeSummariserComponent.razor` 파일의 `SummariseAsync` 메서드 안에 아래 코드를 입력합니다.
+1. `YouTubeSummariserComponent.razor` 파일의 `SummariseAsync` 메서드 안에서 다시 GitHub Copilot Chat을 이용해 코드를 입력합니다.
+
+    ```text
+    call ApiApp.SummariseAsync method with proper exception handling logic.
+    ```
+
+   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `SummariseAsync` 메서드를 수정합니다.
 
     ```razor
     private async Task SummariseAsync()
@@ -176,7 +197,13 @@
     }
     ```
 
-1. `namespace`와 `class` 사이에 아래와 같이 `IApiAppClient` 인터페이스를 추가합니다.
+1. `namespace`와 `class` 사이에서 GitHub Copilot Chat을 이용해 아래와 같이 프롬프트를 입력합니다.
+
+    ```text
+    create an interface of IApiAppClient that has a SummariseAsync method with parameters of YouTube link, video language code and summary language code
+    ```
+
+   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `ApiAppClient` 파일을 수정합니다.
 
     ```csharp
     public interface IApiAppClient
@@ -185,7 +212,13 @@
     }
     ```
 
-1. 아래와 같이 `ApiAppClient` 클래스를 수정합니다.
+1. GitHub Copilot Chat을 이용해서 클래스를 수정합니다.
+
+    ```text
+    create a class implementing IApiAppClient
+    ```
+
+   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `ApiAppClient` 파일을 수정합니다.
 
     ```csharp
     public class ApiAppClient : IApiAppClient
