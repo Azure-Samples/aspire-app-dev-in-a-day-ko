@@ -4,11 +4,11 @@
 
 ## Azure OpenAI 프록시 구독 신청
 
-1. 아래 링크를 클릭해서 Azure OpenAI 프록시 구독을 신청합니다.
+1. 아래 링크를 클릭해서 Azure OpenAI 프록시 구독을 신청합니다. 구독 신청시 GitHub ID로 로그인해야 합니다.
 
    👉 구독 신청 링크: [https://aka.ms/aspireinadaykr/request](https://aka.ms/aspireinadaykr/request)
 
-1. 신청한 이메일을 통해 `DoNotReply@aoai.kr` 발신자로 Azure OpenAI 프록시 구독 코드가 온 것을 확인합니다.
+1. 로그인 후 화면에서 API키와 Endpoint 값을 확인합니다.
 
 <!-- ## Azure OpenAI 프록시 구독 및 GitHub Copilot 구독 신청
 

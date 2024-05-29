@@ -484,6 +484,7 @@ $RECYCLE.BIN/
 *.swp
 
 # ---
+*.bak
 appsettings.Development.json
 appsettings.Production.json
 bundle.js
