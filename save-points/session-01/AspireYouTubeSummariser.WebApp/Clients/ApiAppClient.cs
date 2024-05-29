@@ -1,4 +1,4 @@
-﻿namespace AspireYouTubeSummariser.WebApp.Clients;
+namespace AspireYouTubeSummariser.WebApp.Clients;
 
 public interface IApiAppClient
 {
