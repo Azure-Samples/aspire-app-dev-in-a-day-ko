@@ -28,7 +28,7 @@
 
     ```bash
     dotnet restore && dotnet build
-    dotnet run --project AspireYouTubeSummariser.WebApp
+    dotnet watch run --project AspireYouTubeSummariser.WebApp
     ```
 
 > 여기까지 생성한 프로젝트는 [save-points/session-00](../save-points/session-00/)에서 확인할 수 있습니다.
