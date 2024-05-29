@@ -31,6 +31,8 @@
     dotnet watch run --project AspireYouTubeSummariser.WebApp
     ```
 
+1. 실행이 잘 되는 것을 확인하면 터미널 창에서 `CTRL`+`C` 키를 눌러 실행을 중지합니다.
+
 > 여기까지 생성한 프로젝트는 [save-points/session-00](../save-points/session-00/)에서 확인할 수 있습니다.
 
 ## 01-2: UI Component 생성하기
@@ -314,6 +316,10 @@
     ![YouTubeSummariserComponent #2](./images/01-blazor-frontend-04.png)
 
    > 이 에러는 아직 백엔드 API 앱을 연결하지 않았기 때문에 나오는 에러입니다.
+
+1. 아래와 같이 사각형 모양을 클릭하여 디버깅 모드를 중지합니다.
+
+    ![Solution Explorer - Stop Debugging](./images/01-blazor-frontend-05.png)
 
 ---
 
