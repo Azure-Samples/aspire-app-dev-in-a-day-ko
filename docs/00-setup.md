@@ -64,7 +64,7 @@
     git remote -v
     ```
 
-   이 명령어를 실행하면 아래와 같은 결과가 나와야 합니다. 만약 `origin`에 `Azure-Samples`가 보이면 코드스페이스를 자신의 리포지토리에서 다시 만들어야 합니다.
+   이 명령어를 실행하면 아래와 같은 결과가 나와야 합니다. 만약 `origin`에 `Azure-Samples`가 보이면 자신의 리포지토리에서 다시 클론해야 합니다.
 
     ```bash
     origin  https://github.com/<자신의 GitHub ID>/aspire-app-dev-in-a-day-ko (fetch)
