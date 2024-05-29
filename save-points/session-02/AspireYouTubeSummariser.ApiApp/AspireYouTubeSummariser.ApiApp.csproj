@@ -1,12 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>$(TargetFrameworkVersion)</TargetFramework>
-    <LangVersion>latest</LangVersion>
-
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-
     <InvariantGlobalization>true</InvariantGlobalization>
 
     <AssemblyName>AspireYouTubeSummariser.ApiApp</AssemblyName>
