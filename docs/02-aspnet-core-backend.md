@@ -2,17 +2,32 @@
 
 이 세션에서는 [GitHub Copilot](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business) 기능을 활용해 빠르게 [ASP.NET Core 백엔드 API 앱](https://learn.microsoft.com/ko-kr/aspnet/core/fundamentals/apis?WT.mc_id=dotnet-121695-juyoo) 개발을 해 보겠습니다.
 
-> [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 환경에서 작업하는 것을 기준으로 진행합니다. 로컬 개발 환경의 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo)를 사용할 경우 대부분 비슷하지만 살짝 다를 수 있습니다.
+> [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 또는 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo) 환경에서 작업하는 것을 기준으로 합니다.
 
 ![Architecture](./images/02-architecture.png)
 
 ## 02-1: Web API 프로젝트 생성하기
 
 > 세이브 포인트에서 가져온 프로젝트를 사용하려면 아래 명령어를 차례로 실행시켜 프로젝트를 복원합니다.
->
+> 
 > ```bash
-> cd $CODESPACE_VSCODE_FOLDER
+> # GitHub Codespaces
+> REPOSITORY_ROOT=$CODESPACE_VSCODE_FOLDER
+> cd $REPOSITORY_ROOT
+> mkdir -p workshop
+> cd workshop
+>
+> # bash/zsh
+> REPOSITORY_ROOT=$(git rev-parse --show-toplevel)
+> cd $REPOSITORY_ROOT
 > mkdir -p workshop && cp -a save-points/session-01/. workshop/
+> cd workshop
+> dotnet restore && dotnet build
+> 
+> # PowerShell
+> $REPOSITORY_ROOT = git rev-parse --show-toplevel
+> cd $REPOSITORY_ROOT
+> New-Item -Type Directory -Path workshop -Force && Copy-Item -Path ./save-points/session-01/* -Destination ./workshop -Recurse -Force
 > cd workshop
 > dotnet restore && dotnet build
 > ```
@@ -145,7 +160,7 @@
 1. YouTube 자막을 추출하고, Azure OpenAI 서비스를 이용해 요약하기 위해 아래와 같이 터미널에서 NuGet 패키지를 추가합니다.
 
     ```bash
-    cd $CODESPACE_VSCODE_FOLDER/workshop/AspireYouTubeSummariser.ApiApp
+    cd $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.ApiApp
     dotnet add package Aliencube.YouTubeSubtitlesExtractor
     dotnet add package Azure.AI.OpenAI --prerelease
     ```
@@ -359,7 +374,7 @@
 1. 터미널에서 아래 명령어를 실행시켜 ASP.NET Core 백엔드 API 앱을 실행시킵니다.
 
     ```bash
-    cd $CODESPACE_VSCODE_FOLDER/workshop
+    cd $REPOSITORY_ROOT/workshop
     dotnet watch run --project AspireYouTubeSummariser.ApiApp
     ```
 

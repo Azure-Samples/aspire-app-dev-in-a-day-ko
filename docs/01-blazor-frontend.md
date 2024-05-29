@@ -2,7 +2,7 @@
 
 이 세션에서는 [GitHub Copilot](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business) 기능을 활용해 빠르게 [Blazor 프론트엔드 웹 앱](https://learn.microsoft.com/ko-kr/aspnet/core/blazor?WT.mc_id=dotnet-121695-juyoo) 개발을 해 보겠습니다.
 
-> [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 환경에서 작업하는 것을 기준으로 진행합니다. 로컬 개발 환경의 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo)를 사용할 경우 대부분 비슷하지만 살짝 다를 수 있습니다.
+> [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 또는 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo) 환경에서 작업하는 것을 기준으로 합니다.
 
 ![Architecture](./images/01-architecture.png)
 
@@ -11,8 +11,19 @@
 1. 터미널을 열고 아래 명령어를 차례로 실행시켜 실습 디렉토리를 만들고 이동합니다.
 
     ```bash
-    cd $CODESPACE_VSCODE_FOLDER
-    mkdir workshop
+    # GitHub Codespaces
+    REPOSITORY_ROOT=$CODESPACE_VSCODE_FOLDER
+    mkdir -p $REPOSITORY_ROOT/workshop
+    cd workshop
+
+    # bash/zsh
+    REPOSITORY_ROOT=$(git rev-parse --show-toplevel)
+    mkdir -p $REPOSITORY_ROOT/workshop
+    cd workshop
+
+    # PowerShell
+    $REPOSITORY_ROOT = git rev-parse --show-toplevel
+    New-Item -Type Directory -Path $REPOSITORY_ROOT/workshop -Force
     cd workshop
     ```
 
@@ -38,10 +49,17 @@
 ## 01-2: UI Component 생성하기
 
 > 세이브 포인트에서 가져온 프로젝트를 사용하려면 아래 명령어를 차례로 실행시켜 프로젝트를 복원합니다.
->
+> 
 > ```bash
-> cd $CODESPACE_VSCODE_FOLDER
+> # bash/zsh
+> cd $REPOSITORY_ROOT
 > mkdir -p workshop && cp -a save-points/session-00/. workshop/
+> cd workshop
+> dotnet restore && dotnet build
+> 
+> # PowerShell
+> cd $REPOSITORY_ROOT
+> New-Item -Type Directory -Path workshop -Force && Copy-Item -Path ./save-points/session-00/* -Destination ./workshop -Recurse -Force
 > cd workshop
 > dotnet restore && dotnet build
 > ```
@@ -53,13 +71,21 @@
 1. Solution Explorer 또는 아래 명령어를 실행시켜 `Components` 디렉토리 밑에 `UI` 디렉토리를 생성합니다.
 
     ```bash
-    mkdir -p ./AspireYouTubeSummariser.WebApp/Components/UI
+    # bash/zsh
+    mkdir -p $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/Components/UI
+
+    # PowerShell
+    New-Item -Type Directory -Path $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/Components/UI -Force
     ```
 
 1. Solution Explorer 또는 아래 명령어를 통해 `UI` 디렉토리 밑에 `YouTubeSummariserComponent`라는 이름으로 Razor Component 파일을 생성합니다.
 
     ```bash
-    touch ./AspireYouTubeSummariser.WebApp/Components/UI/YouTubeSummariserComponent.razor
+    # bash/zsh
+    touch $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/Components/UI/YouTubeSummariserComponent.razor
+
+    # PowerShell
+    New-Item -Type File -Path $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/Components/UI/YouTubeSummariserComponent.razor -Force
     ```
 
    > Soultion Explorer를 통해 파일을 생성했다면 아래와 비슷한 내용이 이미 들어 있습니다.
@@ -204,8 +230,13 @@
 1. Solution Explorer 또는 아래 명령어를 통해 `Clients` 디렉토리를 생성하고 그 안에 `ApiAppClient`라는 이름으로 C# 클래스 파일을 생성합니다.
 
     ```bash
-    mkdir -p ./AspireYouTubeSummariser.WebApp/Clients
-    touch ./AspireYouTubeSummariser.WebApp/Clients/ApiAppClient.cs
+    # bash/zsh
+    mkdir -p $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/Clients
+    touch $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/Clients/ApiAppClient.cs
+
+    # PowerShell
+    New-Item -Type Directory -Path $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/Clients -Force
+    New-Item -Type File -Path $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/Clients/ApiAppClient.cs -Force
     ```
 
 1. 생성된 파일 안에는 아래와 비슷한 내용이 이미 들어 있습니다. 만약 내용이 없다면 아래 코드를 입력합니다.

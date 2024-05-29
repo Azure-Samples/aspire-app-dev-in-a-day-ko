@@ -49,6 +49,38 @@
     upstream        https://github.com/Azure-Samples/aspire-app-dev-in-a-day-ko.git (push)
     ```
 
+## Visual Studio Code 시작
+
+1. 이 리포지토리를 자신의 GitHub 계정으로 포크합니다.
+1. 포크한 리포지토리에서 자신의 컴퓨터로 클론합니다.
+
+    ```bash
+    git clone https://github.com/<자신의 GitHub ID>/aspire-app-dev-in-a-day-ko.git
+    ```
+
+1. Visual Studio Code를 실행한 후 터미널에서 아래 명령어를 실행시켜 현재 리포지토리의 위치를 확인합니다.
+
+    ```bash
+    git remote -v
+    ```
+
+   이 명령어를 실행하면 아래와 같은 결과가 나와야 합니다. 만약 `origin`에 `Azure-Samples`가 보이면 코드스페이스를 자신의 리포지토리에서 다시 만들어야 합니다.
+
+    ```bash
+    origin  https://github.com/<자신의 GitHub ID>/aspire-app-dev-in-a-day-ko (fetch)
+    origin  https://github.com/<자신의 GitHub ID>/aspire-app-dev-in-a-day-ko (push)
+    upstream        https://github.com/Azure-Samples/aspire-app-dev-in-a-day-ko.git (fetch)
+    upstream        https://github.com/Azure-Samples/aspire-app-dev-in-a-day-ko.git (push)
+    ```
+
+1. 아래 명령어를 실행시켜 현재 설치된 .NET SDK 버전을 확인합니다.
+
+    ```bash
+    dotnet --list-sdks
+    ```
+
+   `8.0.300` 이상의 버전이 설치되어 있어야 합니다. 없을 경우 [.NET SDK 설치 페이지](https://dotnet.microsoft.com/download/dotnet/8.0?WT.mc_id=dotnet-121695-juyoo)에서 최신 버전을 다운로드 받아 설치합니다.
+
 ---
 
 축하합니다! 개발 환경 설정이 끝났습니다. 이제 [Session 01: Blazor 프론트엔드 웹 앱 개발](./01-blazor-frontend.md)로 넘어가세요.

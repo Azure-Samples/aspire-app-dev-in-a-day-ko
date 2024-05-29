@@ -7,11 +7,14 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
-    <AspireVersion>8.0.0-preview.3.24105.21</AspireVersion>
-    <AspNetCoreVersion>8.0.5</AspNetCoreVersion>
-    <AzureOpenAISdkVersion>1.0.0-beta.17</AzureOpenAISdkVersion>
-    <MicrosoftExtensionsHttpResilienceVersion>8.2.0</MicrosoftExtensionsHttpResilienceVersion>
-    <SwashbuckleVersion>6.6.2</SwashbuckleVersion>
-    <YouTubeSubtitlesExtractorVersion>2.0.0</YouTubeSubtitlesExtractorVersion>
+    <AspireVersion>8.*</AspireVersion>
+    <AspNetCoreVersion>8.*</AspNetCoreVersion>
+    <AzureOpenAISdkVersion>1.*-beta.*</AzureOpenAISdkVersion>
+    <MicrosoftExtensionsVersion>8.*</MicrosoftExtensionsVersion>
+    <OpenTelemetryExporterVersion>1.*</OpenTelemetryExporterVersion>
+    <OpenTelemetryExtensionsVersion>1.*</OpenTelemetryExtensionsVersion>
+    <OpenTelemetryInstrumentationVersion>1.*</OpenTelemetryInstrumentationVersion>
+    <SwashbuckleVersion>6.*</SwashbuckleVersion>
+    <YouTubeSubtitlesExtractorVersion>2.*</YouTubeSubtitlesExtractorVersion>
   </PropertyGroup>
 </Project>

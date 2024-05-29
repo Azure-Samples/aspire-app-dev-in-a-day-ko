@@ -2,7 +2,7 @@
 
 이 세션에서는 [.NET Aspire](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-121695-juyoo)를 활용해 [Blazor 프론트엔드 웹 앱](https://learn.microsoft.com/ko-kr/aspnet/core/blazor?WT.mc_id=dotnet-121695-juyoo)과 [ASP.NET Core 백엔드 API 앱](https://learn.microsoft.com/ko-kr/aspnet/core/fundamentals/apis?WT.mc_id=dotnet-121695-juyoo)을 Cloud-Native 방식으로 통합해 보겠습니다.
 
-> [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 환경에서 작업하는 것을 기준으로 진행합니다. 로컬 개발 환경의 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo)를 사용할 경우 대부분 비슷하지만 살짝 다를 수 있습니다.
+> [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 또는 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo) 환경에서 작업하는 것을 기준으로 합니다.
 
 ![Architecture](./images/03-architecture.png)
 
@@ -11,33 +11,55 @@
 1. 터미널을 열고 아래 명령어를 차례로 실행시켜 Aspire 프로젝트를 생성합니다.
 
     ```bash
-    cd $CODESPACE_VSCODE_FOLDER
+    # GitHub Codespaces
+    REPOSITORY_ROOT=$CODESPACE_VSCODE_FOLDER
+    cd $REPOSITORY_ROOT
+    dotnet new aspire -n AspireYouTubeSummariser
+
+    # bash/zsh
+    REPOSITORY_ROOT=$(git rev-parse --show-toplevel)
+    cd $REPOSITORY_ROOT
+    dotnet new aspire -n AspireYouTubeSummariser
+
+    # PowerShell
+    $REPOSITORY_ROOT = git rev-parse --show-toplevel
+    cd $REPOSITORY_ROOT
     dotnet new aspire -n AspireYouTubeSummariser
     ```
 
 1. 아래 명령어를 통해 Aspire 디렉토리 이름을 `workshop`으로 변경합니다.
 
     ```bash
+    # bash/zsh
     mv AspireYouTubeSummariser workshop
+
+    # PowerShell
+    Rename-Item -Path AspireYouTubeSummariser -NewName workshop -Force
     ```
 
 1. 세이브 포인트에서 가져온 프로젝트를 복원합니다.
 
     ```bash
-    cd $CODESPACE_VSCODE_FOLDER
+    # bash/zsh
+    cd $REPOSITORY_ROOT
     mkdir -p workshop && cp -a save-points/session-02/. workshop/
+
+    # PowerShell
+    $REPOSITORY_ROOT = git rev-parse --show-toplevel
+    cd $REPOSITORY_ROOT
+    New-Item -Type Directory -Path workshop -Force && Copy-Item -Path ./save-points/session-01/* -Destination ./workshop -Recurse -Force
     ```
 
 1. 아래 명령어를 차례로 실행시켜 Aspire 프로젝트를 다시 연결합니다.
 
     ```bash
-    cd $CODESPACE_VSCODE_FOLDER/workshop
+    cd $REPOSITORY_ROOT/workshop
     dotnet sln add AspireYouTubeSummariser.AppHost
     dotnet sln add AspireYouTubeSummariser.ServiceDefaults
     dotnet restore && dotnet build
     ```
 
-1. `AspireYouTubeSummariser.ApiApp` 프로젝트에 `appsettings.json` 파일을 2장에서 등록한 OpenAI 정보를 다시 입력합니다.
+1. `AspireYouTubeSummariser.ApiApp` 프로젝트에 `appsettings.Development.json` 파일을 열어 [세션 02: ASP.NET Core 백엔드 API 앱 개발](./02-aspnet-core-backend.md)에서 등록한 OpenAI 정보를 다시 입력합니다.
 
     ```json
     "OpenAI": {
@@ -49,13 +71,12 @@
 
    > **중요**: `appsettings.json` 파일에 추가한 Azure OpenAI 서비스의 값들은 절대로 GitHub에 커밋하지 마세요. 대신 `appsettings.Development.json` 파일에 추가하세요. `.gitignore` 파일에 이미 `appsettings.Development.json` 파일에 대한 제외 옵션이 추가되어 있습니다.
 
-
 ## 03-2: Aspire 프로젝트에 기존 애플리케이션 통합하기
 
 1. 아래 명령어를 차례로 실행시켜 `AspireYouTubeSummariser.AppHost` 프로젝트에 Blazor 프론트엔드 웹 앱과 ASP.NET Core 백엔드 API 앱을 추가합니다.
 
     ```bash
-    cd $CODESPACE_VSCODE_FOLDER/workshop/AspireYouTubeSummariser.AppHost
+    cd $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.AppHost
     dotnet add reference ../AspireYouTubeSummariser.WebApp/
     dotnet add reference ../AspireYouTubeSummariser.ApiApp/
     ```
@@ -72,14 +93,14 @@
 1. 아래 명령어를 차례로 실행시켜 `AspireYouTubeSummariser.WebApp` 프로젝트에 `AspireYouTubeSummariser.ServiceDefaults` 프로젝트를 추가합니다.
 
     ```bash
-    cd $CODESPACE_VSCODE_FOLDER/workshop/AspireYouTubeSummariser.WebApp
+    cd $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp
     dotnet add reference ../AspireYouTubeSummariser.ServiceDefaults/
     ```
 
 1. 아래 명령어를 차례로 실행시켜 `AspireYouTubeSummariser.ApiApp` 프로젝트에 `AspireYouTubeSummariser.ServiceDefaults` 프로젝트를 추가합니다.
 
     ```bash
-    cd $CODESPACE_VSCODE_FOLDER/workshop/AspireYouTubeSummariser.ApiApp
+    cd $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.ApiApp
     dotnet add reference ../AspireYouTubeSummariser.ServiceDefaults/
     ```
 
@@ -90,7 +111,7 @@
     builder.Services.AddHttpClient<IApiAppClient, ApiAppClient>(p => p.BaseAddress = new Uri("http://localhost:5050"));
 
     // 수정 후
-    builder.Services.AddHttpClient<IApiAppClient, ApiAppClient>(p => p.BaseAddress = new Uri("http://apiapp"));
+    builder.Services.AddHttpClient<IApiAppClient, ApiAppClient>(p => p.BaseAddress = new Uri("https+http://apiapp"));
     ```
 
 1. `AspireYouTubeSummariser.WebApp` 프로젝트의 `Program.cs` 파일에 아래 두 라인을 추가합니다.
@@ -129,16 +150,19 @@
 
 1. Solution Explorer에서 `AspireYouTubeSummariser.AppHost` 프로젝트를 선택하고 마우스 오른쪽 버튼을 눌러 디버깅 모드로 실행합니다.
 
-1. Ports 탭에서 `18888`` 포트를 선택해서 대시보드 앱을 실행시킵니다.
+<!-- 1. Ports 탭에서 `18888`` 포트를 선택해서 대시보드 앱을 실행시킵니다.
 
-    ![Ports forwarding](./images/03-aspire-integration-01.png)
+    ![Ports forwarding](./images/03-aspire-integration-01.png) -->
 
 1. 대시보드 앱에서 `webapp`의 엔드포인트에 있는 링크를 클릭합니다.
 
     ![Dashboard #1](./images/03-aspire-integration-02.png)
 
-1. 404 에러가 나타나는 것을 확인합니다.
-1. 대시보드 앱의 URL을 복사한 후 새 탭에서 열고 URL의 `18888` 부분을 `5000`으로 변경한 후 접속합니다.
+   > GitHub Codespaces의 경우:
+   > 
+   > 1. 404 에러가 나타나는 것을 확인합니다.
+   > 1. 대시보드 앱의 URL을 복사한 후 새 탭에서 열고 URL의 `18888` 부분을 `5000`으로 변경한 후 접속합니다.
+
 1. Blazor 프론트엔드 웹 앱이 잘 작동하는 것을 확인합니다.
 1. `Weather` 페이지에서 데이터가 잘 나오는 것을 확인합니다.
 
