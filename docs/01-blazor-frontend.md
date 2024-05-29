@@ -37,23 +37,38 @@
 
 > 세이브 포인트에서 가져온 프로젝트를 사용하려면 아래 명령어를 차례로 실행시켜 프로젝트를 복원합니다.
 >
->    ```bash
->    cd $CODESPACE_VSCODE_FOLDER
->    mkdir -p workshop && cp -a save-points/session-00/. workshop/
->    cd workshop
->    dotnet restore && dotnet build
->    ```
+> ```bash
+> cd $CODESPACE_VSCODE_FOLDER
+> mkdir -p workshop && cp -a save-points/session-00/. workshop/
+> cd workshop
+> dotnet restore && dotnet build
+> ```
 
-1. Solution Explorer에서 `Components` 디렉토리 밑에 `UI` 디렉토리를 생성합니다.
-1. `UI` 디렉토리 밑에 `YouTubeSummariserComponent`라는 이름으로 Razor Component 파일을 생성합니다. 생성된 파일 안에는 아래와 비슷한 내용이 이미 들어 있습니다.
+1. Solution Explorer에서 솔루션을 엽니다.
 
-    ```razor
-    <h3>YouTubeSummariserComponent</h3>
+   ![Solution Explorer](./images/01-blazor-frontend-01.png)
 
-    @code {
+1. Solution Explorer 또는 아래 명령어를 실행시켜 `Components` 디렉토리 밑에 `UI` 디렉토리를 생성합니다.
 
-    }
+    ```bash
+    mkdir -p ./AspireYouTubeSummariser.WebApp/Components/UI
     ```
+
+1. Solution Explorer 또는 아래 명령어를 통해 `UI` 디렉토리 밑에 `YouTubeSummariserComponent`라는 이름으로 Razor Component 파일을 생성합니다.
+
+    ```bash
+    touch ./AspireYouTubeSummariser.WebApp/Components/UI/YouTubeSummariserComponent.razor
+    ```
+
+   > Soultion Explorer를 통해 파일을 생성했다면 아래와 비슷한 내용이 이미 들어 있습니다.
+   > 
+   > ```razor
+   > <h3>YouTubeSummariserComponent</h3>
+   > 
+   > @code {
+   > 
+   > }
+   > ```
 
 1. 위 내용을 모두 지운 후 `CTRL`+`I` 키 또는 `CMD`+`I` 키를 눌러 GitHub Copilot Chat 창을 활성화 시킵니다.
 1. 아래 프롬프트를 GitHub Copilot Chat에 입력합니다.
@@ -70,7 +85,7 @@
     Also add the corresponding code block.
     ```
 
-   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `YouTubeSummariserComponent.razor` 파일을 수정합니다.
+   그러면 아래와 비슷한 코드를 자동으로 만들어 줄 것입니다. 아래 코드를 참고해서 `YouTubeSummariserComponent.razor` 파일을 수정합니다.
 
     ```razor
     <div class="container">
@@ -151,7 +166,7 @@
     call ApiApp.SummariseAsync method with proper exception handling logic.
     ```
 
-   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `SummariseAsync` 메서드를 수정합니다.
+   그러면 아래와 비슷한 코드를 자동으로 만들어 줄 것입니다. 아래 코드를 참고해서 `SummariseAsync` 메서드를 수정합니다.
 
     ```razor
     private async Task SummariseAsync()
@@ -184,7 +199,14 @@
 
 ## 01-3: API Client 생성하기
 
-1. Solution Explorer에서 `Clients` 디렉토리를 생성하고 그 안에 `ApiAppClient`라는 이름으로 C# 클래스 파일을 생성합니다. 생성된 파일 안에는 아래와 비슷한 내용이 이미 들어 있습니다.
+1. Solution Explorer 또는 아래 명령어를 통해 `Clients` 디렉토리를 생성하고 그 안에 `ApiAppClient`라는 이름으로 C# 클래스 파일을 생성합니다.
+
+    ```bash
+    mkdir -p ./AspireYouTubeSummariser.WebApp/Clients
+    touch ./AspireYouTubeSummariser.WebApp/Clients/ApiAppClient.cs
+    ```
+
+1. 생성된 파일 안에는 아래와 비슷한 내용이 이미 들어 있습니다. 만약 내용이 없다면 아래 코드를 입력합니다.
 
     ```csharp
     namespace AspireYouTubeSummariser.WebApp.Clients;
@@ -201,7 +223,7 @@
     create an interface of IApiAppClient that has a SummariseAsync method with parameters of YouTube link, video language code and summary language code
     ```
 
-   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `ApiAppClient` 파일을 수정합니다.
+   그러면 아래와 비슷한 코드를 자동으로 만들어 줄 것입니다. 아래 코드를 참고해서 `ApiAppClient` 파일을 수정합니다.
 
     ```csharp
     public interface IApiAppClient
@@ -216,7 +238,7 @@
     create a class implementing IApiAppClient
     ```
 
-   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `ApiAppClient` 파일을 수정합니다.
+   그러면 아래와 비슷한 코드를 자동으로 만들어 줄 것입니다. 아래 코드를 참고해서 `ApiAppClient` 파일을 수정합니다.
 
     ```csharp
     public class ApiAppClient : IApiAppClient
@@ -279,15 +301,19 @@
 
 1. Solution Explorer에서 `AspireYouTubeSummariser.WebApp` 프로젝트를 선택하고 마우스 오른쪽 버튼을 눌러 디버깅 모드로 실행합니다.
 
+    ![Solution Explorer - Debugging](./images/01-blazor-frontend-02.png)
+
 1. 첫 화면에서 아래와 같이 YouTube 링크를 입력하고 `Summarise!` 버튼을 클릭합니다.
 
-    ![YouTubeSummariserComponent #1](./images/01-blazor-frontend-01.png)
+    ![YouTubeSummariserComponent #1](./images/01-blazor-frontend-03.png)
 
    > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
 
-1. 그러면 아래와 같이 에러 메시지가 나오는 것을 확인할 수 있습니다.
+1. 아래와 같이 에러 메시지가 나오는 것을 확인합니다.
 
-    ![YouTubeSummariserComponent #2](./images/01-blazor-frontend-02.png)
+    ![YouTubeSummariserComponent #2](./images/01-blazor-frontend-04.png)
+
+   > 이 에러는 아직 백엔드 API 앱을 연결하지 않았기 때문에 나오는 에러입니다.
 
 ---
 
