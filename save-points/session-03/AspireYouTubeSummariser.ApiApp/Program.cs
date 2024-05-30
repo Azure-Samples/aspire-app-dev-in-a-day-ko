@@ -21,6 +21,7 @@ builder.Services.AddScoped<OpenAIClient>(sp =>
 
     return client;
 });
+
 builder.Services.AddScoped<YouTubeSummariserService>();
 
 // Add services to the container.
@@ -94,18 +95,20 @@ class YouTubeSummariserService(IYouTubeVideo youtube, OpenAIClient openai, IConf
         Subtitle subtitle = await this._youtube.ExtractSubtitleAsync(req.YouTubeLinkUrl, req.VideoLanguageCode).ConfigureAwait(false);
         string caption = subtitle.Content.Select(p => p.Text).Aggregate((a, b) => $"{a}\n{b}");
 
-        ChatCompletionsOptions options = new()
+        ChatCompletionsOptions options = new ()
         {
             DeploymentName = this._config["OpenAI:DeploymentName"],
-            MaxTokens = int.Parse(this._config["Prompt:MaxTokens"]),
-            Temperature = float.Parse(this._config["Prompt:Temperature"]),
+            MaxTokens = int.TryParse(this._config["Prompt:MaxTokens"], out var maxTokens) ? maxTokens : 3000,
+            Temperature = float.TryParse(this._config["Prompt:Temperature"], out var temperature) ? temperature : 0.7f,
+            Messages = {
+                           new ChatRequestSystemMessage(this._config["Prompt:System"]),
+                           new ChatRequestSystemMessage($"Here's the transcript. Summarise it in 5 bullet point items in the given language code of \"{req.SummaryLanguageCode}\"."),
+                           new ChatRequestUserMessage(caption),
+                       }
         };
-        options.Messages.Add(new ChatRequestSystemMessage(this._config["Prompt:System"]));
-        options.Messages.Add(new ChatRequestSystemMessage($"Here's the transcript. Summarise it in 5 bullet point items in the given language code of \"{req.SummaryLanguageCode}\"."));
-        options.Messages.Add(new ChatRequestUserMessage(caption));
 
         var response = await this._openai.GetChatCompletionsAsync(options).ConfigureAwait(false);
-        string summary = response.Value.Choices[0].Message.Content;
+        var summary = response.Value.Choices[0].Message.Content;
 
         return summary;
     }
