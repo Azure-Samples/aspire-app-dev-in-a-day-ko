@@ -26,97 +26,145 @@
 
 ## 05-2: Azure CLI로 Azure Kubernetes Service로 배포 준비하기
 
+   <!-- 1. 아래 명령어를 차례로 실행시켜 배포 환경을 준비합니다.
+
+       ```bash
+       # bash/zsh
+       AZURE_ENV_NAME="aspire$((RANDOM%9000+1000))"
+       AZ_RESOURCE_GROUP=rg-$AZURE_ENV_NAME
+       AZ_NODE_RESOURCE_GROUP=rg-$AZURE_ENV_NAME-mc
+       AZ_LOCATION=australiaeast
+       ACR_NAME="acr${AZURE_ENV_NAME//-/}"
+       AKS_CLUSTER_NAME=aks-$AZURE_ENV_NAME
+
+       # PowerShell
+       $AZURE_ENV_NAME = "aspire$(Get-Random -Minimum 1000 -Maximum 9999)"
+       $AZ_RESOURCE_GROUP = "rg-$AZURE_ENV_NAME"
+       $AZ_NODE_RESOURCE_GROUP = "rg-$AZURE_ENV_NAME-mc"
+       $AZ_LOCATION = "australiaeast"
+       $ACR_NAME = "acr$AZURE_ENV_NAME".Replace("-", "")
+       $AKS_CLUSTER_NAME = "aks-$AZURE_ENV_NAME"
+       ```
+
+   2. 아래 명령어를 실행시켜 리소스 그룹을 생성합니다.
+
+       ```bash
+       az group create -n $AZ_RESOURCE_GROUP -l $AZ_LOCATION
+       ```
+
+   3. 아래 명령어를 실행시켜 [Azure Container Registry(ACR)](https://learn.microsoft.com/azure/container-registry/container-registry-intro?WT.mc_id=dotnet-121695-juyoo) 인스턴스를 생성합니다.
+
+       ```bash
+       # bash/zsh
+       az acr create \
+           -g $AZ_RESOURCE_GROUP \
+           -n $ACR_NAME \
+           -l $AZ_LOCATION \
+           --sku Basic \
+           --admin-enabled true
+
+       # PowerShell
+       az acr create `
+           -g $AZ_RESOURCE_GROUP `
+           -n $ACR_NAME `
+           -l $AZ_LOCATION `
+           --sku Basic `
+           --admin-enabled true
+       ```
+
+   4. 아래 명령어를 실행시켜 ACR 로그인 디테일을 저장합니다.
+
+       ```bash
+       # bash/zsh
+       ACR_LOGIN_SERVER=$(az acr show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "loginServer" -o tsv)
+       ACR_USERNAME=$(az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "username" -o tsv)
+       ACR_PASSWORD=$(az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "passwords[0].value" -o tsv)
+
+       # PowerShell
+       $ACR_LOGIN_SERVER = az acr show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "loginServer" -o tsv
+       $ACR_USERNAME = az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "username" -o tsv
+       $ACR_PASSWORD = az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "passwords[0].value" -o tsv
+       ```
+
+   5. 아래 명령어를 실행시켜 AKS 클러스터를 생성합니다.
+
+       ```bash
+       # bash/zsh
+       az aks create \
+           -g $AZ_RESOURCE_GROUP \
+           -n $AKS_CLUSTER_NAME \
+           -l $AZ_LOCATION \
+           --tier free \
+           --node-resource-group $AZ_NODE_RESOURCE_GROUP \
+           --node-vm-size Standard_B2s \
+           --network-plugin azure \
+           --generate-ssh-keys \
+           --attach-acr $ACR_NAME
+
+       # PowerShell
+       az aks create `
+           -g $AZ_RESOURCE_GROUP `
+           -n $AKS_CLUSTER_NAME `
+           -l $AZ_LOCATION `
+           --tier free `
+           --node-resource-group $AZ_NODE_RESOURCE_GROUP `
+           --node-vm-size Standard_B2s `
+           --network-plugin azure `
+           --generate-ssh-keys `
+           --attach-acr $ACR_NAME
+       ``` -->
+
+1. 터미널을 열고 아래 명령어를 차례로 실행시켜 리포지토리의 루트 디렉토리로 이동합니다.
+
+    ```bash
+    # GitHub Codespaces
+    REPOSITORY_ROOT=$CODESPACE_VSCODE_FOLDER
+    cd $REPOSITORY_ROOT
+
+    # bash/zsh
+    REPOSITORY_ROOT=$(git rev-parse --show-toplevel)
+    cd $REPOSITORY_ROOT
+
+    # PowerShell
+    $REPOSITORY_ROOT = git rev-parse --show-toplevel
+    cd $REPOSITORY_ROOT
+    ```
+
 1. 아래 명령어를 차례로 실행시켜 배포 환경을 준비합니다.
 
     ```bash
     # bash/zsh
     AZURE_ENV_NAME="aspire$((RANDOM%9000+1000))"
-    AZ_RESOURCE_GROUP=rg-$AZURE_ENV_NAME
-    AZ_NODE_RESOURCE_GROUP=rg-$AZURE_ENV_NAME-mc
     AZ_LOCATION=australiaeast
-    ACR_NAME="acr${AZURE_ENV_NAME//-/}"
-    AKS_CLUSTER_NAME=aks-$AZURE_ENV_NAME
 
     # PowerShell
     $AZURE_ENV_NAME = "aspire$(Get-Random -Minimum 1000 -Maximum 9999)"
-    $AZ_RESOURCE_GROUP = "rg-$AZURE_ENV_NAME"
-    $AZ_NODE_RESOURCE_GROUP = "rg-$AZURE_ENV_NAME-mc"
     $AZ_LOCATION = "australiaeast"
-    $ACR_NAME = "acr$AZURE_ENV_NAME".Replace("-", "")
-    $AKS_CLUSTER_NAME = "aks-$AZURE_ENV_NAME"
     ```
 
-1. 아래 명령어를 실행시켜 리소스 그룹을 생성합니다.
-
-    ```bash
-    az group create -n $AZ_RESOURCE_GROUP -l $AZ_LOCATION
-    ```
-
-1. 아래 명령어를 실행시켜 [Azure Container Registry(ACR)](https://learn.microsoft.com/azure/container-registry/container-registry-intro?WT.mc_id=dotnet-121695-juyoo) 인스턴스를 생성합니다.
+1. 아래 명령어를 실행시켜 [Azure Container Registry(ACR)](https://learn.microsoft.com/azure/container-registry/container-registry-intro?WT.mc_id=dotnet-121695-juyoo) 및 [Azure Kubernetes Service(AKS)](https://learn.microsoft.com/ko-kr/azure/aks/intro-kubernetes?WT.mc_id=dotnet-121695-juyoo) 클러스터를 생성합니다.
 
     ```bash
     # bash/zsh
-    az acr create \
-        -g $AZ_RESOURCE_GROUP \
-        -n $ACR_NAME \
-        -l $AZ_LOCATION \
-        --sku Basic \
-        --admin-enabled true
+    PROVISIONED=$($REPOSITORY_ROOT/scripts/provision-aks.sh -e $AZURE_ENV_NAME -l $AZ_LOCATION)
 
     # PowerShell
-    az acr create `
-        -g $AZ_RESOURCE_GROUP `
-        -n $ACR_NAME `
-        -l $AZ_LOCATION `
-        --sku Basic `
-        --admin-enabled true
-    ```
-
-1. 아래 명령어를 실행시켜 ACR 로그인 디테일을 저장합니다.
-
-    ```bash
-    # bash/zsh
-    ACR_LOGIN_SERVER=$(az acr show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "loginServer" -o tsv)
-    ACR_USERNAME=$(az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "username" -o tsv)
-    ACR_PASSWORD=$(az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "passwords[0].value" -o tsv)
-
-    # PowerShell
-    $ACR_LOGIN_SERVER = az acr show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "loginServer" -o tsv
-    $ACR_USERNAME = az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "username" -o tsv
-    $ACR_PASSWORD = az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "passwords[0].value" -o tsv
-    ```
-
-1. 아래 명령어를 실행시켜 AKS 클러스터를 생성합니다.
-
-    ```bash
-    # bash/zsh
-    az aks create \
-        -g $AZ_RESOURCE_GROUP \
-        -n $AKS_CLUSTER_NAME \
-        -l $AZ_LOCATION \
-        --tier free \
-        --node-resource-group $AZ_NODE_RESOURCE_GROUP \
-        --node-vm-size Standard_B2s \
-        --network-plugin azure \
-        --generate-ssh-keys \
-        --attach-acr $ACR_NAME
-
-    # PowerShell
-    az aks create `
-        -g $AZ_RESOURCE_GROUP `
-        -n $AKS_CLUSTER_NAME `
-        -l $AZ_LOCATION `
-        --tier free `
-        --node-resource-group $AZ_NODE_RESOURCE_GROUP `
-        --node-vm-size Standard_B2s `
-        --network-plugin azure `
-        --generate-ssh-keys `
-        --attach-acr $ACR_NAME
+    $PROVISIONED = $REPOSITORY_ROOT/scripts/Provision-AKS.ps1 -AzureEnvName $AZURE_ENV_NAME -Location $AZ_LOCATION
     ```
 
 1. 아래 명령어를 통해 AKS 클러스터에 연결합니다.
 
     ```bash
+    # bash/zsh
+    AZ_RESOURCE_GROUP=$(echo $PROVISIONED | jq -r '.resourceGroup')
+    AKS_CLUSTER_NAME=$(echo $PROVISIONED | jq -r '.aksClusterName')
+    az aks get-credentials \
+        -g $AZ_RESOURCE_GROUP \
+        -n $AKS_CLUSTER_NAME
+
+    # bash/zsh
+    $AZ_RESOURCE_GROUP = $($PROVISIONED | ConvertFrom-Json).resourceGroup
+    $AKS_CLUSTER_NAME = $($PROVISIONED | ConvertFrom-Json).aksClusterName
     az aks get-credentials \
         -g $AZ_RESOURCE_GROUP \
         -n $AKS_CLUSTER_NAME
@@ -124,9 +172,17 @@
 
 1. 아래 명령어를 통해 ACR에 연결합니다.
 
-   > **NOTE**: 여기서는 username과 password 값을 입력했지만, 실제로는 인풋 프롬프트를 통해 입력해야 합니다.
-
     ```bash
+    # bash/zsh
+    ACR_LOGIN_SERVER=$(echo $PROVISIONED | jq -r '.acrLoginServer')
+    ACR_USERNAME=$(echo $PROVISIONED | jq -r '.acrUsername')
+    ACR_PASSWORD=$(echo $PROVISIONED | jq -r '.acrPassword')
+    docker login $ACR_LOGIN_SERVER -u $ACR_USERNAME -p $ACR_PASSWORD
+
+    # PowerShell
+    $ACR_LOGIN_SERVER = $($PROVISIONED | ConvertFrom-Json).acrLoginServer
+    $ACR_USERNAME = $($PROVISIONED | ConvertFrom-Json).acrUsername
+    $ACR_PASSWORD = $($PROVISIONED | ConvertFrom-Json).acrPassword
     docker login $ACR_LOGIN_SERVER -u $ACR_USERNAME -p $ACR_PASSWORD
     ```
 
@@ -166,16 +222,16 @@
 
 1. 아래 명령어를 통해 Aspirate를 설치합니다.
 
-```bash
-dotnet tool install -g aspirate --prerelease
-```
+    ```bash
+    dotnet tool install -g aspirate
+    ```
 
 ## 05-5: Aspirate로 배포하기
 
 1. 아래 디렉토리로 이동합니다.
 
     ```bash
-    cd $CODESPACE_VSCODE_FOLDER/workshop/AspireYouTubeSummariser.AppHost
+    cd $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.AppHost
     ```
 
 1. Aspirate 프로젝트를 초기화 합니다.
@@ -203,19 +259,7 @@ dotnet tool install -g aspirate --prerelease
 1. 아래 명령어를 통해 AKS 클러스터에 로드밸런서를 추가합니다.
 
     ```bash
-    kubectl apply -f - <<EOF
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: webapp-lb
-    spec:
-      ports:
-      - port: 80
-        targetPort: 8080
-      selector:
-        app: webapp
-      type: LoadBalancer
-    EOF
+    kubectl apply -f $REPOSITORY_ROOT/scripts/loadbalancer.yaml
     ```
 
 1. 아래 명령어를 통해 `webapp-lb` 서비스가 `LoadBalancer` 타입인지 확인합니다. 그리고 외부 IP주소를 확인합니다.
@@ -287,8 +331,9 @@ dotnet tool install -g aspirate --prerelease
     aspirate destroy -k $AKS_CLUSTER_NAME --non-interactive
 
     # 컨테이너 이미지 삭제
-    az acr repository delete -n $ACR_NAME --repository webapp -y
+    az acr repository delete -n $ACR_NAME --repository cache -y
     az acr repository delete -n $ACR_NAME --repository apiapp -y
+    az acr repository delete -n $ACR_NAME --repository webapp -y
 
     # Aspirate로 다시 배포
     aspirate build --non-interactive
@@ -299,35 +344,35 @@ dotnet tool install -g aspirate --prerelease
    > 
    > ```bash
    > # 로드 밸런서 삭제
-   > kubectl delete -f - <<EOF
-   > apiVersion: v1
-   > kind: Service
-   > metadata:
-   >   name: webapp-lb
-   > spec:
-   >   ports:
-   >   - port: 80
-   >     targetPort: 8080
-   >   selector:
-   >     app: webapp
-   >   type: LoadBalancer
-   > EOF
+   > kubectl delete -f $REPOSITORY_ROOT/scripts/loadbalancer.yaml
    > 
    > # 로드 밸런서 재추가
-   > kubectl apply -f - <<EOF
-   > apiVersion: v1
-   > kind: Service
-   > metadata:
-   >   name: webapp-lb
-   > spec:
-   >   ports:
-   >   - port: 80
-   >     targetPort: 8080
-   >   selector:
-   >     app: webapp
-   >   type: LoadBalancer
-   > EOF
+   > kubectl apply -f $REPOSITORY_ROOT/scripts/loadbalancer.yaml
    > ```
+
+1. 아래 명령어를 통해 `webapp-lb` 서비스가 `LoadBalancer` 타입인지 확인합니다. 그리고 외부 IP주소를 확인합니다.
+
+    ```bash
+    kubectl get services
+    ```
+
+1. 방금 확인한 외부 IP 주소를 웹 브라우저로 접속해서 애플리케이션이 잘 작동하는지 확인합니다.
+
+    ```text
+    http://<EXTERNAL_IP_ADDRESS>
+    ```
+
+## 05-8: 배포된 앱 삭제하기
+
+1. 아래 명령어를 통해 배포한 앱을 삭제합니다.
+
+    ```bash
+    # bash/zsh
+    $REPOSITORY_ROOT/scripts/destroy-aks.sh -e $AZURE_ENV_NAME
+
+    # PowerShell
+    $REPOSITORY_ROOT/scripts/Destroy-AKS.ps1 -AzureEnvName $AZURE_ENV_NAME
+    ```
 
 ---
 
@@ -335,9 +380,7 @@ dotnet tool install -g aspirate --prerelease
 
 ## 끝내기
 
-지금까지 [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 환경에서 [Blazor 프론트엔드 웹 앱](https://learn.microsoft.com/ko-kr/aspnet/core/blazor?WT.mc_id=dotnet-121695-juyoo)과 [ASP.NET Core 백엔드 API 앱](https://learn.microsoft.com/ko-kr/aspnet/core/fundamentals/apis?WT.mc_id=dotnet-121695-juyoo)을 개발해 봤습니다. 이후 [.NET Aspire](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-121695-juyoo)를 활용해 Cloud-Native 앱으로 변환시켰고, [Azure Developer CLI](https://learn.microsoft.com/ko-kr/azure/developer/azure-developer-cli/overview?WT.mc_id=dotnet-121695-juyoo)를 이용해 [Azure Container Apps](https://learn.microsoft.com/ko-kr/azure/container-apps/overview?WT.mc_id=dotnet-121695-juyoo)로 배포해 보았습니다. 또한 [Azure CLI](https://learn.microsoft.com/ko-kr/cli/azure/what-is-azure-cli?WT.mc_id=dotnet-121695-juyoo)와 [Aspirate](https://github.com/prom3theu5/aspirational-manifests)를 이용해 [Azure Kubernetes Service(AKS)](https://learn.microsoft.com/ko-kr/azure/aks/intro-kubernetes?WT.mc_id=dotnet-121695-juyoo)로 배포해 보았습니다.
-
-<!-- 지금까지 [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 환경에서 [GitHub Copilot](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business) 기능을 활용해서 빠르게 [Blazor 프론트엔드 웹 앱](https://learn.microsoft.com/ko-kr/aspnet/core/blazor?WT.mc_id=dotnet-121695-juyoo)과 [ASP.NET Core 백엔드 API 앱](https://learn.microsoft.com/ko-kr/aspnet/core/fundamentals/apis?WT.mc_id=dotnet-121695-juyoo)을 개발해 봤습니다. 이후 [.NET Aspire](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-121695-juyoo)를 활용해 Cloud-Native 앱으로 변환시켰고, [Azure Developer CLI](https://learn.microsoft.com/ko-kr/azure/developer/azure-developer-cli/overview?WT.mc_id=dotnet-121695-juyoo)를 이용해 [Azure Container Apps](https://learn.microsoft.com/ko-kr/azure/container-apps/overview?WT.mc_id=dotnet-121695-juyoo)로 배포해 보았습니다. -->
+지금까지 [GitHub Copilot](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business) 기능을 활용해서 빠르게 [Blazor 프론트엔드 웹 앱](https://learn.microsoft.com/ko-kr/aspnet/core/blazor?WT.mc_id=dotnet-121695-juyoo)과 [ASP.NET Core 백엔드 API 앱](https://learn.microsoft.com/ko-kr/aspnet/core/fundamentals/apis?WT.mc_id=dotnet-121695-juyoo)을 개발해 봤습니다. 이후 [.NET Aspire](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-121695-juyoo)를 활용해 Cloud-Native 앱으로 변환시켰고, [Azure Developer CLI](https://learn.microsoft.com/ko-kr/azure/developer/azure-developer-cli/overview?WT.mc_id=dotnet-121695-juyoo)를 이용해 [Azure Container Apps](https://learn.microsoft.com/ko-kr/azure/container-apps/overview?WT.mc_id=dotnet-121695-juyoo)로 배포해 보았습니다. 마지막으로 [Aspirate](https://github.com/prom3theu5/aspirational-manifests)를 이용해 [Azure Kubernetes Service](https://learn.microsoft.com/ko-kr/azure/aks/intro-kubernetes?WT.mc_id=dotnet-121695-juyoo) 클러스터로 배포해 보았습니다.
 
 이 모든 것들에 대해 좀 더 공부해 보고 싶다면 아래 리소스를 참고하세요.
 
@@ -345,6 +388,10 @@ dotnet tool install -g aspirate --prerelease
 - [Build your first Blazor app](https://dotnet.microsoft.com/ko-kr/apps/aspnet/web-apps/blazor?WT.mc_id=dotnet-121695-juyoo)
 - [What is Aspire?](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-121695-juyoo)
 - [Build your first Aspire app](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/quickstart-build-your-first-aspire-app?tabs=dotnet-cli&WT.mc_id=dotnet-121695-juyoo)
-<!-- - [What is GitHub Copilot?](https://docs.github.com/ko/copilot) -->
+- [What is GitHub Copilot?](https://docs.github.com/ko/copilot)
 - [Building an intelligent app with Blazor and Azure OpenAI](https://www.youtube.com/watch?v=TH12YSLLe9E&t=8464s)
 - [Your stack for building Cloud Native apps](https://www.youtube.com/live/5IjKH-gy2Y0?si=dSMvC7arUeRpqBmz)
+
+---
+
+(**추가 세션**) 이제 [세션 06: Blazor JavaScript Interoperability 적용](./06-blazor-js-interop.md)으로 넘어가세요.
