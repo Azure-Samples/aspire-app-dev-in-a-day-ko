@@ -2,20 +2,20 @@
 
 이 세션에서는 [.NET Aspire](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-121695-juyoo)로 개발한 애플리케이션을 [Aspirate](https://github.com/prom3theu5/aspirational-manifests)를 이용해 [Azure Kubernetes Service(AKS)](https://learn.microsoft.com/ko-kr/azure/aks/intro-kubernetes?WT.mc_id=dotnet-121695-juyoo)로 배포해 보겠습니다.
 
-> [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 환경에서 작업하는 것을 기준으로 진행합니다. 로컬 개발 환경의 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo)를 사용할 경우 대부분 비슷하지만 살짝 다를 수 있습니다.
+> [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 또는 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo) 환경에서 작업하는 것을 기준으로 합니다.
 
 ![Architecture](./images/04-architecture.png)
 
 ## 05-1: Azure CLI 로그인하기
 
-1. GitHub Codespaces 인스턴스 안에서 아래 명령어를 실행시켜 Azure에 로그인합니다.
+1. 아래 명령어를 실행시켜 Azure에 로그인합니다.
 
     ```bash
     # Azure CLI login
     az login
     ```
 
-   > **중요**: 만약 `az login` 명령어 실행시 새 브라우저 탭이 뜨면서 404 에러가 날 경우, 주소창의 URL 값을 복사해서 새 zsh 터미널을 열고 `curl <복사한 URL>`을 해 줍니다.
+   > **중요**: GitHub Codespaces를 사용하면서 만약 `az login` 명령어 실행시 새 브라우저 탭이 뜨면서 404 에러가 날 경우, 주소창의 URL 값을 복사해서 새 zsh 터미널을 열고 `curl <복사한 URL>`을 해 줍니다.
 
 1. 로그인이 끝났다면 아래 명령어를 통해 제대로 로그인이 되어 있는지 확인합니다.
 
@@ -29,12 +29,21 @@
 1. 아래 명령어를 차례로 실행시켜 배포 환경을 준비합니다.
 
     ```bash
-    AZURE_ENV_NAME="aspir8$RANDOM"
+    # bash/zsh
+    AZURE_ENV_NAME="aspire$((RANDOM%9000+1000))"
     AZ_RESOURCE_GROUP=rg-$AZURE_ENV_NAME
     AZ_NODE_RESOURCE_GROUP=rg-$AZURE_ENV_NAME-mc
-    AZ_LOCATION=koreacentral
-    ACR_NAME=acr$AZURE_ENV_NAME
+    AZ_LOCATION=australiaeast
+    ACR_NAME="acr${AZURE_ENV_NAME//-/}"
     AKS_CLUSTER_NAME=aks-$AZURE_ENV_NAME
+
+    # PowerShell
+    $AZURE_ENV_NAME = "aspire$(Get-Random -Minimum 1000 -Maximum 9999)"
+    $AZ_RESOURCE_GROUP = "rg-$AZURE_ENV_NAME"
+    $AZ_NODE_RESOURCE_GROUP = "rg-$AZURE_ENV_NAME-mc"
+    $AZ_LOCATION = "australiaeast"
+    $ACR_NAME = "acr$AZURE_ENV_NAME".Replace("-", "")
+    $AKS_CLUSTER_NAME = "aks-$AZURE_ENV_NAME"
     ```
 
 1. 아래 명령어를 실행시켜 리소스 그룹을 생성합니다.
@@ -46,42 +55,62 @@
 1. 아래 명령어를 실행시켜 [Azure Container Registry(ACR)](https://learn.microsoft.com/azure/container-registry/container-registry-intro?WT.mc_id=dotnet-121695-juyoo) 인스턴스를 생성합니다.
 
     ```bash
+    # bash/zsh
     az acr create \
         -g $AZ_RESOURCE_GROUP \
         -n $ACR_NAME \
         -l $AZ_LOCATION \
         --sku Basic \
         --admin-enabled true
+
+    # PowerShell
+    az acr create `
+        -g $AZ_RESOURCE_GROUP `
+        -n $ACR_NAME `
+        -l $AZ_LOCATION `
+        --sku Basic `
+        --admin-enabled true
     ```
 
 1. 아래 명령어를 실행시켜 ACR 로그인 디테일을 저장합니다.
 
     ```bash
-    ACR_LOGIN_SERVER=$(az acr show \
-        -g $AZ_RESOURCE_GROUP \
-        -n $ACR_NAME \
-        --query "loginServer" -o tsv)
-    ACR_USERNAME=$(az acr credential show \
-        -g $AZ_RESOURCE_GROUP \
-        -n $ACR_NAME \
-        --query "username" -o tsv)
-    ACR_PASSWORD=$(az acr credential show \
-        -g $AZ_RESOURCE_GROUP \
-        -n $ACR_NAME \
-        --query "passwords[0].value" -o tsv)
+    # bash/zsh
+    ACR_LOGIN_SERVER=$(az acr show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "loginServer" -o tsv)
+    ACR_USERNAME=$(az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "username" -o tsv)
+    ACR_PASSWORD=$(az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "passwords[0].value" -o tsv)
+
+    # PowerShell
+    $ACR_LOGIN_SERVER = az acr show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "loginServer" -o tsv
+    $ACR_USERNAME = az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "username" -o tsv
+    $ACR_PASSWORD = az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "passwords[0].value" -o tsv
     ```
 
 1. 아래 명령어를 실행시켜 AKS 클러스터를 생성합니다.
 
     ```bash
+    # bash/zsh
     az aks create \
         -g $AZ_RESOURCE_GROUP \
         -n $AKS_CLUSTER_NAME \
         -l $AZ_LOCATION \
+        --tier free \
         --node-resource-group $AZ_NODE_RESOURCE_GROUP \
         --node-vm-size Standard_B2s \
         --network-plugin azure \
         --generate-ssh-keys \
+        --attach-acr $ACR_NAME
+
+    # PowerShell
+    az aks create `
+        -g $AZ_RESOURCE_GROUP `
+        -n $AKS_CLUSTER_NAME `
+        -l $AZ_LOCATION `
+        --tier free `
+        --node-resource-group $AZ_NODE_RESOURCE_GROUP `
+        --node-vm-size Standard_B2s `
+        --network-plugin azure `
+        --generate-ssh-keys `
         --attach-acr $ACR_NAME
     ```
 
@@ -103,14 +132,35 @@
 
 ## 05-3: Aspire 프로젝트 준비하기
 
-1. 아래 명령어를 차례로 실행시켜 Aspire 프로젝트를 복원합니다.
+1. 터미널을 열고 아래 명령어를 차례로 실행시켜 리포지토리의 루트 디렉토리로 이동합니다.
 
     ```bash
-    cd $CODESPACE_VSCODE_FOLDER
-    mkdir -p workshop && cp -a save-points/session-04/. workshop/
-    cd workshop
-    dotnet restore && dotnet build
+    # GitHub Codespaces
+    REPOSITORY_ROOT=$CODESPACE_VSCODE_FOLDER
+    cd $REPOSITORY_ROOT
+
+    # bash/zsh
+    REPOSITORY_ROOT=$(git rev-parse --show-toplevel)
+    cd $REPOSITORY_ROOT
+
+    # PowerShell
+    $REPOSITORY_ROOT = git rev-parse --show-toplevel
+    cd $REPOSITORY_ROOT
     ```
+
+> 세이브 포인트에서 가져온 프로젝트를 사용하려면 아래 명령어를 차례로 실행시켜 프로젝트를 복원합니다.
+> 
+> ```bash
+> # bash/zsh
+> mkdir -p workshop && cp -a save-points/session-04/. workshop/
+> cd workshop
+> dotnet restore && dotnet build
+> 
+> # PowerShell
+> New-Item -Type Directory -Path workshop -Force && Copy-Item -Path ./save-points/session-04/* -Destination ./workshop -Recurse -Force
+> cd workshop
+> dotnet restore && dotnet build
+> ```
 
 ## 05-4: Aspirate 설치하기
 
