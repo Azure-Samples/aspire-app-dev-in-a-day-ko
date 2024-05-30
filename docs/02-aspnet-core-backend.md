@@ -46,7 +46,7 @@
     dotnet watch run --project AspireYouTubeSummariser.ApiApp
     ```
 
-1. 브라우저에서 404 에러가 나는 것을 확인합니다.
+1. GitHub Codespaces를 사용할 경우, 브라우저에서 404 에러가 나는 것을 확인합니다.
 
     ![Backend API - 404 error](./images/02-aspnet-core-backend-01.png)
 
@@ -69,7 +69,7 @@
     }
     ```
 
-1. 파일을 수정한 후 앞서 404 에러가 난 페이지를 새로고침해서 Swagger UI 화면이 나오는 것을 확인합니다.
+1. 파일을 수정한 후 GitHub Codespaces 사용시 앞서 404 에러가 난 페이지를 새로고침해서 Swagger UI 화면이 나오는 것을 확인합니다. 또는 `http://localhost:5050` 주소로 접속해서 Swagger UI 화면이 나오는 것을 확인합니다. 여기서 `5050`은 임의의 포트번호입니다.
 
     ![Backend API - Swagger UI](./images/02-aspnet-core-backend-02.png)
 
@@ -242,7 +242,7 @@
     {
         ...
 
-        var options = new ChatCompletionsOptions
+        ChatCompletionsOptions options = new ()
         {
             DeploymentName = this._config["OpenAI:DeploymentName"],
             MaxTokens = int.TryParse(this._config["Prompt:MaxTokens"], out var maxTokens) ? maxTokens : 3000,
@@ -250,7 +250,7 @@
             Messages = {
                            new ChatRequestSystemMessage(this._config["Prompt:System"]),
                            new ChatRequestSystemMessage($"Here's the transcript. Summarise it in 5 bullet point items in the given language code of \"{req.SummaryLanguageCode}\"."),
-                           new ChatRequestUserMessage(caption)
+                           new ChatRequestUserMessage(caption),
                        }
         };
     }
@@ -266,7 +266,7 @@
         ...
 
         var response = await this._openai.GetChatCompletionsAsync(options).ConfigureAwait(false);
-        string summary = response.Value.Choices[0].Message.Content;
+        var summary = response.Value.Choices[0].Message.Content;
 
         return summary;
     }
@@ -307,9 +307,11 @@
 
    > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
 
-1. 그러면 아래와 같이 요약 결과가 나오는 것을 확인할 수 있습니다.
+1. 그러면 아래와 같이 요약 결과가 나오는 것을 확인합니다.
 
     ![Backend API #2](./images/02-aspnet-core-backend-04.png)
+
+1. 디버깅 모드를 중지합니다.
 
 ## 02-6: Blazor 프론트엔드 앱과 ASP.NET Core 백엔드 API 앱 통합하기
 

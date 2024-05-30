@@ -104,7 +104,7 @@ class YouTubeSummariserService(IYouTubeVideo youtube, OpenAIClient openai, IConf
         };
 
         var response = await this._openai.GetChatCompletionsAsync(options).ConfigureAwait(false);
-        string summary = response.Value.Choices[0].Message.Content;
+        var summary = response.Value.Choices[0].Message.Content;
 
         return summary;
     }

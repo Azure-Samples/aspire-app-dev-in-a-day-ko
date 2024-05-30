@@ -31,7 +31,7 @@
 
     ```bash
     dotnet new sln -n AspireYouTubeSummariser
-    dotnet new blazor -n AspireYouTubeSummariser.WebApp -int server -ai true
+    dotnet new blazor -n AspireYouTubeSummariser.WebApp
     dotnet sln add AspireYouTubeSummariser.WebApp
     ```
 
@@ -325,7 +325,7 @@
 1. 페이지의 맨 아래에 아래와 같이 `YouTubeSummariserComponent`를 추가합니다.
 
     ```razor
-    <YouTubeSummariserComponent />
+    <YouTubeSummariserComponent @rendermode="InteractiveServer" />
     ```
 
 1. 네임스페이스 참조를 할 수 없다는 오류가 발생합니다. 오류가 발생한 곳에 커서를 두고 `CTRL`+`.` 키 또는 `CMD`+`.` 키를 눌러 네임스페이스를 추가합니다.
@@ -342,11 +342,11 @@
 
    > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
 
-1. 아래와 같이 에러 메시지가 나오는 것을 확인합니다.
+1. 아래와 같이 에러 메시지가 나오는 것을 확인합니다. "Connection refused" 등의 에러 메시지가 나올 수 있습니다.
 
     ![YouTubeSummariserComponent #2](./images/01-blazor-frontend-04.png)
 
-   > 이 에러는 아직 백엔드 API 앱을 연결하지 않았기 때문에 나오는 에러입니다.
+   > 이 에러는 아직 백엔드 API 앱을 연결하지 않았기 때문에 나오는 에러입니다. 백엔드 API 앱을 개발하고 연결하면 이 에러는 사라집니다.
 
 1. 아래와 같이 사각형 모양을 클릭하여 디버깅 모드를 중지합니다.
 
