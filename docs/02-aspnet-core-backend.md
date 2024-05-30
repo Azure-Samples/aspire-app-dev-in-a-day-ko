@@ -8,25 +8,31 @@
 
 ## 02-1: Web API 프로젝트 생성하기
 
+1. 터미널을 열고 아래 명령어를 차례로 실행시켜 리포지토리의 루트 디렉토리로 이동합니다.
+
+    ```bash
+    # GitHub Codespaces
+    REPOSITORY_ROOT=$CODESPACE_VSCODE_FOLDER
+    cd $REPOSITORY_ROOT
+
+    # bash/zsh
+    REPOSITORY_ROOT=$(git rev-parse --show-toplevel)
+    cd $REPOSITORY_ROOT
+
+    # PowerShell
+    $REPOSITORY_ROOT = git rev-parse --show-toplevel
+    cd $REPOSITORY_ROOT
+    ```
+
 > 세이브 포인트에서 가져온 프로젝트를 사용하려면 아래 명령어를 차례로 실행시켜 프로젝트를 복원합니다.
 > 
 > ```bash
-> # GitHub Codespaces
-> REPOSITORY_ROOT=$CODESPACE_VSCODE_FOLDER
-> cd $REPOSITORY_ROOT
-> mkdir -p workshop
-> cd workshop
->
 > # bash/zsh
-> REPOSITORY_ROOT=$(git rev-parse --show-toplevel)
-> cd $REPOSITORY_ROOT
 > mkdir -p workshop && cp -a save-points/session-01/. workshop/
 > cd workshop
 > dotnet restore && dotnet build
 > 
 > # PowerShell
-> $REPOSITORY_ROOT = git rev-parse --show-toplevel
-> cd $REPOSITORY_ROOT
 > New-Item -Type Directory -Path workshop -Force && Copy-Item -Path ./save-points/session-01/* -Destination ./workshop -Recurse -Force
 > cd workshop
 > dotnet restore && dotnet build
@@ -35,6 +41,7 @@
 1. 아래 명령어를 차례로 실행시켜 ASP.NET Core Web API 앱 프로젝트를 생성합니다.
 
     ```bash
+    cd $REPOSITORY_ROOT/workshop
     dotnet new webapi -n AspireYouTubeSummariser.ApiApp
     dotnet sln add AspireYouTubeSummariser.ApiApp
     ```

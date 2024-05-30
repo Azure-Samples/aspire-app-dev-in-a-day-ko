@@ -14,17 +14,17 @@
     # GitHub Codespaces
     REPOSITORY_ROOT=$CODESPACE_VSCODE_FOLDER
     mkdir -p $REPOSITORY_ROOT/workshop
-    cd workshop
+    cd $REPOSITORY_ROOT/workshop
 
     # bash/zsh
     REPOSITORY_ROOT=$(git rev-parse --show-toplevel)
     mkdir -p $REPOSITORY_ROOT/workshop
-    cd workshop
+    cd $REPOSITORY_ROOT/workshop
 
     # PowerShell
     $REPOSITORY_ROOT = git rev-parse --show-toplevel
     New-Item -Type Directory -Path $REPOSITORY_ROOT/workshop -Force
-    cd workshop
+    cd $REPOSITORY_ROOT/workshop
     ```
 
 1. 아래 명령어를 차례로 실행시켜 Blazor 웹 앱 프로젝트를 생성합니다.
