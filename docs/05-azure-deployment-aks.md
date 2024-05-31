@@ -149,7 +149,7 @@
     PROVISIONED=$($REPOSITORY_ROOT/scripts/provision-aks.sh -e $AZURE_ENV_NAME -l $AZ_LOCATION)
 
     # PowerShell
-    $PROVISIONED = $REPOSITORY_ROOT/scripts/Provision-AKS.ps1 -AzureEnvName $AZURE_ENV_NAME -Location $AZ_LOCATION
+    $PROVISIONED = & "$REPOSITORY_ROOT/scripts/Provision-AKS.ps1" -AzureEnvName $AZURE_ENV_NAME -Location $AZ_LOCATION
     ```
 
 1. 아래 명령어를 통해 AKS 클러스터에 연결합니다.
@@ -162,11 +162,11 @@
         -g $AZ_RESOURCE_GROUP \
         -n $AKS_CLUSTER_NAME
 
-    # bash/zsh
+    # PowerShell
     $AZ_RESOURCE_GROUP = $($PROVISIONED | ConvertFrom-Json).resourceGroup
     $AKS_CLUSTER_NAME = $($PROVISIONED | ConvertFrom-Json).aksClusterName
-    az aks get-credentials \
-        -g $AZ_RESOURCE_GROUP \
+    az aks get-credentials `
+        -g $AZ_RESOURCE_GROUP `
         -n $AKS_CLUSTER_NAME
     ```
 
@@ -228,6 +228,12 @@
 
 ## 05-5: Aspirate로 배포하기
 
+1. 아래 명령어를 통해 값을 터미널에 출력합니다.
+
+    ```bash
+    echo $ACR_LOGIN_SERVER
+    ```
+
 1. 아래 디렉토리로 이동합니다.
 
     ```bash
@@ -237,32 +243,41 @@
 1. Aspirate 프로젝트를 초기화 합니다.
 
     ```bash
-    aspirate init -cr $ACR_LOGIN_SERVER -ct latest --non-interactive
+    aspirate init -cr $ACR_LOGIN_SERVER -ct latest --container-builder docker --non-interactive
     ```
 
-   > **NOTE**: 만약 `enter or skip the repository prefix` 라는 질문이 나오면 `n`을 입력해서 건너뜁니다.
+1. 아래 프롬프트에 따라 답변합니다.
+
+   - `Would you like to set a fall-back value for the container builder?` : `y` 👉 `docker`
+   - `Would you like to set a fall-back value for the container registry?`: `y` 👉 echo $ACR_LOGIN_SERVER 로 화면에 출력한 값. 예) `acr[문자열].azurecr.io`
+   - `Would you like to set this value?`: `n`
+   - `Would you like to use a custom directory (selecting 'n' will default to built in templates)?`: `n`
+
+1. `AspireYouTubeSummariser.AppHost` 프로젝트 디렉토리 아래 `aspirate.json` 파일이 생성된 것을 확인합니다.
 
 1. 아래 명령어를 통해 Aspire 앱을 빌드하고 ACR로 배포합니다.
 
     ```bash
-    aspirate generate --image-pull-policy Always --disable-secrets --non-interactive
+    aspirate generate --image-pull-policy Always --disable-secrets --include-dashboard false --non-interactive
     ```
 
    > **NOTE**: 실습의 편의를 위해 `--disable-secrets` 옵션을 사용합니다. 실제로는 패스워드를 사용해야 합니다.
 
+1. `AspireYouTubeSummariser.AppHost` 프로젝트 디렉토리 아래 `aspirate-output` 디렉토리가 생성된 것을 확인합니다.
+
 1. 아래 명령어를 통해 AKS 클러스터로 앱을 배포합니다.
 
     ```bash
-    aspirate apply -k $AKS_CLUSTER_NAME --non-interactive
+    aspirate apply -k $AKS_CLUSTER_NAME --rolling-restart true --non-interactive
     ```
 
 1. 아래 명령어를 통해 AKS 클러스터에 로드밸런서를 추가합니다.
 
     ```bash
-    kubectl apply -f $REPOSITORY_ROOT/scripts/loadbalancer.yaml
+    kubectl apply -f "$REPOSITORY_ROOT/scripts/loadbalancer.yaml"
     ```
 
-1. 아래 명령어를 통해 `webapp-lb` 서비스가 `LoadBalancer` 타입인지 확인합니다. 그리고 외부 IP주소를 확인합니다.
+1. 아래 명령어를 통해 `webapp-lb` 서비스가 `LoadBalancer` 타입인지 확인합니다. 그리고 외부 IP주소를 확인합니다. 외부 IP 주소는 `EXTERNAL-IP` 열에 나옵니다.
 
     ```bash
     kubectl get services
@@ -271,7 +286,7 @@
 1. 방금 확인한 외부 IP 주소를 웹 브라우저로 접속해서 애플리케이션이 잘 작동하는지 확인합니다.
 
     ```text
-    http://<EXTERNAL_IP_ADDRESS>
+    http://<EXTERNAL-IP>
     ```
 
 ## 05-6: 배포된 앱 테스트하기
@@ -307,16 +322,18 @@
     aspirate build --non-interactive
 
     # AKS 클러스터 배포
-    aspirate apply -k $AKS_CLUSTER_NAME --non-interactive
+    aspirate apply -k $AKS_CLUSTER_NAME --rolling-restart true --non-interactive
     ```
 
-1. 배포가 끝난 후 다시 외부 IP 주소를 웹 브라우저로 접속해서 YouTube 링크를 입력하고 `Summarise` 버튼을 클릭합니다.
+1. 배포가 끝난 후 다시 외부 IP 주소를 웹 브라우저로 접속한 후 `Reset!` 버튼으로 바뀌었는지 확인합니다.
 
     ```text
-    http://<EXTERNAL_IP_ADDRESS>
+    http://<EXTERNAL-IP>
     ```
 
     ![Home page #2](./images/05-azure-deployment-07.png)
+
+1. YouTube 링크를 입력하고 `Summarise` 버튼을 클릭합니다.
 
    > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
 
@@ -331,23 +348,22 @@
     aspirate destroy -k $AKS_CLUSTER_NAME --non-interactive
 
     # 컨테이너 이미지 삭제
-    az acr repository delete -n $ACR_NAME --repository cache -y
     az acr repository delete -n $ACR_NAME --repository apiapp -y
     az acr repository delete -n $ACR_NAME --repository webapp -y
 
     # Aspirate로 다시 배포
     aspirate build --non-interactive
-    aspirate apply -k $AKS_CLUSTER_NAME --non-interactive
+    aspirate apply -k $AKS_CLUSTER_NAME --rolling-restart true --non-interactive
     ```
 
    > **NOTE**: 필요한 경우 아래 명령어를 통해 `webapp-lb` 서비스를 삭제하고 다시 생성해야 할 수도 있습니다.
    > 
    > ```bash
    > # 로드 밸런서 삭제
-   > kubectl delete -f $REPOSITORY_ROOT/scripts/loadbalancer.yaml
+   > kubectl delete -f "$REPOSITORY_ROOT/scripts/loadbalancer.yaml"
    > 
    > # 로드 밸런서 재추가
-   > kubectl apply -f $REPOSITORY_ROOT/scripts/loadbalancer.yaml
+   > kubectl apply -f "$REPOSITORY_ROOT/scripts/loadbalancer.yaml"
    > ```
 
 1. 아래 명령어를 통해 `webapp-lb` 서비스가 `LoadBalancer` 타입인지 확인합니다. 그리고 외부 IP주소를 확인합니다.
@@ -359,19 +375,19 @@
 1. 방금 확인한 외부 IP 주소를 웹 브라우저로 접속해서 애플리케이션이 잘 작동하는지 확인합니다.
 
     ```text
-    http://<EXTERNAL_IP_ADDRESS>
+    http://<EXTERNAL-IP>
     ```
 
 ## 05-8: 배포된 앱 삭제하기
 
-1. 아래 명령어를 통해 배포한 앱을 삭제합니다.
+1. 아래 명령어를 통해 배포한 모든 리소스를 삭제합니다.
 
     ```bash
     # bash/zsh
     $REPOSITORY_ROOT/scripts/destroy-aks.sh -e $AZURE_ENV_NAME
 
     # PowerShell
-    $REPOSITORY_ROOT/scripts/Destroy-AKS.ps1 -AzureEnvName $AZURE_ENV_NAME
+    & "$REPOSITORY_ROOT/scripts/Destroy-AKS.ps1" -AzureEnvName $AZURE_ENV_NAME
     ```
 
 ---
