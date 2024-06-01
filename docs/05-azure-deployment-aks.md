@@ -26,94 +26,6 @@
 
 ## 05-2: Azure CLI로 Azure Kubernetes Service로 배포 준비하기
 
-   <!-- 1. 아래 명령어를 차례로 실행시켜 배포 환경을 준비합니다.
-
-       ```bash
-       # bash/zsh
-       AZURE_ENV_NAME="aspire$((RANDOM%9000+1000))"
-       AZ_RESOURCE_GROUP=rg-$AZURE_ENV_NAME
-       AZ_NODE_RESOURCE_GROUP=rg-$AZURE_ENV_NAME-mc
-       AZ_LOCATION=australiaeast
-       ACR_NAME="acr${AZURE_ENV_NAME//-/}"
-       AKS_CLUSTER_NAME=aks-$AZURE_ENV_NAME
-
-       # PowerShell
-       $AZURE_ENV_NAME = "aspire$(Get-Random -Minimum 1000 -Maximum 9999)"
-       $AZ_RESOURCE_GROUP = "rg-$AZURE_ENV_NAME"
-       $AZ_NODE_RESOURCE_GROUP = "rg-$AZURE_ENV_NAME-mc"
-       $AZ_LOCATION = "australiaeast"
-       $ACR_NAME = "acr$AZURE_ENV_NAME".Replace("-", "")
-       $AKS_CLUSTER_NAME = "aks-$AZURE_ENV_NAME"
-       ```
-
-   2. 아래 명령어를 실행시켜 리소스 그룹을 생성합니다.
-
-       ```bash
-       az group create -n $AZ_RESOURCE_GROUP -l $AZ_LOCATION
-       ```
-
-   3. 아래 명령어를 실행시켜 [Azure Container Registry(ACR)](https://learn.microsoft.com/azure/container-registry/container-registry-intro?WT.mc_id=dotnet-121695-juyoo) 인스턴스를 생성합니다.
-
-       ```bash
-       # bash/zsh
-       az acr create \
-           -g $AZ_RESOURCE_GROUP \
-           -n $ACR_NAME \
-           -l $AZ_LOCATION \
-           --sku Basic \
-           --admin-enabled true
-
-       # PowerShell
-       az acr create `
-           -g $AZ_RESOURCE_GROUP `
-           -n $ACR_NAME `
-           -l $AZ_LOCATION `
-           --sku Basic `
-           --admin-enabled true
-       ```
-
-   4. 아래 명령어를 실행시켜 ACR 로그인 디테일을 저장합니다.
-
-       ```bash
-       # bash/zsh
-       ACR_LOGIN_SERVER=$(az acr show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "loginServer" -o tsv)
-       ACR_USERNAME=$(az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "username" -o tsv)
-       ACR_PASSWORD=$(az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "passwords[0].value" -o tsv)
-
-       # PowerShell
-       $ACR_LOGIN_SERVER = az acr show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "loginServer" -o tsv
-       $ACR_USERNAME = az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "username" -o tsv
-       $ACR_PASSWORD = az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "passwords[0].value" -o tsv
-       ```
-
-   5. 아래 명령어를 실행시켜 AKS 클러스터를 생성합니다.
-
-       ```bash
-       # bash/zsh
-       az aks create \
-           -g $AZ_RESOURCE_GROUP \
-           -n $AKS_CLUSTER_NAME \
-           -l $AZ_LOCATION \
-           --tier free \
-           --node-resource-group $AZ_NODE_RESOURCE_GROUP \
-           --node-vm-size Standard_B2s \
-           --network-plugin azure \
-           --generate-ssh-keys \
-           --attach-acr $ACR_NAME
-
-       # PowerShell
-       az aks create `
-           -g $AZ_RESOURCE_GROUP `
-           -n $AKS_CLUSTER_NAME `
-           -l $AZ_LOCATION `
-           --tier free `
-           --node-resource-group $AZ_NODE_RESOURCE_GROUP `
-           --node-vm-size Standard_B2s `
-           --network-plugin azure `
-           --generate-ssh-keys `
-           --attach-acr $ACR_NAME
-       ``` -->
-
 1. 터미널을 열고 아래 명령어를 차례로 실행시켜 리포지토리의 루트 디렉토리로 이동합니다.
 
     ```bash
@@ -228,12 +140,6 @@
 
 ## 05-5: Aspirate로 배포하기
 
-1. 아래 명령어를 통해 값을 터미널에 출력합니다.
-
-    ```bash
-    echo $ACR_LOGIN_SERVER
-    ```
-
 1. 아래 디렉토리로 이동합니다.
 
     ```bash
@@ -243,15 +149,8 @@
 1. Aspirate 프로젝트를 초기화 합니다.
 
     ```bash
-    aspirate init -cr $ACR_LOGIN_SERVER -ct latest --container-builder docker --non-interactive
+    aspirate init -cr $ACR_LOGIN_SERVER --non-interactive
     ```
-
-1. 아래 프롬프트에 따라 답변합니다.
-
-   - `Would you like to set a fall-back value for the container builder?` : `y` 👉 `docker`
-   - `Would you like to set a fall-back value for the container registry?`: `y` 👉 echo $ACR_LOGIN_SERVER 로 화면에 출력한 값. 예) `acr[문자열].azurecr.io`
-   - `Would you like to set this value?`: `n`
-   - `Would you like to use a custom directory (selecting 'n' will default to built in templates)?`: `n`
 
 1. `AspireYouTubeSummariser.AppHost` 프로젝트 디렉토리 아래 `aspirate.json` 파일이 생성된 것을 확인합니다.
 
@@ -263,7 +162,7 @@
 
    > **NOTE**: 실습의 편의를 위해 `--disable-secrets` 옵션을 사용합니다. 실제로는 패스워드를 사용해야 합니다.
 
-1. `AspireYouTubeSummariser.AppHost` 프로젝트 디렉토리 아래 `aspirate-output` 디렉토리가 생성된 것을 확인합니다.
+1. `AspireYouTubeSummariser.AppHost` 프로젝트 디렉토리 아래 `aspirate-output` 디렉토리와 `aspirate-sate.json`파일, `manifest.json` 파일이 생성된 것을 확인합니다.
 
 1. 아래 명령어를 통해 AKS 클러스터로 앱을 배포합니다.
 
@@ -392,7 +291,7 @@
 
 ---
 
-축하합니다! Azure Kubernetes Serive 클러스터로 배포해 보는 작업이 끝났습니다.
+축하합니다! Azure Kubernetes Service 클러스터로 배포해 보는 작업이 끝났습니다.
 
 ## 끝내기
 

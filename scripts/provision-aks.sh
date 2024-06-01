@@ -64,9 +64,18 @@ get_resource_token() {
     local subscription_id="$1"
     local azure_env_name="$2"
 
+    local alphabets="abcdefghijklmnopqrstuvwxyz"
     local base_string="$subscription_id|$azure_env_name"
-    local hashed_string=$(echo -n "$base_string" | sha256sum | cut -d' ' -f1)
-    local resource_token=$(echo "$hashed_string" | tr -dc 'a-f' | cut -c 1-13)
+
+    local hashed_string=$(echo -n "$base_string" | sha256sum | cut -d " " -f 1)
+
+    local resource_token=""
+    for (( i=0; i<${#hashed_string}; i+=2 )); do
+        index=$((16#${hashed_string:$i:2} % 26))
+        resource_token+="${alphabets:$index:1}"
+    done
+
+    resource_token="${resource_token:0:13}"
 
     echo "$resource_token"
 }

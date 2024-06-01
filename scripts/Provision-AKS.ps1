@@ -39,12 +39,12 @@ function Get-ResourceToken {
         [string] $AzureEnvName
     )
 
+    $alphabets = "abcdefghijklmnopqrstuvwxyz"
     $baseString = "$SubscriptionId|$AzureEnvName"
     $hasher = [System.Security.Cryptography.HashAlgorithm]::Create('SHA256')
     $hashedBytes = $hasher.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($baseString))
     
-    $hashedString = [System.BitConverter]::ToString($hashedBytes)
-    $resourceToken = $($hashedString -replace "\d", "").Replace('-', '').ToLowerInvariant().Substring(0, 13)
+    $resourceToken = $($($hashedBytes | ForEach-Object { $alphabets[$_%26] }) -join "").Substring(0, 13)
    
     return $resourceToken
 }
