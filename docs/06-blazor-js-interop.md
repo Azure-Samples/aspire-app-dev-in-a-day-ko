@@ -2,27 +2,54 @@
 
 이 세션에서는 [Blazor 프론트엔드 웹 앱](https://learn.microsoft.com/ko-kr/aspnet/core/blazor?WT.mc_id=dotnet-121695-juyoo)의 [JS Interop 기능](https://learn.microsoft.com/ko-kr/aspnet/core/blazor/javascript-interoperability/?WT.mc_id=dotnet-121695-juyoo)을 활용해 React 기반의 UI 컴포넌트를 통합해 보겠습니다.
 
-> [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 환경에서 작업하는 것을 기준으로 진행합니다. 로컬 개발 환경의 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo)를 사용할 경우 대부분 비슷하지만 살짝 다를 수 있습니다.
+> [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 또는 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo) 환경에서 작업하는 것을 기준으로 합니다.
+
+> [node.js](https://nodejs.org/en/download) 18+ 버전을 사용하고 있는지 확인해 주세요.
 
 ![Architecture](./images/05-architecture.png)
 
 ## 06-1: React 기반 UI 컴포넌트 생성하기 - Fluid UI Progress Indicator
 
-1. 아래 명령어를 차례로 실행시켜 Aspire 프로젝트를 복원합니다.
+1. 터미널을 열고 아래 명령어를 차례로 실행시켜 리포지토리의 루트 디렉토리로 이동합니다.
 
     ```bash
-    cd $CODESPACE_VSCODE_FOLDER
-    mkdir -p workshop && cp -a save-points/session-05/. workshop/
-    cd workshop
-    dotnet restore && dotnet build
+    # GitHub Codespaces
+    REPOSITORY_ROOT=$CODESPACE_VSCODE_FOLDER
+    cd $REPOSITORY_ROOT
+
+    # bash/zsh
+    REPOSITORY_ROOT=$(git rev-parse --show-toplevel)
+    cd $REPOSITORY_ROOT
+
+    # PowerShell
+    $REPOSITORY_ROOT = git rev-parse --show-toplevel
+    cd $REPOSITORY_ROOT
     ```
+
+> 세이브 포인트에서 가져온 프로젝트를 사용하려면 아래 명령어를 차례로 실행시켜 프로젝트를 복원합니다.
+> 
+> ```bash
+> # bash/zsh
+> mkdir -p workshop && cp -a save-points/session-05/. workshop/
+> cd workshop
+> dotnet restore && dotnet build
+> 
+> # PowerShell
+> New-Item -Type Directory -Path workshop -Force && Copy-Item -Path ./save-points/session-05/* -Destination ./workshop -Recurse -Force
+> cd workshop
+> dotnet restore && dotnet build
+> ```
 
 1. `AspireYouTubeSummariser.WebApp` 프로젝트에 `JSInterop` 디렉토리를 생성합니다.
 
     ```bash
-    cd $CODESPACE_VSCODE_FOLDER/workshop/AspireYouTubeSummariser.WebApp
-    mkdir JSInterop
-    cd JSInterop
+    # bash/zsh
+    mkdir -p $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/JSInterop
+    cd $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/JSInterop
+
+    # PowerShell
+    New-Item -Type Directory -Path $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/JSInterop -Force
+    cd $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/JSInterop
     ```
 
 1. 아래 명령어를 실행시켜 node.js 기반의 React 프로젝트를 생성합니다.
@@ -66,7 +93,17 @@
     npm install @fluentui/react react react-dom
     ```
 
-1. `webpack.config.js` 파일을 생성한 후 아래 내용을 입력합니다.
+1. `webpack.config.js` 파일을 생성합니다.
+
+    ```bash
+    # bash/zsh
+    touch webpack.config.js
+    
+    # PowerShell
+    New-Item -Type File -Name webpack.config.js -Force
+    ```
+
+1. `webpack.config.js` 파일에 아래 내용을 입력합니다.
 
     ```nodejs
     const path = require("path");
@@ -92,7 +129,19 @@
     };
     ```
 
-1. `src` 디렉토리를 만들고 그 아래 `index.js` 파일을 생성한 후 아래와 같이 입력합니다.
+1. `src` 디렉토리를 만들고 그 아래 `index.js` 파일을 생성합니다.
+
+    ```bash
+    # bash/zsh
+    mkdir -p src
+    touch src/index.js
+    
+    # PowerShell
+    New-Item -Type Directory -Name src -Force
+    New-Item -Type File -Name index.js -Path src -Force
+    ```
+
+1. `index.js` 파일에 아래와 같이 입력합니다.
 
     ```nodejs
     import { renderProgressBar } from './progressbar';
@@ -100,6 +149,16 @@
     export function RenderProgressBar() {
       return renderProgressBar();
     }
+    ```
+
+1. `src` 디렉토리 밑에 `progressbar.js` 파일을 생성합니다.
+
+    ```bash
+    # bash/zsh
+    touch src/progressbar.js
+    
+    # PowerShell
+    New-Item -Type File -Name progressbar.js -Path src -Force
     ```
 
 1. `src` 디렉토리 밑에 `progressbar.js` 파일을 생성한 후 아래와 같이 입력합니다.
@@ -221,45 +280,52 @@
 
 ## 06-3: Aspire 프로젝트 빌드 및 실행하기
 
-1. `AspireYouTubeSummariser.WebApp` 프로젝트의 `Program.cs` 파일을 열고 아래 내용으로 수정합니다.
-
-    ```csharp
-    // 수정 전
-    builder.Services.AddHttpClient<IApiAppClient, ApiAppClient>(p => p.BaseAddress = new Uri("https://apiapp"));
-    
-    //수정 후
-    builder.Services.AddHttpClient<IApiAppClient, ApiAppClient>(p => p.BaseAddress = new Uri("http://apiapp"));
-    ```
-
-    > 위 수정 사항은 GitHub Codespaces 환경에서만 필요합니다. 로컬 개발 환경에서는 항상 `https://apiapp`으로 설정해두면 됩니다.
-
 1. Solution Explorer에서 `AspireYouTubeSummariser.AppHost` 프로젝트를 선택하고 마우스 오른쪽 버튼을 눌러 디버깅 모드로 실행합니다.
 1. 대시보드 페이지를 열고 Blazor 프론트엔드 웹 앱을 실행시킵니다.
 1. 홈페이지에서 YouTube 링크를 입력하고 `Summarise` 버튼을 클릭합니다.
+
+   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
+
 1. `Summarising...`이라는 텍스트와 함께 진행 상태바가 움직이는 것을 확인합니다.
+1. 디버깅 모드를 종료합니다.
 
 ## 06-4: Aspire 프로젝트 배포하기
 
-1. `AspireYouTubeSummariser.WebApp` 프로젝트의 `Program.cs` 파일을 열고 아래 내용으로 수정합니다.
+1. 아래 명령어를 차례로 실행시켜 배포 환경을 준비합니다.
 
-    ```csharp
-    // 수정 전
-    builder.Services.AddHttpClient<IApiAppClient, ApiAppClient>(p => p.BaseAddress = new Uri("http://apiapp"));
-    
-    //수정 후
-    builder.Services.AddHttpClient<IApiAppClient, ApiAppClient>(p => p.BaseAddress = new Uri("https://apiapp"));
+    ```bash
+    # bash/zsh
+    cd $REPOSITORY_ROOT/workshop
+    AZURE_ENV_NAME="aspire$((RANDOM%9000+1000))"
+    azd init -e $AZURE_ENV_NAME
+
+    # PowerShell
+    cd $REPOSITORY_ROOT/workshop
+    $AZURE_ENV_NAME = "aspire$(Get-Random -Minimum 1000 -Maximum 9999)"
+    azd init -e $AZURE_ENV_NAME
     ```
-
-    > 위 수정 사항은 GitHub Codespaces 환경에서만 필요합니다. 로컬 개발 환경에서는 항상 `https://apiapp`으로 설정해두면 됩니다.
 
 1. 아래 명령어를 실행시켜 앱을 배포합니다.
 
     ```bash
-    azd deploy
+    azd up
     ```
 
+1. 어떤 Azure 구독을 사용할 것인지 물어봅니다. 사용할 구독을 선택합니다.
+1. 어느 지역에 배포할 것인지 물어봅니다. 아무 지역이나 선택해도 되지만, 여기서는 `Korea Central`을 선택합니다.
 1. 배포가 끝난 후 `webapp` 컨테이너 앱을 실행시켜 홈페이지에서 YouTube 링크를 입력하고 `Summarise` 버튼을 클릭합니다.
+
+   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
+
 1. `Summarising...`이라는 텍스트와 함께 진행 상태바가 움직이는 것을 확인합니다.
+
+## 06-5: 배포된 앱 삭제하기
+
+1. 아래 명령어를 통해 배포한 앱을 삭제합니다.
+
+    ```bash
+    azd down --purge --force
+    ```
 
 ---
 

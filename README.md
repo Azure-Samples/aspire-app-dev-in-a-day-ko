@@ -9,7 +9,7 @@
 이 워크샵을 진행하기 위해서는 아래와 같은 준비사항이 필요합니다.
 
 - [GitHub Account](https://github.com/signup) 및 GitHub Copilot 구독 ([개인](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-individual), [비지니스](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business) 또는 [엔터프라이즈](https://docs.github.com/ko/copilot/github-copilot-enterprise/overview/about-github-copilot-enterprise))
-- [Visual Studio 2022 17.9+](https://visualstudio.microsoft.com/?WT.mc_id=dotnet-121695-juyoo) 또는 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo) + [C# Dev Kit 익스텐션](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit&WT.mc_id=dotnet-121695-juyoo)
+- [Visual Studio 2022 17.10+](https://visualstudio.microsoft.com/?WT.mc_id=dotnet-121695-juyoo) 또는 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo) + [C# Dev Kit 익스텐션](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit&WT.mc_id=dotnet-121695-juyoo)
 - [.NET 8 SDK](https://dotnet.microsoft.com/ko-kr/download/dotnet/8.0?WT.mc_id=dotnet-121695-juyoo) + [Aspire 워크로드](https://learn.microsoft.com/ko-kr/dotnet/core/tools/dotnet-workload-install?WT.mc_id=dotnet-121695-juyoo)
 - [node.js](https://nodejs.org/en/download) (선택)
 - [Azure 구독](https://azure.microsoft.com/ko-kr/free/?WT.mc_id=dotnet-121695-juyoo)
@@ -36,13 +36,12 @@
 | [Session 05](./docs/04-azure-deployment-aks.md) | Azure 배포 &ndash; Azure Kubernetes Service    |
 | [Session 06](./docs/06-blazor-js-interop.md)    | Blazor JavaScript Interoperability 적용 (선택) |
 
-
 ## Resources
 
 - [What is Blazor?](https://learn.microsoft.com/ko-kr/aspnet/core/blazor?WT.mc_id=dotnet-121695-juyoo)
 - [Build your first Blazor app](https://dotnet.microsoft.com/ko-kr/apps/aspnet/web-apps/blazor?WT.mc_id=dotnet-121695-juyoo)
 - [What is Aspire?](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-121695-juyoo)
 - [Build your first Aspire app](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/quickstart-build-your-first-aspire-app?tabs=dotnet-cli&WT.mc_id=dotnet-121695-juyoo)
-<!-- - [What is GitHub Copilot?](https://docs.github.com/ko/copilot) -->
+- [What is GitHub Copilot?](https://docs.github.com/ko/copilot)
 - [Building an intelligent app with Blazor and Azure OpenAI](https://www.youtube.com/watch?v=TH12YSLLe9E&t=8464s)
 - [Your stack for building Cloud Native apps](https://www.youtube.com/live/5IjKH-gy2Y0?si=dSMvC7arUeRpqBmz)

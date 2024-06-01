@@ -1,8 +1,10 @@
 ﻿@page "/weather"
 @using AspireYouTubeSummariser.WebApp.Clients
 @using Microsoft.AspNetCore.OutputCaching
-@attribute [StreamRendering]
+
+@attribute [StreamRendering(true)]
 @attribute [OutputCache(Duration = 5)]
+
 @inject IApiAppClient ApiApp
 
 <PageTitle>Weather</PageTitle>

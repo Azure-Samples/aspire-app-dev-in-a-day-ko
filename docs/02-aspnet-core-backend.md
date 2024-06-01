@@ -1,27 +1,47 @@
 # 세션 02: ASP.NET Core 백엔드 API 앱 개발
 
-이 세션에서는 [ASP.NET Core 백엔드 API 앱](https://learn.microsoft.com/ko-kr/aspnet/core/fundamentals/apis?WT.mc_id=dotnet-121695-juyoo) 개발을 해 보겠습니다.
+이 세션에서는 [GitHub Copilot](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business) 기능을 활용해 빠르게 [ASP.NET Core 백엔드 API 앱](https://learn.microsoft.com/ko-kr/aspnet/core/fundamentals/apis?WT.mc_id=dotnet-121695-juyoo) 개발을 해 보겠습니다.
 
-<!-- 이 세션에서는 [GitHub Copilot](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business) 기능을 활용해 빠르게 [ASP.NET Core 백엔드 API 앱](https://learn.microsoft.com/ko-kr/aspnet/core/fundamentals/apis?WT.mc_id=dotnet-121695-juyoo) 개발을 해 보겠습니다. -->
-
-> [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 환경에서 작업하는 것을 기준으로 진행합니다. 로컬 개발 환경의 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo)를 사용할 경우 대부분 비슷하지만 살짝 다를 수 있습니다.
+> [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 또는 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo) 환경에서 작업하는 것을 기준으로 합니다.
 
 ![Architecture](./images/02-architecture.png)
 
 ## 02-1: Web API 프로젝트 생성하기
 
+1. 터미널을 열고 아래 명령어를 차례로 실행시켜 리포지토리의 루트 디렉토리로 이동합니다.
+
+    ```bash
+    # GitHub Codespaces
+    REPOSITORY_ROOT=$CODESPACE_VSCODE_FOLDER
+    cd $REPOSITORY_ROOT
+
+    # bash/zsh
+    REPOSITORY_ROOT=$(git rev-parse --show-toplevel)
+    cd $REPOSITORY_ROOT
+
+    # PowerShell
+    $REPOSITORY_ROOT = git rev-parse --show-toplevel
+    cd $REPOSITORY_ROOT
+    ```
+
 > 세이브 포인트에서 가져온 프로젝트를 사용하려면 아래 명령어를 차례로 실행시켜 프로젝트를 복원합니다.
->
->    ```bash
->    cd $CODESPACE_VSCODE_FOLDER
->    mkdir -p workshop && cp -a save-points/session-01/. workshop/
->    cd workshop
->    dotnet restore && dotnet build
->    ```
+> 
+> ```bash
+> # bash/zsh
+> mkdir -p workshop && cp -a save-points/session-01/. workshop/
+> cd workshop
+> dotnet restore && dotnet build
+> 
+> # PowerShell
+> New-Item -Type Directory -Path workshop -Force && Copy-Item -Path ./save-points/session-01/* -Destination ./workshop -Recurse -Force
+> cd workshop
+> dotnet restore && dotnet build
+> ```
 
 1. 아래 명령어를 차례로 실행시켜 ASP.NET Core Web API 앱 프로젝트를 생성합니다.
 
     ```bash
+    cd $REPOSITORY_ROOT/workshop
     dotnet new webapi -n AspireYouTubeSummariser.ApiApp
     dotnet sln add AspireYouTubeSummariser.ApiApp
     ```
@@ -30,12 +50,14 @@
 
     ```bash
     dotnet restore && dotnet build
-    dotnet run --project AspireYouTubeSummariser.ApiApp
+    dotnet watch run --project AspireYouTubeSummariser.ApiApp
     ```
 
-1. 브라우저에서 404 에러가 나는 것을 확인합니다.
-1. `Program.cs` 파일을 열고 `app.UseHttpsRedirection();` 라인을 찾아 그 바로 아래에 아래 코드를 추가합니다.
-<!-- 1. `Program.cs` 파일을 열고 `app.UseHttpsRedirection();` 라인을 찾아 그 바로 아래에서 `CTRL`+`I` 키 또는 `CMD`+`I` 키를 눌러 GitHub Copilot Chat 창을 활성화 시킵니다.
+1. GitHub Codespaces를 사용할 경우, 브라우저에서 404 에러가 나는 것을 확인합니다.
+
+    ![Backend API - 404 error](./images/02-aspnet-core-backend-01.png)
+
+1. `Program.cs` 파일을 열고 `app.UseHttpsRedirection();` 라인을 찾아 그 바로 아래에서 `CTRL`+`I` 키 또는 `CMD`+`I` 키를 눌러 GitHub Copilot Chat 창을 활성화 시킵니다.
 1. 아래 프롬프트를 GitHub Copilot Chat에 입력합니다.
 
     ```text
@@ -45,7 +67,7 @@
     - It should exclude this endpoint from the OpenAPI documentation.
     ```
 
-   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `Program.cs` 파일을 수정합니다. -->
+   그러면 아래와 비슷한 코드를 자동으로 만들어 줄 것입니다. 아래 코드를 참고해서 `Program.cs` 파일을 수정합니다.
 
     ```csharp
     if (app.Environment.IsDevelopment())
@@ -54,10 +76,17 @@
     }
     ```
 
+1. 파일을 수정한 후 GitHub Codespaces 사용시 앞서 404 에러가 난 페이지를 새로고침해서 Swagger UI 화면이 나오는 것을 확인합니다. 또는 `http://localhost:5050` 주소로 접속해서 Swagger UI 화면이 나오는 것을 확인합니다. 여기서 `5050`은 임의의 포트번호입니다.
+
+    ![Backend API - Swagger UI](./images/02-aspnet-core-backend-02.png)
+
+   > 만약 Swagger UI 화면이 나오지 않는다면, 앞서 터미널 창에서 실행한 `dotnet watch run --project AspireYouTubeSummariser.ApiApp` 명령어를 중지하고 다시 실행시킵니다.
+
+1. 실행이 잘 되는 것을 확인하면 터미널 창에서 `CTRL`+`C` 키를 눌러 실행을 중지합니다.
+
 ## 02-2: Summary 엔드포인트 생성하기
 
-1. `Program.cs` 파일을 열고 `app.MapGet("/weatherforecast", ...)` 메서드와 `app.Run();` 메서드 사이의 라인을 찾아 거기서 아래 코드를 입력합니다.
-<!-- 1. `Program.cs` 파일을 열고 `app.MapGet("/weatherforecast", ...)` 메서드와 `app.Run();` 메서드 사이의 라인을 찾아 거기서 아래 프롬프트를 GitHub Copilot Chat에 입력합니다.
+1. `Program.cs` 파일을 열고 `app.MapGet("/weatherforecast", ...)` 메서드와 `app.Run();` 메서드 사이의 라인을 찾아 거기서 아래 프롬프트를 GitHub Copilot Chat에 입력합니다.
 
     ```text
     Add a minimal API logic with the following conditions:
@@ -70,7 +99,7 @@
     - It should be documented in the OpenAPI documentation.
     ```
 
-   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `Program.cs` 파일을 수정합니다. -->
+   그러면 아래와 비슷한 코드를 자동으로 만들어 줄 것입니다. 아래 코드를 참고해서 `Program.cs` 파일을 수정합니다.
 
     ```csharp
     app.MapPost("/summarise", ([FromBody] SummaryRequest req) =>
@@ -82,6 +111,8 @@
     .WithOpenApi();
     ```
 
+   > 만약 네임스페이스 참조를 할 수 없다는 오류가 발생한다면 오류가 발생한 곳에 커서를 두고 `CTRL`+`.` 키 또는 `CMD`+`.` 키를 눌러 네임스페이스를 추가합니다.
+
 1. `Program.cs` 파일의 맨 아랫 부분에 `SummaryRequest` 레코드를 생성합니다.
 
     ```csharp
@@ -90,8 +121,7 @@
 
 ## 02-3: YouTubeSummariserService 생성하기
 
-1. `Program.cs` 파일의 맨 아랫 부분에 아래와 같이 `YouTubeSummariserService` 클래스를 생성합니다.
-<!-- 1. `Program.cs` 파일의 맨 아랫 부분에 `YouTubeSummariserService` 클래스를 생성합니다. GitHub Copilot Chat 창을 활성화 시킨 후 아래 프롬프트를 입력합니다.
+1. `Program.cs` 파일의 맨 아랫 부분에 `YouTubeSummariserService` 클래스를 생성합니다. GitHub Copilot Chat 창을 활성화 시킨 후 아래 프롬프트를 입력합니다.
 
     ```text
     Add a class of YouTubeSummariserService with the following conditions:
@@ -100,7 +130,7 @@
     - It should return a string.
     ```
 
-   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `YouTubeSummariserService` 클래스를 수정합니다. -->
+   그러면 아래와 비슷한 코드를 자동으로 만들어 줄 것입니다. 아래 코드를 참고해서 `YouTubeSummariserService` 클래스를 수정합니다.
 
     ```csharp
     class YouTubeSummariserService
@@ -137,12 +167,12 @@
 1. YouTube 자막을 추출하고, Azure OpenAI 서비스를 이용해 요약하기 위해 아래와 같이 터미널에서 NuGet 패키지를 추가합니다.
 
     ```bash
-    cd $CODESPACE_VSCODE_FOLDER/workshop/AspireYouTubeSummariser.ApiApp
+    cd $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.ApiApp
     dotnet add package Aliencube.YouTubeSubtitlesExtractor
     dotnet add package Azure.AI.OpenAI --prerelease
     ```
 
-1. `appsettings.json` 파일을 열고 아래와 같이 Azure OpenAI 서비스의 `Endpoint`와 `ApiKey`, `DeploymentName` 값을 추가합니다. 이 값들은 이미 이메일을 통해 받았을 것입니다.
+1. `appsettings.Development.json` 파일을 열고 아래와 같이 Azure OpenAI 서비스의 `Endpoint`와 `ApiKey`, `DeploymentName` 값을 추가합니다. 이 값들은 이미 [세션 00: 개발 환경 설정](./00-setup.md)에서 받았습니다.
 
     ```json
     "OpenAI": {
@@ -151,6 +181,8 @@
       "DeploymentName": "{{ Azure OpenAI Proxy Service Deployment Name }}"
     }
     ```
+
+   > 만약 `DeploymentName` 값을 받지 못했다면, 진행자에게 문의하세요.
 
    > **중요**: `appsettings.json` 파일에 추가한 Azure OpenAI 서비스의 값들은 절대로 GitHub에 커밋하지 마세요. 대신 `appsettings.Development.json` 파일에 추가하세요. `.gitignore` 파일에 이미 `appsettings.Development.json` 파일에 대한 제외 옵션이 추가되어 있습니다.
 
@@ -176,7 +208,16 @@
 
    > 만약 네임스페이스 참조를 할 수 없다는 오류가 발생한다면 오류가 발생한 곳에 커서를 두고 `CTRL`+`.` 키 또는 `CMD`+`.` 키를 눌러 네임스페이스를 추가합니다.
 
-1. `SummariseAsync` 메서드를 아래와 같이 수정합니다.
+1. `SummariseAsync` 메서드 안에서 YouTube 자막을 다운로드 받는 로직을 구현합니다. GitHub Copilot을 이용해 아래와 같이 수정합니다.
+
+    ```text
+    Download the YouTube video transcript with the following conditions:
+
+    - It should use IYouTubeVideo instance to download the YouTube video transcript.
+    - It should aggregate the YouTube video transcript into a single string.
+    ```
+
+   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `SummariseAsync` 메서드를 수정합니다.
 
     ```csharp
     public async Task<string> SummariseAsync(SummaryRequest req)
@@ -187,22 +228,38 @@
 
    > 만약 네임스페이스 참조를 할 수 없다는 오류가 발생한다면 오류가 발생한 곳에 커서를 두고 `CTRL`+`.` 키 또는 `CMD`+`.` 키를 눌러 네임스페이스를 추가합니다.
 
-1. 계속해서 `SummariseAsync` 메서드 안에서 자막 내용을 요약하는 로직을 아래와 같이 구현합니다.
+1. 계속해서 `SummariseAsync` 메서드 안에서 자막 내용을 요약하는 로직을 구현합니다. GitHub Copilot을 이용해 아래와 같이 수정합니다.
+
+    ```text
+    Create a ChatCompletionsOptions instance with the following conditions:
+
+    - It should have the "DeploymentName" property set to the value of "OpenAI:DeploymentName" in the configuration.
+    - It should have the "MaxTokens" property set to the value of "Prompt:MaxTokens" in the configuration.
+    - It should have the "Temperature" property set to the value of "Prompt:Temperature" in the configuration.
+    - It should have the "Messages" property set to the following messages:
+      - A message of "ChatRole.System" with the value of "Prompt:System" in the configuration.
+      - A message of "ChatRole.System" with the value of "Here's the transcript. Summarise it in 5 bullet point items in the given language code of \"{req.SummaryLanguageCode}\".".
+      - A message of "ChatRole.User" with the value of "caption".
+    ```
+
+   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `SummariseAsync` 메서드를 수정합니다.
 
     ```csharp
     public async Task<string> SummariseAsync(SummaryRequest req)
     {
         ...
 
-        ChatCompletionsOptions options = new()
+        ChatCompletionsOptions options = new ()
         {
             DeploymentName = this._config["OpenAI:DeploymentName"],
-            MaxTokens = Convert.ToInt32(this._config["Prompt:MaxTokens"]),
-            Temperature = Convert.ToSingle(this._config["Prompt:Temperature"]),
+            MaxTokens = int.TryParse(this._config["Prompt:MaxTokens"], out var maxTokens) ? maxTokens : 3000,
+            Temperature = float.TryParse(this._config["Prompt:Temperature"], out var temperature) ? temperature : 0.7f,
+            Messages = {
+                           new ChatRequestSystemMessage(this._config["Prompt:System"]),
+                           new ChatRequestSystemMessage($"Here's the transcript. Summarise it in 5 bullet point items in the given language code of \"{req.SummaryLanguageCode}\"."),
+                           new ChatRequestUserMessage(caption),
+                       }
         };
-        options.Messages.Add(new ChatRequestSystemMessage(this._config["Prompt:System"]));
-        options.Messages.Add(new ChatRequestSystemMessage($"Here's the transcript. Summarise it in 5 bullet point items in the given language code of \"{req.SummaryLanguageCode}\"."));
-        options.Messages.Add(new ChatRequestUserMessage(caption));
     }
     ```
 
@@ -216,7 +273,7 @@
         ...
 
         var response = await this._openai.GetChatCompletionsAsync(options).ConfigureAwait(false);
-        string summary = response.Value.Choices[0].Message.Content;
+        var summary = response.Value.Choices[0].Message.Content;
 
         return summary;
     }
@@ -253,17 +310,19 @@
     }
     ```
 
-    ![Backend API #1](./images/02-aspnet-core-backend-01.png)
+    ![Backend API #1](./images/02-aspnet-core-backend-03.png)
 
    > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
 
-1. 그러면 아래와 같이 요약 결과가 나오는 것을 확인할 수 있습니다.
+1. 그러면 아래와 같이 요약 결과가 나오는 것을 확인합니다.
 
-    ![Backend API #2](./images/02-aspnet-core-backend-02.png)
+    ![Backend API #2](./images/02-aspnet-core-backend-04.png)
+
+1. 디버깅 모드를 중지합니다.
 
 ## 02-6: Blazor 프론트엔드 앱과 ASP.NET Core 백엔드 API 앱 통합하기
 
-1. `AspireYouTubeSummariser.WebApp` 프로젝트의 `ApiAppClient` 클래스를 열고 아래 메서드를 추가합니다.
+1. `AspireYouTubeSummariser.WebApp` 프로젝트의 `Clients` 디렉토리 아래 `ApiAppClient.cs` 파일을 열고 아래 메서드를 추가합니다.
 
     ```csharp
     public async Task<List<WeatherForecast>> WeatherForecastAsync()
@@ -297,17 +356,18 @@
     }
     ```
 
-1. `Components/Pages` 디렉토리 안의 `Weather.razor` 파일을 열고 그 안의 `@code { ... }` 블록을 아래와 같이 수정합니다.
+1. `Components/Pages` 디렉토리 안의 `Weather.razor` 파일을 열고 `@page "/weather"` 바로 밑에 아래 내용을 추가합니다.
 
     ```razor
     @page "/weather"
-    @using AspireYouTubeSummariser.WebApp.Clients
 
     // 추가
     @inject IApiAppClient ApiApp
+    ```
 
-    ...
+1. 그리고 `@code { ... }` 블록을 아래와 같이 수정합니다.
 
+    ```razor
     @code {
         private List<ApiAppClient.WeatherForecast>? forecasts;
 
@@ -323,25 +383,28 @@
 1. 터미널에서 아래 명령어를 실행시켜 ASP.NET Core 백엔드 API 앱을 실행시킵니다.
 
     ```bash
-    cd $CODESPACE_VSCODE_FOLDER/workshop
-    dotnet run --project AspireYouTubeSummariser.ApiApp
+    cd $REPOSITORY_ROOT/workshop
+    dotnet watch run --project AspireYouTubeSummariser.ApiApp
     ```
 
 1. Solution Explorer에서 `AspireYouTubeSummariser.WebApp` 프로젝트를 선택하고 마우스 오른쪽 버튼을 눌러 디버깅 모드로 실행합니다.
 
-1. 첫 화면에서 아래와 같이 YouTube 링크를 입력하고 `Summarise!` 버튼을 클릭합니다.
+1. 첫 화면에서 아래와 같이 **YouTube Link**를 입력합니다. 그리고 **Video Language**는 *English*, **Summary Language**는 *Korean*을 선택하고 `Summarise!` 버튼을 클릭합니다.
 
-    ![YouTubeSummariserComponent #1](./images/02-aspnet-core-backend-03.png)
+    ![YouTubeSummariserComponent #1](./images/02-aspnet-core-backend-05.png)
 
    > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
 
-1. 그러면 아래와 같이 요약 메시지가 나오는 것을 확인할 수 있습니다.
+1. 잠시 기다려서 아래와 같이 요약 메시지가 나오는 것을 확인합니다.
 
-    ![YouTubeSummariserComponent #2](./images/02-aspnet-core-backend-04.png)
+    ![YouTubeSummariserComponent #2](./images/02-aspnet-core-backend-06.png)
 
-1. `Weather` 페이지로 이동해서 아래와 같이 날씨 정보가 나오는 것을 확인할 수 있습니다.
+1. `Weather` 페이지로 이동해서 아래와 같이 날씨 정보가 나오는 것을 확인합니다.
 
-    ![Weather Page](./images/02-aspnet-core-backend-05.png)
+    ![Weather Page](./images/02-aspnet-core-backend-07.png)
+
+1. 디버깅 모드를 중지합니다.
+1. 터미널 창에서 `CTRL`+`C` 키를 눌러 백엔드 API 앱 실행을 중지합니다.
 
 ---
 

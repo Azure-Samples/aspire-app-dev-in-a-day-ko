@@ -1,10 +1,8 @@
 # 세션 01: Blazor 프론트엔드 웹 앱 개발
 
-이 세션에서는 [Blazor 프론트엔드 웹 앱](https://learn.microsoft.com/ko-kr/aspnet/core/blazor?WT.mc_id=dotnet-121695-juyoo) 개발을 해 보겠습니다.
+이 세션에서는 [GitHub Copilot](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business) 기능을 활용해 빠르게 [Blazor 프론트엔드 웹 앱](https://learn.microsoft.com/ko-kr/aspnet/core/blazor?WT.mc_id=dotnet-121695-juyoo) 개발을 해 보겠습니다.
 
-<!-- 이 세션에서는 [GitHub Copilot](https://docs.github.com/ko/copilot/overview-of-github-copilot/about-github-copilot-business) 기능을 활용해 빠르게 [Blazor 프론트엔드 웹 앱](https://learn.microsoft.com/ko-kr/aspnet/core/blazor?WT.mc_id=dotnet-121695-juyoo) 개발을 해 보겠습니다. -->
-
-> [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 환경에서 작업하는 것을 기준으로 진행합니다. 로컬 개발 환경의 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo)를 사용할 경우 대부분 비슷하지만 살짝 다를 수 있습니다.
+> [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 또는 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo) 환경에서 작업하는 것을 기준으로 합니다.
 
 ![Architecture](./images/01-architecture.png)
 
@@ -13,16 +11,27 @@
 1. 터미널을 열고 아래 명령어를 차례로 실행시켜 실습 디렉토리를 만들고 이동합니다.
 
     ```bash
-    cd $CODESPACE_VSCODE_FOLDER
-    mkdir workshop
-    cd workshop
+    # GitHub Codespaces
+    REPOSITORY_ROOT=$CODESPACE_VSCODE_FOLDER
+    mkdir -p $REPOSITORY_ROOT/workshop
+    cd $REPOSITORY_ROOT/workshop
+
+    # bash/zsh
+    REPOSITORY_ROOT=$(git rev-parse --show-toplevel)
+    mkdir -p $REPOSITORY_ROOT/workshop
+    cd $REPOSITORY_ROOT/workshop
+
+    # PowerShell
+    $REPOSITORY_ROOT = git rev-parse --show-toplevel
+    New-Item -Type Directory -Path $REPOSITORY_ROOT/workshop -Force
+    cd $REPOSITORY_ROOT/workshop
     ```
 
 1. 아래 명령어를 차례로 실행시켜 Blazor 웹 앱 프로젝트를 생성합니다.
 
     ```bash
     dotnet new sln -n AspireYouTubeSummariser
-    dotnet new blazor -n AspireYouTubeSummariser.WebApp -int server -ai true
+    dotnet new blazor -n AspireYouTubeSummariser.WebApp
     dotnet sln add AspireYouTubeSummariser.WebApp
     ```
 
@@ -30,34 +39,81 @@
 
     ```bash
     dotnet restore && dotnet build
-    dotnet run --project AspireYouTubeSummariser.WebApp
+    dotnet watch run --project AspireYouTubeSummariser.WebApp
     ```
+
+1. 실행이 잘 되는 것을 확인하면 터미널 창에서 `CTRL`+`C` 키를 눌러 실행을 중지합니다.
 
 > 여기까지 생성한 프로젝트는 [save-points/session-00](../save-points/session-00/)에서 확인할 수 있습니다.
 
 ## 01-2: UI Component 생성하기
 
 > 세이브 포인트에서 가져온 프로젝트를 사용하려면 아래 명령어를 차례로 실행시켜 프로젝트를 복원합니다.
->
->    ```bash
->    cd $CODESPACE_VSCODE_FOLDER
->    mkdir -p workshop && cp -a save-points/session-00/. workshop/
->    cd workshop
->    dotnet restore && dotnet build
->    ```
+> 
+> ```bash
+> # bash/zsh
+> cd $REPOSITORY_ROOT
+> mkdir -p workshop && cp -a save-points/session-00/. workshop/
+> cd workshop
+> dotnet restore && dotnet build
+> 
+> # PowerShell
+> cd $REPOSITORY_ROOT
+> New-Item -Type Directory -Path workshop -Force && Copy-Item -Path ./save-points/session-00/* -Destination ./workshop -Recurse -Force
+> cd workshop
+> dotnet restore && dotnet build
+> ```
 
-1. Solution Explorer에서 `Components` 디렉토리 밑에 `UI` 디렉토리를 생성합니다.
-1. `UI` 디렉토리 밑에 `YouTubeSummariserComponent`라는 이름으로 Razor Component 파일을 생성합니다. 생성된 파일 안에는 아래와 비슷한 내용이 이미 들어 있습니다.
+1. Solution Explorer에서 솔루션을 엽니다.
 
-    ```razor
-    <h3>YouTubeSummariserComponent</h3>
+   ![Solution Explorer](./images/01-blazor-frontend-01.png)
 
-    @code {
+1. Solution Explorer 또는 아래 명령어를 실행시켜 `Components` 디렉토리 밑에 `UI` 디렉토리를 생성합니다.
 
-    }
+    ```bash
+    # bash/zsh
+    mkdir -p $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/Components/UI
+
+    # PowerShell
+    New-Item -Type Directory -Path $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/Components/UI -Force
     ```
 
-1. 위 내용을 모두 지운 후 아래 코드를 입력합니다.
+1. Solution Explorer 또는 아래 명령어를 통해 `UI` 디렉토리 밑에 `YouTubeSummariserComponent`라는 이름으로 Razor Component 파일을 생성합니다.
+
+    ```bash
+    # bash/zsh
+    touch $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/Components/UI/YouTubeSummariserComponent.razor
+
+    # PowerShell
+    New-Item -Type File -Path $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/Components/UI/YouTubeSummariserComponent.razor -Force
+    ```
+
+   > Soultion Explorer를 통해 파일을 생성했다면 아래와 비슷한 내용이 이미 들어 있습니다.
+   > 
+   > ```razor
+   > <h3>YouTubeSummariserComponent</h3>
+   > 
+   > @code {
+   > 
+   > }
+   > ```
+
+1. 위 내용을 모두 지운 후 `CTRL`+`I` 키 또는 `CMD`+`I` 키를 눌러 GitHub Copilot Chat 창을 활성화 시킵니다.
+1. 아래 프롬프트를 GitHub Copilot Chat에 입력합니다.
+
+    ```text
+    It's a razor component of a Blazor app. Add the following input controls with Bootstrap style:
+    
+    - 1 text input for YouTube link URL
+    - 1 drop down list for the video language code selection of English and Korean
+    - 1 drop down list for the summary language code selection of English and Korean
+    - 2 buttons for summary and clear
+    - 1 textarea for summary result
+    
+    Also add the corresponding code block.
+    ```
+
+   그러면 아래와 비슷한 코드를 자동으로 만들어 줄 것입니다. 아래 코드를 참고해서 `YouTubeSummariserComponent.razor` 파일을 수정합니다.
 
     ```razor
     <div class="container">
@@ -132,7 +188,13 @@
     @inject IApiAppClient ApiApp
     ```
 
-1. `YouTubeSummariserComponent.razor` 파일의 `SummariseAsync` 메서드 안에 아래 코드를 입력합니다.
+1. `YouTubeSummariserComponent.razor` 파일의 `SummariseAsync` 메서드 안에서 다시 GitHub Copilot Chat을 이용해 코드를 입력합니다.
+
+    ```text
+    call ApiApp.SummariseAsync method with proper exception handling logic.
+    ```
+
+   그러면 아래와 비슷한 코드를 자동으로 만들어 줄 것입니다. 아래 코드를 참고해서 `SummariseAsync` 메서드를 수정합니다.
 
     ```razor
     private async Task SummariseAsync()
@@ -165,7 +227,19 @@
 
 ## 01-3: API Client 생성하기
 
-1. Solution Explorer에서 `Clients` 디렉토리를 생성하고 그 안에 `ApiAppClient`라는 이름으로 C# 클래스 파일을 생성합니다. 생성된 파일 안에는 아래와 비슷한 내용이 이미 들어 있습니다.
+1. Solution Explorer 또는 아래 명령어를 통해 `Clients` 디렉토리를 생성하고 그 안에 `ApiAppClient`라는 이름으로 C# 클래스 파일을 생성합니다.
+
+    ```bash
+    # bash/zsh
+    mkdir -p $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/Clients
+    touch $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/Clients/ApiAppClient.cs
+
+    # PowerShell
+    New-Item -Type Directory -Path $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/Clients -Force
+    New-Item -Type File -Path $REPOSITORY_ROOT/workshop/AspireYouTubeSummariser.WebApp/Clients/ApiAppClient.cs -Force
+    ```
+
+1. 생성된 파일 안에는 아래와 비슷한 내용이 이미 들어 있습니다. 만약 내용이 없다면 아래 코드를 입력합니다.
 
     ```csharp
     namespace AspireYouTubeSummariser.WebApp.Clients;
@@ -176,7 +250,13 @@
     }
     ```
 
-1. `namespace`와 `class` 사이에 아래와 같이 `IApiAppClient` 인터페이스를 추가합니다.
+1. `namespace`와 `class` 사이에서 GitHub Copilot Chat을 이용해 아래와 같이 프롬프트를 입력합니다.
+
+    ```text
+    create an interface of IApiAppClient that has a SummariseAsync method with parameters of YouTube link, video language code and summary language code
+    ```
+
+   그러면 아래와 비슷한 코드를 자동으로 만들어 줄 것입니다. 아래 코드를 참고해서 `ApiAppClient` 파일을 수정합니다.
 
     ```csharp
     public interface IApiAppClient
@@ -185,7 +265,13 @@
     }
     ```
 
-1. 아래와 같이 `ApiAppClient` 클래스를 수정합니다.
+1. GitHub Copilot Chat을 이용해서 클래스를 수정합니다.
+
+    ```text
+    create a class implementing IApiAppClient
+    ```
+
+   그러면 아래와 비슷한 코드를 자동으로 만들어 줄 것입니다. 아래 코드를 참고해서 `ApiAppClient` 파일을 수정합니다.
 
     ```csharp
     public class ApiAppClient : IApiAppClient
@@ -239,7 +325,7 @@
 1. 페이지의 맨 아래에 아래와 같이 `YouTubeSummariserComponent`를 추가합니다.
 
     ```razor
-    <YouTubeSummariserComponent />
+    <YouTubeSummariserComponent @rendermode="InteractiveServer" />
     ```
 
 1. 네임스페이스 참조를 할 수 없다는 오류가 발생합니다. 오류가 발생한 곳에 커서를 두고 `CTRL`+`.` 키 또는 `CMD`+`.` 키를 눌러 네임스페이스를 추가합니다.
@@ -248,15 +334,23 @@
 
 1. Solution Explorer에서 `AspireYouTubeSummariser.WebApp` 프로젝트를 선택하고 마우스 오른쪽 버튼을 눌러 디버깅 모드로 실행합니다.
 
+    ![Solution Explorer - Debugging](./images/01-blazor-frontend-02.png)
+
 1. 첫 화면에서 아래와 같이 YouTube 링크를 입력하고 `Summarise!` 버튼을 클릭합니다.
 
-    ![YouTubeSummariserComponent #1](./images/01-blazor-frontend-01.png)
+    ![YouTubeSummariserComponent #1](./images/01-blazor-frontend-03.png)
 
    > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
 
-1. 그러면 아래와 같이 에러 메시지가 나오는 것을 확인할 수 있습니다.
+1. 아래와 같이 에러 메시지가 나오는 것을 확인합니다. "Connection refused" 등의 에러 메시지가 나올 수 있습니다.
 
-    ![YouTubeSummariserComponent #2](./images/01-blazor-frontend-02.png)
+    ![YouTubeSummariserComponent #2](./images/01-blazor-frontend-04.png)
+
+   > 이 에러는 아직 백엔드 API 앱을 연결하지 않았기 때문에 나오는 에러입니다. 백엔드 API 앱을 개발하고 연결하면 이 에러는 사라집니다.
+
+1. 아래와 같이 사각형 모양을 클릭하여 디버깅 모드를 중지합니다.
+
+    ![Solution Explorer - Stop Debugging](./images/01-blazor-frontend-05.png)
 
 ---
 

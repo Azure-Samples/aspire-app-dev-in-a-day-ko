@@ -42,7 +42,7 @@
     // Install common utilities
     "ghcr.io/devcontainers/features/common-utils:latest": {
       "installZsh": true,
-      "configureZshAsDefaultShell": false,
+      "configureZshAsDefaultShell": true,
       "installOhMyZsh": true,
       "installOhMyZshConfig": true,
       "upgradePackages": true,

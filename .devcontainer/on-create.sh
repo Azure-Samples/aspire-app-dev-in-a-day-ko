@@ -30,14 +30,6 @@ az bicep install
 # Uncomment the below to install Azure Bicep CLI.
 gh extension install github/gh-copilot
 
-## AZURE FUNCTIONS CORE TOOLS ##
-# Uncomment the below to install Azure Functions Core Tools. Make sure you have installed node.js
-npm i -g azure-functions-core-tools@4 --unsafe-perm true
-
-## AZURE STATIC WEB APPS CLI ##
-# Uncomment the below to install Azure Static Web Apps CLI. Make sure you have installed node.js
-npm install -g @azure/static-web-apps-cli
-
 ## AZURE DEV CLI ##
 # Uncomment the below to install Azure Dev CLI. Make sure you have installed Azure CLI and GitHub CLI
 curl -fsSL https://aka.ms/install-azd.sh | bash

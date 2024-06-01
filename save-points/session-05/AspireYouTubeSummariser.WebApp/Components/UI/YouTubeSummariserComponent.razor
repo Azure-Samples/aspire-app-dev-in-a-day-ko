@@ -1,4 +1,4 @@
-﻿@using AspireYouTubeSummariser.WebApp.Clients
+@using AspireYouTubeSummariser.WebApp.Clients
 @inject IApiAppClient ApiApp
 
 <div class="container">
@@ -36,7 +36,7 @@
     <div class="row">
         <div class="mb-3">
             <button type="button" class="btn btn-primary" @onclick="SummariseAsync">Summarise!</button>
-            <button type="button" class="btn btn-secondary" @onclick="ClearAsync">Clear!</button>
+            <button type="button" class="btn btn-secondary" @onclick="ClearAsync">Reset!</button>
         </div>
     </div>
 
@@ -46,7 +46,6 @@
             <textarea class="form-control" id="summary" rows="10" placeholder="Result will show here" readonly>@summaryResult</textarea>
         </div>
     </div>
-
 </div>
 
 @code {
@@ -65,7 +64,7 @@
         catch (Exception ex)
         {
             summaryResult = ex.Message;
-        }        
+        }
     }
 
     private async Task ClearAsync()

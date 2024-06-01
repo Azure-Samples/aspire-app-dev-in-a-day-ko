@@ -484,8 +484,10 @@ $RECYCLE.BIN/
 *.swp
 
 # ---
+*.bak
 appsettings.Development.json
 appsettings.Production.json
 bundle.js
 bundle.js.*.txt
-workshop/
+workshop*/
+z-demo*/
