@@ -30,7 +30,7 @@ fi
 
 while [[ "$1" != "" ]]; do
     case $1 in
-        -E | --azure-env-name)
+        -e | --azure-env-name)
             shift
             AZURE_ENV_NAME="$1"
         ;;
@@ -55,7 +55,7 @@ while [[ "$1" != "" ]]; do
 done
 
 if [ -z "$AZURE_ENV_NAME" ] || [ -z "$AZ_LOCATION" ] ; then
-    echo "Both 'azure-env-name' and 'location' must be provided"
+    echo "Both 'azure-env-name' and 'location' must be provided" >&2
     exit 1
 fi
 
@@ -86,23 +86,23 @@ AZ_RESOURCE_GROUP="rg-$AZURE_ENV_NAME"
 AZ_NODE_RESOURCE_GROUP="rg-$AZURE_ENV_NAME-mc"
 
 SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-$RESOURCE_TOKEN=$(get_resource_token "$SUBSCRIPTION_ID" "$AZURE_ENV_NAME")
+RESOURCE_TOKEN=$(get_resource_token "$SUBSCRIPTION_ID" "$AZURE_ENV_NAME")
 
 ACR_NAME="acr$RESOURCE_TOKEN"
 AKS_CLUSTER_NAME="aks-$RESOURCE_TOKEN"
 
 # Create a Resource Group
-echo -e "\e[36mCreating a resource group '$AZ_RESOURCE_GROUP' in $AZ_LOCATION...\e[0m"
+echo -e "\e[36mCreating a resource group '$AZ_RESOURCE_GROUP' in $AZ_LOCATION...\e[0m" >&2
 
 AZ_GROUP_EXISTS=$(az group list --query "[?name == '$AZ_RESOURCE_GROUP'].name" -o tsv)
 if [ -z "$AZ_GROUP_EXISTS" ] ; then
     GROUP=$(az group create -n $AZ_RESOURCE_GROUP -l $AZ_LOCATION)
 fi
 
-echo -e "\e[36m... Resource Group '$AZ_RESOURCE_GROUP' created\e[0m"
+echo -e "\e[36m... Resource Group '$AZ_RESOURCE_GROUP' created\e[0m" >&2
 
 # Create an Azure Container Registry
-echo -e "\e[36mCreating an Azure Container Registry '$ACR_NAME' in $AZ_LOCATION in $AZ_RESOURCE_GROUP ...\e[0m"
+echo -e "\e[36mCreating an Azure Container Registry '$ACR_NAME' in $AZ_LOCATION in $AZ_RESOURCE_GROUP ...\e[0m" >&2
 
 ACR_EXISTS=$(az acr list -g $AZ_RESOURCE_GROUP --query "[?name == '$ACR_NAME'].name" -o tsv)
 if [ -z "$ACR_EXISTS" ] ; then
@@ -114,7 +114,7 @@ if [ -z "$ACR_EXISTS" ] ; then
         --admin-enabled true)
 fi
 
-echo -e "\e[36m... Azure Container Registry '$ACR_NAME' created\e[0m"
+echo -e "\e[36m... Azure Container Registry '$ACR_NAME' created\e[0m" >&2
 
 # Gets the ACR login details
 ACR_LOGIN_SERVER=$(az acr show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "loginServer" -o tsv)
@@ -122,7 +122,7 @@ ACR_USERNAME=$(az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query
 ACR_PASSWORD=$(az acr credential show -g $AZ_RESOURCE_GROUP -n $ACR_NAME --query "passwords[0].value" -o tsv)
 
 # Create an AKS cluster
-echo -e "\e[36mCreating an AKS cluster '$AKS_CLUSTER_NAME' in $AZ_LOCATION in $AZ_RESOURCE_GROUP ...\e[0m"
+echo -e "\e[36mCreating an AKS cluster '$AKS_CLUSTER_NAME' in $AZ_LOCATION in $AZ_RESOURCE_GROUP ...\e[0m" >&2
 
 AKS_EXISTS=$(az aks list -g $AZ_RESOURCE_GROUP --query "[?name == '$AKS_CLUSTER_NAME'].name" -o tsv)
 if [ -z "$AKS_EXISTS" ] ; then
@@ -137,34 +137,43 @@ if [ -z "$AKS_EXISTS" ] ; then
         --attach-acr $ACR_NAME)
 fi
 
-echo ""
-echo -e "\e[36m... AKS cluster '$AKS_CLUSTER_NAME' created\e[0m"
+echo "" >&2
+echo -e "\e[36m... AKS cluster '$AKS_CLUSTER_NAME' created\e[0m" >&2
 
-PROVISIONED=$(jq -n \
-                  --arg azureEnvName "$AZURE_ENV_NAME" \
-                  --arg location "$AZ_LOCATION" \
-                  --arg resourceGroup "$AZ_RESOURCE_GROUP" \
-                  --arg nodeResourceGroup "$AZ_NODE_RESOURCE_GROUP" \
-                  --arg acrName "$ACR_NAME" \
-                  --arg acrLoginServer "$ACR_LOGIN_SERVER" \
-                  --arg acrUsername "$ACR_USERNAME" \
-                  --arg acrPassword "$ACR_PASSWORD" \
-                  --arg aksClusterName "$AKS_CLUSTER_NAME" \
-                  '{
-                    azureEnvName: $azureEnvName,
-                    location: $location,
-                    resourceGroup: $resourceGroup,
-                    nodeResourceGroup: $nodeResourceGroup,
-                    acrName: $acrName,
-                    acrLoginServer: $acrLoginServer,
-                    acrUsername: $acrUsername,
-                    acrPassword: $acrPassword,
-                    aksClusterName: $aksClusterName
-                  }')
+jq -n \
+   --arg azureEnvName "$AZURE_ENV_NAME" \
+   --arg location "$AZ_LOCATION" \
+   --arg resourceGroup "$AZ_RESOURCE_GROUP" \
+   --arg nodeResourceGroup "$AZ_NODE_RESOURCE_GROUP" \
+   --arg acrName "$ACR_NAME" \
+   --arg acrLoginServer "$ACR_LOGIN_SERVER" \
+   --arg acrUsername "$ACR_USERNAME" \
+   --arg acrPassword "$ACR_PASSWORD" \
+   --arg aksClusterName "$AKS_CLUSTER_NAME" \
+   '{
+     "azureEnvName": $azureEnvName,
+     "location": $location,
+     "resourceGroup": $resourceGroup,
+     "nodeResourceGroup": $nodeResourceGroup,
+     "acrName": $acrName,
+     "acrLoginServer": $acrLoginServer,
+     "acrUsername": $acrUsername,
+     "acrPassword": $acrPassword,
+     "aksClusterName": $aksClusterName
+   }'
 
-echo "$PROVISIONED"
+# echo "{
+#   \"azureEnvName\": \"$AZURE_ENV_NAME\",
+#   \"location\": \"$AZ_LOCATION\",
+#   \"resourceGroup\": \"$AZ_RESOURCE_GROUP\",
+#   \"nodeResourceGroup\": \"$AZ_NODE_RESOURCE_GROUP\",
+#   \"acrName\": \"$ACR_NAME\",
+#   \"acrLoginServer\": \"$ACR_LOGIN_SERVER\",
+#   \"acrUsername\": \"$ACR_USERNAME\",
+#   \"acrPassword\": \"$ACR_PASSWORD\",
+#   \"aksClusterName\": \"$AKS_CLUSTER_NAME\"
+# }"
 
-PROVISIONED=
 AKS=
 AKS_EXISTS=
 ACR_PASSWORD=

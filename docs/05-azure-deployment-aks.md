@@ -130,6 +130,19 @@
 > dotnet restore && dotnet build
 > ```
 
+
+1. `AspireYouTubeSummariser.AppHost` 프로젝트의 `appsettings.Development.json` 파일에 [세션 04: Azure 배포 - Azure Container Apps](./04-azure-deployment-aca.md)에서 등록한 OpenAI 정보를 다시 입력합니다.
+
+    ```json
+    "OpenAI": {
+      "Endpoint": "{{ Azure OpenAI Proxy Service Endpoint }}",
+      "ApiKey": "{{ Azure OpenAI Proxy Service Access Code }}",
+      "DeploymentName": "{{ Azure OpenAI Proxy Service Deployment Name }}"
+    }
+    ```
+
+   > **중요**: `appsettings.json` 파일에 추가한 Azure OpenAI 서비스의 값들은 절대로 GitHub에 커밋하지 마세요. 대신 `appsettings.Development.json` 파일에 추가하세요. `.gitignore` 파일에 이미 `appsettings.Development.json` 파일에 대한 제외 옵션이 추가되어 있습니다.
+
 ## 05-4: Aspirate 설치하기
 
 1. 아래 명령어를 통해 Aspirate를 설치합니다.
@@ -192,7 +205,7 @@
 
 1. 홈페이지에서 YouTube 링크를 입력하고 `Summarise` 버튼을 클릭합니다.
 
-    ![Home page #1](./images/04-azure-deployment-05.png)
+    ![Home page #1](./images/05-azure-deployment-07.png)
 
    > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
 
@@ -230,7 +243,7 @@
     http://<EXTERNAL-IP>
     ```
 
-    ![Home page #2](./images/05-azure-deployment-07.png)
+    ![Home page #2](./images/05-azure-deployment-08.png)
 
 1. YouTube 링크를 입력하고 `Summarise` 버튼을 클릭합니다.
 
@@ -243,6 +256,12 @@
 1. 만약 앱 수정 결과가 반영되지 않았다면, 아래와 같이 컨테이너 이미지를 지우고 다시 배포해 보세요.
 
     ```bash
+    # bash/zsh
+    ACR_NAME=$(echo $PROVISIONED | jq -r '.acrName')
+
+    # PowerShell
+    $ACR_NAME = $($PROVISIONED | ConvertFrom-Json).acrName
+
     # AKS 노드 삭제
     aspirate destroy -k $AKS_CLUSTER_NAME --non-interactive
 
@@ -276,6 +295,8 @@
     ```text
     http://<EXTERNAL-IP>
     ```
+
+   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
 
 ## 05-8: 배포된 앱 삭제하기
 
