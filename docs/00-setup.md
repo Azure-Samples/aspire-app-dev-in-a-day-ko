@@ -81,6 +81,22 @@
 
    `8.0.300` 이상의 버전이 설치되어 있어야 합니다. 없을 경우 [.NET SDK 설치 페이지](https://dotnet.microsoft.com/download/dotnet/8.0?WT.mc_id=dotnet-121695-juyoo)에서 최신 버전을 다운로드 받아 설치합니다.
 
+1. 아래 명령어를 실행시켜 [C# Dev Kit 익스텐션](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit&WT.mc_id=dotnet-121695-juyoo)이 설치되어 있는지 확인합니다.
+
+    ```bash
+    # bash/zsh
+    code --list-extensions | findstr "ms-dotnettools.csdevkit"
+    
+    # PowerShell
+    code --list-extensions | Select-String "ms-dotnettools.csdevkit"
+    ```
+
+1. 만약 설치되어 있지 않다면 설치합니다.
+
+    ```bash
+    code --install-extension "ms-dotnettools.csdevkit" --force
+    ```
+
 ---
 
 축하합니다! 개발 환경 설정이 끝났습니다. 이제 [Session 01: Blazor 프론트엔드 웹 앱 개발](./01-blazor-frontend.md)로 넘어가세요.

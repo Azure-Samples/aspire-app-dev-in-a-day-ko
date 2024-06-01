@@ -207,38 +207,6 @@
 
    > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
 
-    <!-- 1. 요약 결과가 나오지 않습니다. `webapp`의 Log Stream 탭에서 아래와 같은 에러가 발생한 것을 확인해 보세요.
-    
-        ![Azure Container Apps log stream](./images/04-azure-deployment-12.png)
-    
-        > 위 에러는 GitHub Codespaces 환경에서만 발생하는 문제입니다. 로컬 개발 환경에서는 발생하지 않습니다. -->
-
-    <!-- ## 04-6: Aspire 프로젝트 수정 후 다시 배포하기 -->
-
-    <!-- 1. `AspireYouTubeSummariser.WebApp` 프로젝트의 `Program.cs` 파일을 열고 아래 라인을 수정합니다.
-    
-        ```csharp
-        // 수정 전
-        builder.Services.AddHttpClient<IApiAppClient, ApiAppClient>(p => p.BaseAddress = new Uri("http://apiapp"));
-    
-        // 수정 후
-        builder.Services.AddHttpClient<IApiAppClient, ApiAppClient>(p => p.BaseAddress = new Uri("https://apiapp"));
-        ```
-    
-        > 위 수정 사항은 GitHub Codespaces 환경에서만 필요합니다. 로컬 개발 환경에서는 항상 `https://apiapp`으로 설정해두면 됩니다. -->
-
-    <!-- 1. 수정이 끝난 후 아래 명령어를 실행시켜 다시 앱을 배포합니다.
-    
-        ```bash
-        azd deploy
-        ``` -->
-
-    <!-- 1. 배포가 끝난 후 다시 `webapp` 컨테이너 앱을 실행시켜 홈페이지에서 YouTube 링크를 입력하고 `Summarise` 버튼을 클릭합니다.
-    
-        ![Home page #2](./images/04-azure-deployment-13.png)
-    
-       > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다. -->
-
 1. 요약 결과가 잘 나오는 것을 확인합니다.
 
     ![Home page #3](./images/04-azure-deployment-14.png)
@@ -248,7 +216,7 @@
 1. 아래 명령어를 통해 배포한 앱을 삭제합니다.
 
     ```bash
-    azd down
+    azd down --purge --force
     ```
 
 ---
