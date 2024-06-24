@@ -11,6 +11,7 @@
     <AspNetCoreVersion>8.*</AspNetCoreVersion>
     <AzureOpenAISdkVersion>2.*-*</AzureOpenAISdkVersion>
     <MicrosoftExtensionsVersion>8.*</MicrosoftExtensionsVersion>
+    <MicrosoftKernelMemoryVersion>0.*</MicrosoftKernelMemoryVersion>
     <OpenTelemetryExporterVersion>1.*</OpenTelemetryExporterVersion>
     <OpenTelemetryExtensionsVersion>1.*</OpenTelemetryExtensionsVersion>
     <OpenTelemetryInstrumentationVersion>1.*</OpenTelemetryInstrumentationVersion>
