@@ -9,7 +9,7 @@
 
     <AspireVersion>8.*</AspireVersion>
     <AspNetCoreVersion>8.*</AspNetCoreVersion>
-    <AzureOpenAISdkVersion>1.*-beta.*</AzureOpenAISdkVersion>
+    <AzureOpenAISdkVersion>2.*-*</AzureOpenAISdkVersion>
     <MicrosoftExtensionsVersion>8.*</MicrosoftExtensionsVersion>
     <OpenTelemetryExporterVersion>1.*</OpenTelemetryExporterVersion>
     <OpenTelemetryExtensionsVersion>1.*</OpenTelemetryExtensionsVersion>
