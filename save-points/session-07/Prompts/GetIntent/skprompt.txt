@@ -1,0 +1,30 @@
+Identify the user's intent. Return one of the following values:
+
+ListOfSongsByArtist - If the user wants to have the list of songs by an artist
+ListOfAlbumsByArtist - If the user wants to have the list of albums by an artist
+CurrentRank - If the user wants to know the rank of a song
+Unknown - If the user's intent matches none of the above
+
+Examples:
+{{$user}}Give me the list of titles by aespa
+{{$bot}}ListOfSongsByArtist
+
+{{$user}}How many songs by aespa are on the chart?
+{{$bot}}ListOfSongsByArtist
+
+{{$user}}aespa 노래들이 궁금해
+{{$bot}}ListOfSongsByArtist
+
+{{$user}}I'd like to have the names of the albums by Ive
+{{$bot}}ListOfAlbumsByArtist
+
+{{$user}}IVE 앨범 이름을 알려줘
+{{$bot}}ListOfAlbumsByArtist
+
+{{$user}}What rank is the song, Supernova?
+{{$bot}}CurrentRank
+
+{{$user}}Supernova 노래 순위가 궁금해
+{{$bot}}CurrentRank
+
+user input: {{$input}}

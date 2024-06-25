@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "type": "completion",
+  "description": "Refine the response based on the identified intent",
+  "execution_settings": {
+    "default": {
+      "max_tokens": 800,
+      "temperature": 0
+    }
+  },
+  "input_variables": [
+    {
+      "name": "input",
+      "description": "The result from the previous step in JSON format",
+      "required": true
+    },
+    {
+      "name": "intent",
+      "description": "The user's intent",
+      "required": true
+    }
+  ]
+}

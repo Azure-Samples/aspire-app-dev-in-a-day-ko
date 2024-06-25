@@ -6,4 +6,4 @@
 
 > [node.js](https://nodejs.org/en/download) 18+ 버전을 사용하고 있는지 확인해 주세요.
 
-관련 문서: [Session 05](../../docs/06-blazor-js-interop.md)
+관련 문서: [Session 06](../../docs/06-blazor-js-interop.md)
