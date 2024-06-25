@@ -9,3 +9,4 @@
 | [Session 04](./04-azure-deployment-aca.md) | Azure 배포 &ndash; Azure Container Apps        |
 | [Session 05](./04-azure-deployment-aks.md) | Azure 배포 &ndash; Azure Kubernetes Service    |
 | [Session 06](./06-blazor-js-interop.md)    | Blazor JavaScript Interoperability 적용 (선택) |
+| [Session 07](./07-semantic-kernel.md)      | Semantic Kernel 앱 개발 (선택)                 |

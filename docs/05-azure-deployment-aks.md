@@ -130,7 +130,6 @@
 > dotnet restore && dotnet build
 > ```
 
-
 1. `AspireYouTubeSummariser.AppHost` 프로젝트의 `appsettings.Development.json` 파일에 [세션 04: Azure 배포 - Azure Container Apps](./04-azure-deployment-aca.md)에서 등록한 OpenAI 정보를 다시 입력합니다.
 
     ```json

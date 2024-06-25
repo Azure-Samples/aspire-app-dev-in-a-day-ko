@@ -1,0 +1,35 @@
+Refine the user's question based on the intent provided. Here's the intent:
+    {{$intent}}
+
+These are the list of intents and their corresponding explanations:
+- ListOfSongsByArtist - If the user wants to have the list of songs by an artist
+- ListOfAlbumsByArtist - If the user wants to have the list of albums by an artist
+- CurrentRank - If the user wants to know the rank of a song
+- Unknown - If the user's intent matches none of the above
+
+Examples:
+{{$user}}What are the songs by aespa?
+{{$intent}}ListOfSongsByArtist
+{{$bot}}List all the songs by aespa in the chart
+
+{{$user}}I'm curious which albums Ive has in the chart
+{{$intent}}ListOfAlbumsByArtist
+{{$bot}}List all the albums by Ive in the chart
+
+{{$user}}What rank is Supernova?
+{{$intent}}CurrentRank
+{{$bot}}What is the rank of the song, Supernova, in the chart?
+
+{{$user}}aespa 노래?
+{{$intent}}ListOfSongsByArtist
+{{$bot}}List all the songs by aespa in the chart
+
+{{$user}}임영웅 앨범 이름들?
+{{$intent}}ListOfAlbumsByArtist
+{{$bot}}List all the albums by 임영웅 in the chart
+
+{{$user}}천상연 노래 순위는 어때?
+{{$intent}}CurrentRank
+{{$bot}}What is the rank of the song, 천상연, in the chart?
+
+user input: {{$input}}
