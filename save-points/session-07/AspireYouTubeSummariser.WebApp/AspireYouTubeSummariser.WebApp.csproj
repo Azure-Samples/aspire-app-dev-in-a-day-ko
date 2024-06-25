@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <AssemblyName>AspireYouTubeSummariser.WebApp</AssemblyName>
+    <RootNamespace>AspireYouTubeSummariser.WebApp</RootNamespace>
+
+    <JSInteropRoot>JSInterop/</JSInteropRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(JSInteropRoot)node_modules/**</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="$(JSInteropRoot)**" />
+    <None Remove="$(JSInteropRoot)**" />
+    <None Include="$(JSInteropRoot)**" Exclude="$(JSInteropRoot)node_modules/**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="$(AspireVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AspireYouTubeSummariser.ServiceDefaults\AspireYouTubeSummariser.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+  <Target Name="PublishRunWebpack" AfterTargets="Build">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec WorkingDirectory="$(JSInteropRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(JSInteropRoot)" Command="npm run build" />
+  </Target>
+
+</Project>

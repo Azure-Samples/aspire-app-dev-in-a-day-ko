@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "type": "completion",
+  "description": "Refine the user's request based on the identified intent",
+  "execution_settings": {
+    "default": {
+      "max_tokens": 800,
+      "temperature": 0
+    }
+  },
+  "input_variables": [
+    {
+      "name": "input",
+      "description": "The user's request",
+      "required": true
+    },
+    {
+      "name": "intent",
+      "description": "The user's intent",
+      "required": true
+    }
+  ]
+}

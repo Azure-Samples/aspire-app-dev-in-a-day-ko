@@ -1,0 +1,28 @@
+<message role="system">You have the list of JSON data containing the title, album, artist and current rank of a song. The data is written in both Korean and English. Convert the data in the format of artist|current rank|title|album</message>
+<message role="user">This is the intent of this request {{$intent}}</message>
+
+For example: 
+
+<message role="user">{"songId":"36318125","rank":"100","rankStatus":"none","rankStatusValue":0,"title":"Kitsch","artist":"IVE (아이브)","album":"I've IVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/120/quality/80/optimize"}\n{"songId":"36356993","rank":"28","rankStatus":"none","rankStatusValue":0,"title":"I AM","artist":"IVE (아이브)","album":"I've IVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/120/quality/80/optimize"}\n{"songId":"34847378","rank":"63","rankStatus":"none","rankStatusValue":0,"title":"LOVE DIVE","artist":"IVE (아이브)","album":"LOVE DIVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/109/09/179/10909179_20220405103521_500.jpg/melon/resize/120/quality/80/optimize"}\n{"songId":"37463573","rank":"46","rankStatus":"none","rankStatusValue":0,"title":"Accendio","artist":"IVE (아이브)","album":"IVE SWITCH","image":"https://cdnimg.melon.co.kr/cm2/album/images/114/75/530/11475530_20240430093854_500.jpg/melon/resize/120/quality/80/optimize"}\n{"songId":"36871671","rank":"93","rankStatus":"none","rankStatusValue":0,"title":"Baddie","artist":"IVE (아이브)","album":"I'VE MINE","image":"https://cdnimg.melon.co.kr/cm2/album/images/113/33/459/11333459_20231013103537_500.jpg/melon/resize/120/quality/80/optimize"}</message>
+<message role="user">Intent: ListOfSongsByArtist</message>
+<message role="assistant">IVE (아이브)|100|Kitsch|I've IVE\nIVE (아이브)|28|I AM|I've IVE\nIVE (아이브)|63|LOVE DIVE|LOVE DIVE\nIVE (아이브)|46|Accendio|IVE SWITCH\nIVE (아이브)|93|Baddie|I'VE MINE</message>
+
+<message role="user">{"songId":"36318125","rank":"100","rankStatus":"none","rankStatusValue":0,"title":"Kitsch","artist":"IVE (아이브)","album":"I've IVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/120/quality/80/optimize"}</message>
+<message role="user">Intent: ListOfSongsByArtist</message>
+<message role="assistant">IVE (아이브)|100|Kitsch|I've IVE</message>
+
+<message role="user">{"songId":"36318125","rank":"100","rankStatus":"none","rankStatusValue":0,"title":"Kitsch","artist":"IVE (아이브)","album":"I've IVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/120/quality/80/optimize"}\n{"songId":"36356993","rank":"28","rankStatus":"none","rankStatusValue":0,"title":"I AM","artist":"IVE (아이브)","album":"I've IVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/120/quality/80/optimize"}\n{"songId":"34847378","rank":"63","rankStatus":"none","rankStatusValue":0,"title":"LOVE DIVE","artist":"IVE (아이브)","album":"LOVE DIVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/109/09/179/10909179_20220405103521_500.jpg/melon/resize/120/quality/80/optimize"}\n{"songId":"37463573","rank":"46","rankStatus":"none","rankStatusValue":0,"title":"Accendio","artist":"IVE (아이브)","album":"IVE SWITCH","image":"https://cdnimg.melon.co.kr/cm2/album/images/114/75/530/11475530_20240430093854_500.jpg/melon/resize/120/quality/80/optimize"}\n{"songId":"36871671","rank":"93","rankStatus":"none","rankStatusValue":0,"title":"Baddie","artist":"IVE (아이브)","album":"I'VE MINE","image":"https://cdnimg.melon.co.kr/cm2/album/images/113/33/459/11333459_20231013103537_500.jpg/melon/resize/120/quality/80/optimize"}</message>
+<message role="user">Intent: ListOfAlbumsByArtist</message>
+<message role="assistant">IVE (아이브)|100|Kitsch|I've IVE\nIVE (아이브)|28|I AM|I've IVE\nIVE (아이브)|63|LOVE DIVE|LOVE DIVE\nIVE (아이브)|46|Accendio|IVE SWITCH\nIVE (아이브)|93|Baddie|I'VE MINE</message>
+
+<message role="user">{"songId":"36318125","rank":"100","rankStatus":"none","rankStatusValue":0,"title":"Kitsch","artist":"IVE (아이브)","album":"I've IVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/120/quality/80/optimize"}</message>
+<message role="user">Intent: ListOfAlbumsByArtist</message>
+<message role="assistant">IVE (아이브)|100|Kitsch|I've IVE</message>
+
+<message role="user">{"songId":"36318125","rank":"100","rankStatus":"none","rankStatusValue":0,"title":"Kitsch","artist":"IVE (아이브)","album":"I've IVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/120/quality/80/optimize"}</message>
+<message role="user">Intent: CurrentRank</message>
+<message role="assistant">IVE (아이브)|100|Kitsch|I've IVE</message>
+
+<message role="user">{{$input}}</message>
+<message role="user">Intent: {{$intent}}</message>
+<message role="assistant">artist|current rank|title|album</message>

@@ -10,7 +10,6 @@ var apiapp = builder.AddProject<Projects.AspireYouTubeSummariser_ApiApp>("apiapp
                     .WithEnvironment("OpenAI__DeploymentName", config["OpenAI:DeploymentName"]);
 
 builder.AddProject<Projects.AspireYouTubeSummariser_WebApp>("webapp")
-       .
        .WithReference(cache)
        .WithReference(apiapp);
 

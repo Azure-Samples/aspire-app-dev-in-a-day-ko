@@ -35,6 +35,7 @@
 | [Session 04](./docs/04-azure-deployment-aca.md) | Azure 배포 &ndash; Azure Container Apps        |
 | [Session 05](./docs/04-azure-deployment-aks.md) | Azure 배포 &ndash; Azure Kubernetes Service    |
 | [Session 06](./docs/06-blazor-js-interop.md)    | Blazor JavaScript Interoperability 적용 (선택) |
+| [Session 07](./docs/07-semantic-kernel.md)      | Semantic Kernel 앱 개발 (선택)                 |
 
 ## Resources
 
@@ -45,3 +46,5 @@
 - [What is GitHub Copilot?](https://docs.github.com/ko/copilot)
 - [Building an intelligent app with Blazor and Azure OpenAI](https://www.youtube.com/watch?v=TH12YSLLe9E&t=8464s)
 - [Your stack for building Cloud Native apps](https://www.youtube.com/live/5IjKH-gy2Y0?si=dSMvC7arUeRpqBmz)
+- [Blazor JavaScript Interoperability](https://learn.microsoft.com/ko-kr/aspnet/core/blazor/javascript-interoperability/?WT.mc_id=dotnet-121695-juyoo)
+- [Semantic Kernel](https://learn.microsoft.com/ko-kr/semantic-kernel/overview/?WT.mc_id=dotnet-121695-juyoo)

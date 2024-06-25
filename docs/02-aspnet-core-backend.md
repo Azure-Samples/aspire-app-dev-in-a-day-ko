@@ -199,10 +199,10 @@
 1. `Program.cs` 파일을 열고 `YouTubeSummariserService` 클래스에 생성자를 아래와 같이 추가합니다.
 
     ```csharp
-    class YouTubeSummariserService(IYouTubeVideo youtube, OpenAIClient openai, IConfiguration config)
+    class YouTubeSummariserService(IYouTubeVideo youtube, AzureOpenAIClient openai, IConfiguration config)
     {
         private readonly IYouTubeVideo _youtube = youtube ?? throw new ArgumentNullException(nameof(youtube));
-        private readonly OpenAIClient _openai = openai ?? throw new ArgumentNullException(nameof(openai));
+        private readonly AzureOpenAIClient _openai = openai ?? throw new ArgumentNullException(nameof(openai));
         private readonly IConfiguration _config = config ?? throw new ArgumentNullException(nameof(config));
     ```
 
@@ -228,18 +228,52 @@
 
    > 만약 네임스페이스 참조를 할 수 없다는 오류가 발생한다면 오류가 발생한 곳에 커서를 두고 `CTRL`+`.` 키 또는 `CMD`+`.` 키를 눌러 네임스페이스를 추가합니다.
 
+1. 이어 아래 내용을 `string caption ...` 바로 밑에 추가합니다.
+
+    ```csharp
+    public async Task<string> SummariseAsync(SummaryRequest req)
+    {
+        Subtitle subtitle = await this._youtube.ExtractSubtitleAsync(req.YouTubeLinkUrl, req.VideoLanguageCode).ConfigureAwait(false);
+        string caption = subtitle.Content.Select(p => p.Text).Aggregate((a, b) => $"{a}\n{b}");
+
+        // 추가
+        var chat = this._openai.GetChatClient(this._config["OpenAI:DeploymentName"]);
+    ```
+
+1. 계속해서 `SummariseAsync` 메서드 안에서 자막 내용을 요약하는 로직을 구현합니다. GitHub Copilot을 이용해 아래와 같이 수정합니다.
+
+    ```text
+    Create a list of ChatMessage instances with the following conditions:
+
+    - The list should have three messages with:
+      - A SystemChatMessage with the value of "Prompt:System" in the configuration.
+      - A SystemChatMessage with the value of "Here's the transcript. Summarise it in 5 bullet point items in the given language code of \"{req.SummaryLanguageCode}\".".
+      - A UserChatMessage with the value of "caption".
+    ```
+
+   그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `SummariseAsync` 메서드를 수정합니다.
+
+    ```csharp
+    public async Task<string> SummariseAsync(SummaryRequest req)
+    {
+        ...
+
+        var messages = new List<ChatMessage>()
+        {
+            new SystemChatMessage(this._config["Prompt:System"]),
+            new SystemChatMessage($"Here's the transcript. Summarise it in 5 bullet point items in the given language code of \"{req.SummaryLanguageCode}\"."),
+            new UserChatMessage(caption),
+        };
+    }
+    ```
+
 1. 계속해서 `SummariseAsync` 메서드 안에서 자막 내용을 요약하는 로직을 구현합니다. GitHub Copilot을 이용해 아래와 같이 수정합니다.
 
     ```text
     Create a ChatCompletionsOptions instance with the following conditions:
 
-    - It should have the "DeploymentName" property set to the value of "OpenAI:DeploymentName" in the configuration.
     - It should have the "MaxTokens" property set to the value of "Prompt:MaxTokens" in the configuration.
     - It should have the "Temperature" property set to the value of "Prompt:Temperature" in the configuration.
-    - It should have the "Messages" property set to the following messages:
-      - A message of "ChatRole.System" with the value of "Prompt:System" in the configuration.
-      - A message of "ChatRole.System" with the value of "Here's the transcript. Summarise it in 5 bullet point items in the given language code of \"{req.SummaryLanguageCode}\".".
-      - A message of "ChatRole.User" with the value of "caption".
     ```
 
    그러면 아래와 비슷한 코드가 생성되었을 것입니다. 아래 코드를 참고해서 `SummariseAsync` 메서드를 수정합니다.
@@ -272,8 +306,8 @@
     {
         ...
 
-        var response = await this._openai.GetChatCompletionsAsync(options).ConfigureAwait(false);
-        var summary = response.Value.Choices[0].Message.Content;
+        var response = await chat.CompleteChatAsync(messages, options).ConfigureAwait(false);
+        var summary = response.Value.Content[0].Text;
 
         return summary;
     }
@@ -283,12 +317,12 @@
 
     ```csharp
     builder.Services.AddHttpClient<IYouTubeVideo, YouTubeVideo>();
-    builder.Services.AddScoped<OpenAIClient>(sp =>
+    builder.Services.AddScoped<AzureOpenAIClient>(sp =>
     {
         var config = sp.GetRequiredService<IConfiguration>();
         var endpoint = new Uri(config["OpenAI:Endpoint"]);
         var credential = new AzureKeyCredential(config["OpenAI:ApiKey"]);
-        var client = new OpenAIClient(endpoint, credential);
+        var client = new AzureOpenAIClient(endpoint, credential);
 
         return client;
     });
