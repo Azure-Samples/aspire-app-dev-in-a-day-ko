@@ -211,7 +211,149 @@
 
     ![Home page #3](./images/04-azure-deployment-14.png)
 
-## 04-7: 배포된 앱 삭제하기
+## 04-7: GitHub Actions로 배포 자동화하기
+
+1. 아래 명령어를 실행시켜 리포지토리의 루트 디렉토리로 이동합니다.
+
+    ```bash
+    cd $REPOSITORY_ROOT
+    ```
+
+1. 아래 명령어를 실행시켜 GitHub Actions 워크플로우를 실행시킬 수 있는 환경을 설정합니다.
+
+    ```bash
+    azd pipeline config
+    ```
+
+1. 설정 마지막에 `Would you like to commit and push your local changes to start the configured CI pipeline?` 라는 질문이 나오면 `n`를 선택하고 종료합니다.
+1. 아래 명령어를 실행시켜 GitHub Actions 워크플로우 실행에 필요한 secret 값을 설정합니다. 이 값은 이미 [세션 03: Aspire 통합](./03-aspire-integration.md)에서 설정한 값입니다.
+
+    ```bash
+    gh secret set AZURE_OPENAI_ENDPOINT --body "{{ Azure OpenAI Proxy Service Endpoint }}" --repo {{ GITHUB_ID }}/aspire-app-dev-in-a-day-ko
+    gh secret set AZURE_OPENAI_API_KEY --body "{{ Azure OpenAI Proxy Service Access Code }}" --repo {{ GITHUB_ID }}/aspire-app-dev-in-a-day-ko
+    gh secret set AZURE_OPENAI_DEPLOYMENT_NAME --body "{{ Azure OpenAI Proxy Service Deployment Name }}" --repo {{ GITHUB_ID }}/aspire-app-dev-in-a-day-ko
+    ```
+
+   > **NOTE**: `{{ GITHUB_ID }}`는 자신의 GitHub 아이디로 변경해야 합니다.
+
+1. 아래 명령어를 실행시켜 GitHub Actions 워크플로우 파일을 생성합니다.
+
+    ```bash
+    # bash/zsh
+    curl \
+        https://raw.githubusercontent.com/Azure-Samples/azd-starter-bicep/main/.github/workflows/azure-dev.yml \
+        --output $REPOSITORY_ROOT/.github/workflows/azure-dev.yml
+    
+    # PowerShell
+    Invoke-WebRequest `
+        -Uri https://raw.githubusercontent.com/Azure-Samples/azd-starter-bicep/main/.github/workflows/azure-dev.yml `
+        -OutFile $REPOSITORY_ROOT/.github/workflows/azure-dev.yml
+    ```
+
+1. `.github/workflows` 디렉토리 아래의 `azre-dev.yml` 파일을 열고 아래와 같이 수정합니다.
+
+    ```yml
+    on:
+      workflow_dispatch:
+      push:
+        # Run when commits are pushed to mainline branch (main or master)
+        # Set this to the mainline branch you are using
+        branches:
+          - main
+          - master
+    
+        # 아래 두 줄 추가 👇
+        paths:
+          - 'workshop/**/*'
+        # 위 두 줄 추가 👆
+    ```
+
+1. `azure-dev.yml` 파일의 `Checkout` 액션과 `Install azd` 다음에 아래 세 액션을 추가합니다.
+
+    ```yaml
+    - name: Checkout
+      uses: actions/checkout@v4
+    
+    # 아래 액션 추가 👇
+    - name: Install .NET 8 SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.x
+    
+    - name: Install .NET Aspire workload
+      run: dotnet workload install aspire
+
+    - name: Update appsettings.json
+      shell: pwsh
+      run: |
+        pushd ./workshop
+        $appsettings = Get-Content -Path ./AspireYouTubeSummariser.AppHost/appsettings.json | ConvertFrom-Json
+        $appsettings.OpenAI.Endpoint = "${{ secrets.AZURE_OPENAI_ENDPOINT }}"
+        $appsettings.OpenAI.ApiKey = "${{ secrets.AZURE_OPENAI_API_KEY }}"
+        $appsettings.OpenAI.DeploymentName = "${{ secrets.AZURE_OPENAI_DEPLOYMENT_NAME }}"
+        $appsettings | ConvertTo-Json -Depth 100 | Out-File -FilePath ./AspireYouTubeSummariser.AppHost/appsettings.json -Encoding utf8 -Force
+        popd
+    # 위 액션 추가 👆
+    
+    - name: Install azd
+      uses: Azure/setup-azd@v1.0.0
+    ```
+
+1. `azre-dev.yml` 파일의 맨 마지막 부분에 있는 액션을 아래와 같이 수정합니다.
+
+    ```yaml
+    # 변경전
+    - name: Provision Infrastructure
+      run: azd provision --no-prompt
+    
+    - name: Deploy Application
+      run: azd deploy --no-prompt
+    
+    # 변경후
+    - name: Provision Infrastructure
+      run: |
+        pushd ./workshop
+        azd provision --no-prompt
+        popd
+    
+    - name: Deploy Application
+      run: |
+        pushd ./workshop
+        azd deploy --no-prompt
+        popd
+    ```
+
+1. 리포지토리 루트 디렉토리의 `.gitignore` 파일을 열고 맨 마지막으로 이동해서 아래와 같이 수정합니다.
+
+    ```plaintext
+    # 변경 전
+    bundle.js.*.txt
+    workshop*/
+    z-demo*/
+    
+    # 변경 후
+    bundle.js.*.txt
+    # workshop*/
+    z-demo*/
+    ```
+
+1. 아래 명령어를 실행시켜 변경 사항을 커밋하고 푸시합니다.
+
+    ```bash
+    git add .
+    git commit -m "Add GitHub Actions workflow for Azure deployment"
+    git push
+    ```
+
+1. GitHub 리포지토리의 Actions 탭에서 `Azure Dev` 워크플로우가 돌아가는 것을 확인합니다.
+
+    ![GitHub Actions](./images/04-azure-deployment-15.png)
+
+1. GitHub Actions 워크플로우가 성공적으로 끝나면 로그 화면에서 아래와 같은 링크를 볼 수 있습니다. 이를 클릭해서 정상적으로 작동하는지 확인합니다.
+
+    ![GitHub Actions 배포 결과](./images/04-azure-deployment-16.png)
+
+## 04-8: 배포된 앱 삭제하기
 
 1. 아래 명령어를 통해 배포한 앱을 삭제합니다.
 
