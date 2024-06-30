@@ -213,10 +213,10 @@
 
 ## 04-7: GitHub Actions로 배포 자동화하기
 
-1. 아래 명령어를 실행시켜 리포지토리의 루트 디렉토리로 이동합니다.
+1. 아래 명령어를 실행시켜 리포지토리의 `workshop` 디렉토리로 이동합니다.
 
     ```bash
-    cd $REPOSITORY_ROOT
+    cd $REPOSITORY_ROOT/workshop
     ```
 
 1. 아래 명령어를 실행시켜 GitHub Actions 워크플로우를 실행시킬 수 있는 환경을 설정합니다.
