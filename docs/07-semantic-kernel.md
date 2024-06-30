@@ -96,6 +96,8 @@
     using Microsoft.SemanticKernel;
     using Microsoft.SemanticKernel.Connectors.OpenAI;
     using Microsoft.SemanticKernel.Memory;
+
+    using Kernel = Microsoft.SemanticKernel.Kernel;
     ```
 
    이후 셀을 실행시킵니다.
