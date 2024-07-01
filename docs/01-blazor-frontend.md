@@ -336,6 +336,13 @@
 
     ![Solution Explorer - Debugging](./images/01-blazor-frontend-02.png)
 
+   > 또는 터미널에서 아래 명령어를 차례로 실행시켜 Blazor 웹 앱을 실행합니다.
+   > 
+   > ```bash
+   > cd $REPOSITORY_ROOT/workshop
+   > dotnet watch run --project AspireYouTubeSummariser.WebApp
+   > ```
+
 1. 첫 화면에서 아래와 같이 YouTube 링크를 입력하고 `Summarise!` 버튼을 클릭합니다.
 
     ![YouTubeSummariserComponent #1](./images/01-blazor-frontend-03.png)
@@ -351,6 +358,8 @@
 1. 아래와 같이 사각형 모양을 클릭하여 디버깅 모드를 중지합니다.
 
     ![Solution Explorer - Stop Debugging](./images/01-blazor-frontend-05.png)
+
+   > 앞서 터미널에서 `dotnet watch run ...` 명령어를 통해 Blazor 웹 앱을 실행했다면 `CTRL`+`C` 키를 눌러 실행을 중지합니다.
 
 ---
 

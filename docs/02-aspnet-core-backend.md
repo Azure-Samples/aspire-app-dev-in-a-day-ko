@@ -283,16 +283,10 @@
     {
         ...
 
-        ChatCompletionsOptions options = new ()
+        var options = new ChatCompletionOptions()
         {
-            DeploymentName = this._config["OpenAI:DeploymentName"],
             MaxTokens = int.TryParse(this._config["Prompt:MaxTokens"], out var maxTokens) ? maxTokens : 3000,
             Temperature = float.TryParse(this._config["Prompt:Temperature"], out var temperature) ? temperature : 0.7f,
-            Messages = {
-                           new ChatRequestSystemMessage(this._config["Prompt:System"]),
-                           new ChatRequestSystemMessage($"Here's the transcript. Summarise it in 5 bullet point items in the given language code of \"{req.SummaryLanguageCode}\"."),
-                           new ChatRequestUserMessage(caption),
-                       }
         };
     }
     ```
@@ -334,11 +328,18 @@
 
 1. Solution Explorer에서 `AspireYouTubeSummariser.ApiApp` 프로젝트를 선택하고 마우스 오른쪽 버튼을 눌러 디버깅 모드로 실행합니다.
 
+   > 또는 아래 명령어를 차례로 실행시켜 앱을 실행합니다.
+   > 
+   > ```bash
+   > cd $REPOSITORY_ROOT/workshop
+   > dotnet watch run --project AspireYouTubeSummariser.ApiApp
+   > ```
+
 1. Swagger UI 화면에서 아래와 같이 `youTubeLinkUrl`, `videoLanguageCode`, `summaryLanguageCode` 값을 입력한 후 결과를 확인합니다.
 
     ```json
     {
-      "youTubeLinkUrl": "https://youtu.be/z1M-7Bms1Jg?si=7sLzsBY00-vpf8xL",
+      "youTubeLinkUrl": "https://youtu.be/NN4Zzp-vOrU",
       "videoLanguageCode": "en",
       "summaryLanguageCode": "ko"
     }
@@ -346,13 +347,13 @@
 
     ![Backend API #1](./images/02-aspnet-core-backend-03.png)
 
-   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
+   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/NN4Zzp-vOrU](https://youtu.be/NN4Zzp-vOrU) 링크를 사용합니다. 혹시나 토큰 길이 관련 에러가 나오는 경우에는 30분 이하의 짧은 동영상을 사용해 보세요.
 
 1. 그러면 아래와 같이 요약 결과가 나오는 것을 확인합니다.
 
     ![Backend API #2](./images/02-aspnet-core-backend-04.png)
 
-1. 디버깅 모드를 중지합니다.
+1. 디버깅 모드를 중지합니다. 또는 앞서 터미널 창에서 실행시켰을 경우 `CTRL`+`C` 키를 눌러 실행을 중지합니다.
 
 ## 02-6: Blazor 프론트엔드 앱과 ASP.NET Core 백엔드 API 앱 통합하기
 
@@ -423,11 +424,30 @@
 
 1. Solution Explorer에서 `AspireYouTubeSummariser.WebApp` 프로젝트를 선택하고 마우스 오른쪽 버튼을 눌러 디버깅 모드로 실행합니다.
 
+   > 또는 또 다른 터미널 창을 열어 아래 명령어를 차례로 실행시켜 앱을 실행합니다.
+   > 
+   > ```bash
+   > # GitHub Codespaces
+   > REPOSITORY_ROOT=$CODESPACE_VSCODE_FOLDER
+   > cd $REPOSITORY_ROOT/workshop
+   > dotnet watch run --project AspireYouTubeSummariser.WebApp
+   >
+   > # bash/zsh
+   > REPOSITORY_ROOT=$(git rev-parse --show-toplevel)
+   > cd $REPOSITORY_ROOT/workshop
+   > dotnet watch run --project AspireYouTubeSummariser.WebApp
+   >
+   > # PowerShell
+   > $REPOSITORY_ROOT = git rev-parse --show-toplevel
+   > cd $REPOSITORY_ROOT/workshop
+   > dotnet watch run --project AspireYouTubeSummariser.WebApp
+   > ```
+
 1. 첫 화면에서 아래와 같이 **YouTube Link**를 입력합니다. 그리고 **Video Language**는 *English*, **Summary Language**는 *Korean*을 선택하고 `Summarise!` 버튼을 클릭합니다.
 
     ![YouTubeSummariserComponent #1](./images/02-aspnet-core-backend-05.png)
 
-   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
+   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/NN4Zzp-vOrU](https://youtu.be/NN4Zzp-vOrU) 링크를 사용합니다. 혹시나 토큰 길이 관련 에러가 나오는 경우에는 30분 이하의 짧은 동영상을 사용해 보세요.
 
 1. 잠시 기다려서 아래와 같이 요약 메시지가 나오는 것을 확인합니다.
 
@@ -437,7 +457,7 @@
 
     ![Weather Page](./images/02-aspnet-core-backend-07.png)
 
-1. 디버깅 모드를 중지합니다.
+1. 디버깅 모드를 중지합니다. 또는 터미널 창에서 웹 앱을 실행시켰을 경우 `CTRL`+`C` 키를 눌러 실행을 중지합니다.
 1. 터미널 창에서 `CTRL`+`C` 키를 눌러 백엔드 API 앱 실행을 중지합니다.
 
 ---

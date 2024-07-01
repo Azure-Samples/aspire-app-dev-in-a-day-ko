@@ -85,7 +85,7 @@
 
     ```bash
     # bash/zsh
-    code --list-extensions | findstr "ms-dotnettools.csdevkit"
+    code --list-extensions | grep "ms-dotnettools.csdevkit"
     
     # PowerShell
     code --list-extensions | Select-String "ms-dotnettools.csdevkit"

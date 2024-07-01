@@ -205,7 +205,7 @@
 
     ![Home page #1](./images/04-azure-deployment-11.png)
 
-   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
+   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/NN4Zzp-vOrU](https://youtu.be/NN4Zzp-vOrU) 링크를 사용합니다. 혹시나 토큰 길이 관련 에러가 나오는 경우에는 30분 이하의 짧은 동영상을 사용해 보세요.
 
 1. 요약 결과가 잘 나오는 것을 확인합니다.
 
@@ -213,9 +213,11 @@
 
 ## 04-7: GitHub Actions로 배포 자동화하기
 
-1. 아래 명령어를 실행시켜 리포지토리의 `workshop` 디렉토리로 이동합니다.
+1. 아래 명령어를 차례로 실행시켜 배포 자동화를 위한 준비를 합니다.
 
     ```bash
+    cd $REPOSITORY_ROOT
+    mkdir -p .github/workflows
     cd $REPOSITORY_ROOT/workshop
     ```
 
@@ -250,7 +252,7 @@
         -OutFile $REPOSITORY_ROOT/.github/workflows/azure-dev.yml
     ```
 
-1. `.github/workflows` 디렉토리 아래의 `azre-dev.yml` 파일을 열고 아래와 같이 수정합니다.
+1. `.github/workflows` 디렉토리 아래의 `azre-dev.yml` 파일을 열고 아래와 같이 수정합니다. YAML 파일은 들여쓰기가 중요하므로 주의해서 수정하세요.
 
     ```yml
     on:
@@ -268,7 +270,7 @@
         # 위 두 줄 추가 👆
     ```
 
-1. `azure-dev.yml` 파일의 `Checkout` 액션과 `Install azd` 다음에 아래 세 액션을 추가합니다.
+1. `azure-dev.yml` 파일의 `Checkout` 액션과 `Install azd` 다음에 아래 세 액션을 추가합니다. YAML 파일은 들여쓰기가 중요하므로 주의해서 수정하세요.
 
     ```yaml
     - name: Checkout
@@ -299,7 +301,7 @@
       uses: Azure/setup-azd@v1.0.0
     ```
 
-1. `azre-dev.yml` 파일의 맨 마지막 부분에 있는 액션을 아래와 같이 수정합니다.
+1. `azre-dev.yml` 파일의 맨 마지막 부분에 있는 액션을 아래와 같이 수정합니다. YAML 파일은 들여쓰기가 중요하므로 주의해서 수정하세요.
 
     ```yaml
     # 변경전
@@ -352,6 +354,8 @@
 1. GitHub Actions 워크플로우가 성공적으로 끝나면 로그 화면에서 아래와 같은 링크를 볼 수 있습니다. 이를 클릭해서 정상적으로 작동하는지 확인합니다.
 
     ![GitHub Actions 배포 결과](./images/04-azure-deployment-16.png)
+
+   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/NN4Zzp-vOrU](https://youtu.be/NN4Zzp-vOrU) 링크를 사용합니다. 혹시나 토큰 길이 관련 에러가 나오는 경우에는 30분 이하의 짧은 동영상을 사용해 보세요.
 
 ## 04-8: 배포된 앱 삭제하기
 
