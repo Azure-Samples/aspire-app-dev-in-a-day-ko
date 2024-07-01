@@ -206,7 +206,7 @@
 
     ![Home page #1](./images/05-azure-deployment-07.png)
 
-   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
+   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/NN4Zzp-vOrU](https://youtu.be/NN4Zzp-vOrU) 링크를 사용합니다. 혹시나 토큰 길이 관련 에러가 나오는 경우에는 30분 이하의 짧은 동영상을 사용해 보세요.
 
 ## 05-7: Aspire 프로젝트 수정 후 다시 배포하기
 
@@ -246,7 +246,7 @@
 
 1. YouTube 링크를 입력하고 `Summarise` 버튼을 클릭합니다.
 
-   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
+   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/NN4Zzp-vOrU](https://youtu.be/NN4Zzp-vOrU) 링크를 사용합니다. 혹시나 토큰 길이 관련 에러가 나오는 경우에는 30분 이하의 짧은 동영상을 사용해 보세요.
 
 1. 요약 결과가 잘 나오는 것을 확인합니다.
 
@@ -295,7 +295,7 @@
     http://<EXTERNAL-IP>
     ```
 
-   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
+   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/NN4Zzp-vOrU](https://youtu.be/NN4Zzp-vOrU) 링크를 사용합니다. 혹시나 토큰 길이 관련 에러가 나오는 경우에는 30분 이하의 짧은 동영상을 사용해 보세요.
 
 ## 05-8: 배포된 앱 삭제하기
 
@@ -330,3 +330,4 @@
 ---
 
 (**추가 세션**) 이제 [세션 06: Blazor JavaScript Interoperability 적용](./06-blazor-js-interop.md)으로 넘어가세요.
+(**추가 세션**) 이제 [세션 07: Semantic Kernel 앱 개발](./07-semantic-kernel.md)으로 넘어가세요.

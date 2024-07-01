@@ -280,14 +280,34 @@
 
 ## 06-3: Aspire 프로젝트 빌드 및 실행하기
 
+1. `AspireYouTubeSummariser.AppHost` 프로젝트의 `appsettings.Development.json` 파일에 [세션 05: Azure 배포 - Azure Kubernetes Service](./05-azure-deployment-aks.md)에서 등록한 OpenAI 정보를 다시 입력합니다.
+
+    ```json
+    "OpenAI": {
+      "Endpoint": "{{ Azure OpenAI Proxy Service Endpoint }}",
+      "ApiKey": "{{ Azure OpenAI Proxy Service Access Code }}",
+      "DeploymentName": "{{ Azure OpenAI Proxy Service Deployment Name }}"
+    }
+    ```
+
+   > **중요**: `appsettings.json` 파일에 추가한 Azure OpenAI 서비스의 값들은 절대로 GitHub에 커밋하지 마세요. 대신 `appsettings.Development.json` 파일에 추가하세요. `.gitignore` 파일에 이미 `appsettings.Development.json` 파일에 대한 제외 옵션이 추가되어 있습니다.
+
 1. Solution Explorer에서 `AspireYouTubeSummariser.AppHost` 프로젝트를 선택하고 마우스 오른쪽 버튼을 눌러 디버깅 모드로 실행합니다.
+
+   > 또는 아래 명령어를 차례로 실행시켜 앱을 실행합니다.
+   > 
+   > ```bash
+   > cd $REPOSITORY_ROOT/workshop
+   > dotnet watch run --project AspireYouTubeSummariser.AppHost
+   > ```
+
 1. 대시보드 페이지를 열고 Blazor 프론트엔드 웹 앱을 실행시킵니다.
 1. 홈페이지에서 YouTube 링크를 입력하고 `Summarise` 버튼을 클릭합니다.
 
-   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
+   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/NN4Zzp-vOrU](https://youtu.be/NN4Zzp-vOrU) 링크를 사용합니다. 혹시나 토큰 길이 관련 에러가 나오는 경우에는 30분 이하의 짧은 동영상을 사용해 보세요.
 
 1. `Summarising...`이라는 텍스트와 함께 진행 상태바가 움직이는 것을 확인합니다.
-1. 디버깅 모드를 종료합니다.
+1. 디버깅 모드를 종료합니다. 또는 터미널 창에서 웹 앱을 실행시켰을 경우 `CTRL`+`C` 키를 눌러 실행을 중지합니다.
 
 ## 06-4: Aspire 프로젝트 배포하기
 
@@ -315,7 +335,7 @@
 1. 어느 지역에 배포할 것인지 물어봅니다. 아무 지역이나 선택해도 되지만, 여기서는 `Korea Central`을 선택합니다.
 1. 배포가 끝난 후 `webapp` 컨테이너 앱을 실행시켜 홈페이지에서 YouTube 링크를 입력하고 `Summarise` 버튼을 클릭합니다.
 
-   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/z1M-7Bms1Jg](https://youtu.be/z1M-7Bms1Jg) 링크를 사용합니다.
+   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/NN4Zzp-vOrU](https://youtu.be/NN4Zzp-vOrU) 링크를 사용합니다. 혹시나 토큰 길이 관련 에러가 나오는 경우에는 30분 이하의 짧은 동영상을 사용해 보세요.
 
 1. `Summarising...`이라는 텍스트와 함께 진행 상태바가 움직이는 것을 확인합니다.
 
@@ -330,3 +350,5 @@
 ---
 
 축하합니다! Blazor 프론트엔드 웹 앱에 JS Interop 기능을 통해 React 기반의 UI 컴포넌트를 통합하는 작업이 끝났습니다.
+
+(**추가 세션**) 이제 [세션 07: Semantic Kernel 앱 개발](./07-semantic-kernel.md)으로 넘어가세요.

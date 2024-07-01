@@ -215,28 +215,30 @@
     Unknown - If the user's intent matches none of the above
     
     Examples:
-    {{$user}}Give me the list of titles by aespa
-    {{$bot}}ListOfSongsByArtist
+    ---
+    user input: Give me the list of titles by aespa
+    assistant: ListOfSongsByArtist
     
-    {{$user}}How many songs by aespa are on the chart?
-    {{$bot}}ListOfSongsByArtist
+    user input: How many songs by aespa are on the chart?
+    assistant: ListOfSongsByArtist
     
-    {{$user}}aespa 노래들이 궁금해
-    {{$bot}}ListOfSongsByArtist
+    user input: aespa 노래들이 궁금해
+    assistant: ListOfSongsByArtist
     
-    {{$user}}I'd like to have the names of the albums by Ive
-    {{$bot}}ListOfAlbumsByArtist
+    user input: I'd like to have the names of the albums by Ive
+    assistant: ListOfAlbumsByArtist
     
-    {{$user}}IVE 앨범 이름을 알려줘
-    {{$bot}}ListOfAlbumsByArtist
+    user input: IVE 앨범 이름을 알려줘
+    assistant: ListOfAlbumsByArtist
     
-    {{$user}}What rank is the song, Supernova?
-    {{$bot}}CurrentRank
+    user input: What rank is the song, Supernova?
+    assistant: CurrentRank
     
-    {{$user}}Supernova 노래 순위가 궁금해
-    {{$bot}}CurrentRank
+    user input: Supernova 노래 순위가 궁금해
+    assistant: CurrentRank
     
     user input: {{$input}}
+    assistant: 
     ```
 
 1. 아래 명령어를 실행시켜 `RefineQuestion`라는 프롬프트를 추가합니다.
@@ -286,7 +288,7 @@
     ```plaintext
     Refine the user's question based on the intent provided. Here's the intent:
         {{$intent}}
-
+    
     These are the list of intents and their corresponding explanations:
     - ListOfSongsByArtist - If the user wants to have the list of songs by an artist
     - ListOfAlbumsByArtist - If the user wants to have the list of albums by an artist
@@ -294,34 +296,112 @@
     - Unknown - If the user's intent matches none of the above
     
     Examples:
-    {{$user}}What are the songs by aespa?
-    {{$intent}}ListOfSongsByArtist
-    {{$bot}}List all the songs by aespa in the chart
+    ---
+    user input: What are the songs by aespa?
+    intent: ListOfSongsByArtist
+    assistant: List all the songs by aespa in the chart
     
-    {{$user}}I'm curious which albums Ive has in the chart
-    {{$intent}}ListOfAlbumsByArtist
-    {{$bot}}List all the albums by Ive in the chart
+    user input: I'm curious which albums Ive has in the chart
+    intent: ListOfAlbumsByArtist
+    assistant: List all the albums by Ive in the chart
     
-    {{$user}}What rank is Supernova?
-    {{$intent}}CurrentRank
-    {{$bot}}What is the rank of the song, Supernova, in the chart?
+    user input: What rank is Supernova?
+    intent: CurrentRank
+    assistant: What is the rank of the song, Supernova, in the chart?
     
-    {{$user}}aespa 노래?
-    {{$intent}}ListOfSongsByArtist
-    {{$bot}}List all the songs by aespa in the chart
-
-    {{$user}}임영웅 앨범 이름들?
-    {{$intent}}ListOfAlbumsByArtist
-    {{$bot}}List all the albums by 임영웅 in the chart
-
-    {{$user}}천상연 노래 순위는 어때?
-    {{$intent}}CurrentRank
-    {{$bot}}What is the rank of the song, 천상연, in the chart?
+    user input: aespa 노래?
+    intent: ListOfSongsByArtist
+    assistant: List all the songs by aespa in the chart
+    
+    user input: 임영웅 앨범 이름들?
+    intent: ListOfAlbumsByArtist
+    assistant: List all the albums by 임영웅 in the chart
+    
+    user input: 천상연 노래 순위는 어때?
+    intent: CurrentRank
+    assistant: What is the rank of the song, 천상연, in the chart?
     
     user input: {{$input}}
+    intent: {{$intent}}
+    assistant: 
     ```
 
-1. `Build Semantic Kernel` 셀을 찾아 그 바로 아래에 새 코드 셀을 추가한 후, 아래와 같이 입력합니다.
+1. 아래 명령어를 실행시켜 `RefineResult`라는 프롬프트를 추가합니다.
+
+    ```bash
+    # bash/zsh
+    mkdir -p $REPOSITORY_ROOT/workshop/Prompts/RefineResult
+    touch $REPOSITORY_ROOT/workshop/Prompts/RefineResult/config.json
+    touch $REPOSITORY_ROOT/workshop/Prompts/RefineResult/skprompt.txt
+    
+    # PowerShell
+    New-Item -Type Directory -Path $REPOSITORY_ROOT/workshop/Prompts/RefineResult -Force
+    New-Item -Type File -Path $REPOSITORY_ROOT/workshop/Prompts/RefineResult/config.json -Force
+    New-Item -Type File -Path $REPOSITORY_ROOT/workshop/Prompts/RefineResult/skprompt.txt -Force
+    ```
+
+1. `Prompts/RefineResult` 디렉토리의 `config.json` 파일을 열고 아래와 같이 입력합니다.
+
+    ```json
+    {
+      "schema": 1,
+      "type": "completion",
+      "description": "Refine the response based on the identified intent",
+      "execution_settings": {
+        "default": {
+          "max_tokens": 800,
+          "temperature": 0
+        }
+      },
+      "input_variables": [
+        {
+          "name": "input",
+          "description": "The result from the previous step in JSON format",
+          "required": true
+        },
+        {
+          "name": "intent",
+          "description": "The user's intent",
+          "required": true
+        }
+      ]
+    }
+    ```
+
+1. `Prompts/RefineResult` 디렉토리의 `skprompt.txt` 파일을 열고 아래와 같이 입력합니다.
+
+    ```plaintext
+    <message role="system">You have the list of JSON data containing the title, album, artist and current rank of a song. The data is written in both Korean and English. Convert the data in the format of artist|current rank|title|album</message>
+    <message role="user">This is the intent of this request {{$intent}}</message>
+    
+    For example: 
+    
+    <message role="user">{"songId":"36318125","rank":"100","rankStatus":"none","rankStatusValue":0,"title":"Kitsch","artist":"IVE (아이브)","album":"I've IVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/120/quality/80/optimize"}\n{"songId":"36356993","rank":"28","rankStatus":"none","rankStatusValue":0,"title":"I AM","artist":"IVE (아이브)","album":"I've IVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/120/quality/80/optimize"}\n{"songId":"34847378","rank":"63","rankStatus":"none","rankStatusValue":0,"title":"LOVE DIVE","artist":"IVE (아이브)","album":"LOVE DIVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/109/09/179/10909179_20220405103521_500.jpg/melon/resize/120/quality/80/optimize"}\n{"songId":"37463573","rank":"46","rankStatus":"none","rankStatusValue":0,"title":"Accendio","artist":"IVE (아이브)","album":"IVE SWITCH","image":"https://cdnimg.melon.co.kr/cm2/album/images/114/75/530/11475530_20240430093854_500.jpg/melon/resize/120/quality/80/optimize"}\n{"songId":"36871671","rank":"93","rankStatus":"none","rankStatusValue":0,"title":"Baddie","artist":"IVE (아이브)","album":"I'VE MINE","image":"https://cdnimg.melon.co.kr/cm2/album/images/113/33/459/11333459_20231013103537_500.jpg/melon/resize/120/quality/80/optimize"}</message>
+    <message role="user">Intent: ListOfSongsByArtist</message>
+    <message role="assistant">IVE (아이브)|100|Kitsch|I've IVE\nIVE (아이브)|28|I AM|I've IVE\nIVE (아이브)|63|LOVE DIVE|LOVE DIVE\nIVE (아이브)|46|Accendio|IVE SWITCH\nIVE (아이브)|93|Baddie|I'VE MINE</message>
+    
+    <message role="user">{"songId":"36318125","rank":"100","rankStatus":"none","rankStatusValue":0,"title":"Kitsch","artist":"IVE (아이브)","album":"I've IVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/120/quality/80/optimize"}</message>
+    <message role="user">Intent: ListOfSongsByArtist</message>
+    <message role="assistant">IVE (아이브)|100|Kitsch|I've IVE</message>
+    
+    <message role="user">{"songId":"36318125","rank":"100","rankStatus":"none","rankStatusValue":0,"title":"Kitsch","artist":"IVE (아이브)","album":"I've IVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/120/quality/80/optimize"}\n{"songId":"36356993","rank":"28","rankStatus":"none","rankStatusValue":0,"title":"I AM","artist":"IVE (아이브)","album":"I've IVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/120/quality/80/optimize"}\n{"songId":"34847378","rank":"63","rankStatus":"none","rankStatusValue":0,"title":"LOVE DIVE","artist":"IVE (아이브)","album":"LOVE DIVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/109/09/179/10909179_20220405103521_500.jpg/melon/resize/120/quality/80/optimize"}\n{"songId":"37463573","rank":"46","rankStatus":"none","rankStatusValue":0,"title":"Accendio","artist":"IVE (아이브)","album":"IVE SWITCH","image":"https://cdnimg.melon.co.kr/cm2/album/images/114/75/530/11475530_20240430093854_500.jpg/melon/resize/120/quality/80/optimize"}\n{"songId":"36871671","rank":"93","rankStatus":"none","rankStatusValue":0,"title":"Baddie","artist":"IVE (아이브)","album":"I'VE MINE","image":"https://cdnimg.melon.co.kr/cm2/album/images/113/33/459/11333459_20231013103537_500.jpg/melon/resize/120/quality/80/optimize"}</message>
+    <message role="user">Intent: ListOfAlbumsByArtist</message>
+    <message role="assistant">IVE (아이브)|100|Kitsch|I've IVE\nIVE (아이브)|28|I AM|I've IVE\nIVE (아이브)|63|LOVE DIVE|LOVE DIVE\nIVE (아이브)|46|Accendio|IVE SWITCH\nIVE (아이브)|93|Baddie|I'VE MINE</message>
+    
+    <message role="user">{"songId":"36318125","rank":"100","rankStatus":"none","rankStatusValue":0,"title":"Kitsch","artist":"IVE (아이브)","album":"I've IVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/120/quality/80/optimize"}</message>
+    <message role="user">Intent: ListOfAlbumsByArtist</message>
+    <message role="assistant">IVE (아이브)|100|Kitsch|I've IVE</message>
+    
+    <message role="user">{"songId":"36318125","rank":"100","rankStatus":"none","rankStatusValue":0,"title":"Kitsch","artist":"IVE (아이브)","album":"I've IVE","image":"https://cdnimg.melon.co.kr/cm2/album/images/112/11/297/11211297_20230410151046_500.jpg/melon/resize/120/quality/80/optimize"}</message>
+    <message role="user">Intent: CurrentRank</message>
+    <message role="assistant">IVE (아이브)|100|Kitsch|I've IVE</message>
+    
+    <message role="user">{{$input}}</message>
+    <message role="user">Intent: {{$intent}}</message>
+    <message role="assistant">artist|current rank|title|album</message>
+    ```
+
+1. `semantic-kernel.ipynb` 파일에서 `Build Semantic Kernel` 셀을 찾아 그 바로 아래에 새 코드 셀을 추가한 후, 아래와 같이 입력합니다.
 
     ```csharp-interactive
     // Import prompts
@@ -563,3 +643,5 @@
 ---
 
 축하합니다! Polyglot Notebooks와 Semantic Kernel을 이용해 애저 OpenAI를 활용한 지능형 앱을 만들어 봤습니다.
+
+(**추가 세션**) 이제 [세션 06: Blazor JavaScript Interoperability 적용](./06-blazor-js-interop.md)으로 넘어가세요.
