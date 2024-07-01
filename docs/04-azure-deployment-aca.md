@@ -355,6 +355,8 @@
 
     ![GitHub Actions 배포 결과](./images/04-azure-deployment-16.png)
 
+   > YouTube 링크는 무엇이든 상관 없습니다. 여기서는 [https://youtu.be/NN4Zzp-vOrU](https://youtu.be/NN4Zzp-vOrU) 링크를 사용합니다. 혹시나 토큰 길이 관련 에러가 나오는 경우에는 30분 이하의 짧은 동영상을 사용해 보세요.
+
 ## 04-8: 배포된 앱 삭제하기
 
 1. 아래 명령어를 통해 배포한 앱을 삭제합니다.
