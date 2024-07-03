@@ -14,6 +14,7 @@
 - [node.js](https://nodejs.org/en/download) (선택)
 - [Azure 구독](https://azure.microsoft.com/ko-kr/free/?WT.mc_id=dotnet-121695-juyoo)
 - [Azure OpenAI 서비스 구독](https://aka.ms/aoaiapply)
+- [Docker Desktop](https://docs.docker.com/desktop/) 또는 [Podman](https://podman.io/docs/installation)
 - [Azure Developer CLI](https://learn.microsoft.com/ko-kr/azure/developer/azure-developer-cli/overview?WT.mc_id=dotnet-121695-juyoo)
 - [Azure CLI](https://learn.microsoft.com/ko-kr/cli/azure/what-is-azure-cli?WT.mc_id=dotnet-121695-juyoo)
 - [GitHub CLI](https://cli.github.com/)
