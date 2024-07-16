@@ -68,7 +68,7 @@
 
     ```csharp-interactive
     // Nuget Packages
-    #r "nuget: MelonChart.NET, 1.*"
+    #r "nuget: MelonChart.NET, 2.*"
     
     #r "nuget: Microsoft.SemanticKernel, 1.*"
     #r "nuget: Microsoft.SemanticKernel.Connectors.OpenAI, 1.*"
