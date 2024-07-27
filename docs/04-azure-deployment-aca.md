@@ -112,14 +112,16 @@
     ```bash
     # bash/zsh
     cd $REPOSITORY_ROOT/workshop
-    AZURE_ENV_NAME="aspire$((RANDOM%9000+1000))"
+    AZURE_ENV_NAME="{{GITHUB_ID}}"
     azd init -e $AZURE_ENV_NAME
 
     # PowerShell
     cd $REPOSITORY_ROOT/workshop
-    $AZURE_ENV_NAME = "aspire$(Get-Random -Minimum 1000 -Maximum 9999)"
+    $AZURE_ENV_NAME = "{{GITHUB_ID}}"
     azd init -e $AZURE_ENV_NAME
     ```
+
+   > **중요**: `{{GITHUB_ID}}`는 자신의 GitHub 아이디로 변경해야 합니다. 예를 들어 GitHub 아이디가 `Azure-Samples`라면 `Azure-Samples`로 변경하세요.
 
 1. 배포 환경 초기화 방법을 물어보면 `Use code in the current directory` 옵션을 선택합니다.
 1. Azure Container Apps를 사용해 배포한다고 물어봅니다. `Confirm and continue initializing my app` 옵션을 선택합니다.
