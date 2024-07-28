@@ -316,14 +316,16 @@
     ```bash
     # bash/zsh
     cd $REPOSITORY_ROOT/workshop
-    AZURE_ENV_NAME="aspire$((RANDOM%9000+1000))"
+    AZURE_ENV_NAME="{{ GITHUB_ID }}"
     azd init -e $AZURE_ENV_NAME
 
     # PowerShell
     cd $REPOSITORY_ROOT/workshop
-    $AZURE_ENV_NAME = "aspire$(Get-Random -Minimum 1000 -Maximum 9999)"
+    $AZURE_ENV_NAME = "{{ GITHUB_ID }}"
     azd init -e $AZURE_ENV_NAME
     ```
+
+   > **중요**: `{{ GITHUB_ID }}`는 자신의 GitHub 아이디로 변경해야 합니다. 예를 들어 GitHub 아이디가 `Azure-Samples`라면 `{{ GITHUB_ID }}`를 `Azure-Samples`로 변경하세요.
 
 1. 아래 명령어를 실행시켜 앱을 배포합니다.
 

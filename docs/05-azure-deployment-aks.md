@@ -46,13 +46,15 @@
 
     ```bash
     # bash/zsh
-    AZURE_ENV_NAME="aspire$((RANDOM%9000+1000))"
+    AZURE_ENV_NAME="{{ GITHUB_ID }}"
     AZ_LOCATION=australiaeast
 
     # PowerShell
-    $AZURE_ENV_NAME = "aspire$(Get-Random -Minimum 1000 -Maximum 9999)"
+    $AZURE_ENV_NAME = "{{ GITHUB_ID }}"
     $AZ_LOCATION = "australiaeast"
     ```
+
+   > **중요**: `{{ GITHUB_ID }}`는 자신의 GitHub 아이디로 변경해야 합니다. 예를 들어 GitHub 아이디가 `Azure-Samples`라면 `{{ GITHUB_ID }}`를 `Azure-Samples`로 변경하세요.
 
 1. 아래 명령어를 실행시켜 [Azure Container Registry(ACR)](https://learn.microsoft.com/azure/container-registry/container-registry-intro?WT.mc_id=dotnet-121695-juyoo) 및 [Azure Kubernetes Service(AKS)](https://learn.microsoft.com/ko-kr/azure/aks/intro-kubernetes?WT.mc_id=dotnet-121695-juyoo) 클러스터를 생성합니다.
 
