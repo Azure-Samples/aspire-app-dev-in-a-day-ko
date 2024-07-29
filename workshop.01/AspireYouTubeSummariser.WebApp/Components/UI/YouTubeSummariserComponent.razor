@@ -1,0 +1,79 @@
+@using AspireYouTubeSummariser.WebApp.Clients
+@inject IApiAppClient ApiApp
+
+<div class="container">
+    <div class="row">
+        <h2>YouTube Summariser</h2>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="mb-3">
+                <label for="youtube-link" class="form-label"><strong>YouTube Link</strong></label>
+                <input class="form-control" id="youtube-link" placeholder="Add YouTube link here" @bind="youTubeLinkUrl" />
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label for="video-language-code" class="form-label"><strong>Video Language</strong></label>
+                <select class="form-select" id="video-language-code" aria-label="Video language code" @bind="videoLanguageCode">
+                    <option value="en" selected>English</option>
+                    <option value="ko">Korean</option>
+                </select>
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label for="summary-language-code" class="form-label"><strong>Summary Language</strong></label>
+                <select class="form-select" id="summary-language-code" aria-label="Summary language code" @bind="summaryLanguageCode">
+                    <option value="en" selected>English</option>
+                    <option value="ko">Korean</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="mb-3">
+            <button type="button" class="btn btn-primary" @onclick="SummariseAsync">Summarise!</button>
+            <button type="button" class="btn btn-secondary" @onclick="ClearAsync">Clear!</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="mb-3">
+            <label for="summary" class="form-label"><strong>Summary</strong></label>
+            <textarea class="form-control" id="summary" rows="10" placeholder="Result will show here" readonly>@summaryResult</textarea>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string youTubeLinkUrl = string.Empty;
+    private string videoLanguageCode = "en";
+    private string summaryLanguageCode = "en";
+    private string summaryResult = string.Empty;
+
+    private async Task SummariseAsync()
+    {
+        try
+        {
+            var result = await ApiApp.SummariseAsync(youTubeLinkUrl, videoLanguageCode, summaryLanguageCode);
+            summaryResult = result;
+        }
+        catch (Exception ex)
+        {
+            summaryResult = ex.Message;
+        }
+    }
+
+    private async Task ClearAsync()
+    {
+        youTubeLinkUrl = string.Empty;
+        videoLanguageCode = "en";
+        summaryLanguageCode = "en";
+        summaryResult = string.Empty;
+
+        await Task.CompletedTask;
+    }
+}
