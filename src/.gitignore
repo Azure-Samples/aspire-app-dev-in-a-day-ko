@@ -1,4 +1,1 @@
-# .azure is not intended to be committed
-bundle.js.*.txt
-# workshop*/
-z-demo*/
+.azure

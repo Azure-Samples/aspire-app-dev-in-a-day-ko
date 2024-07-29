@@ -2,6 +2,7 @@ using AspireYouTubeSummariser.WebApp.Clients;
 using AspireYouTubeSummariser.WebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<YouTubeSummariserService>();
 
 builder.AddServiceDefaults();
 
@@ -21,11 +22,9 @@ app.UseOutputCache();
 app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
 }
 
 app.UseHttpsRedirection();
@@ -33,7 +32,24 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+app.MapPost("/summarise", async ([FromBody] SummaryRequest req, YouTubeSummariserService service) =>
+{
+    var summary = await service.SummariseAsync(req);
+    return summary;
+})
+.WithName("GetSummary")
+.WithOpenApi();
+
+class YouTubeSummariserService
+{
+    public async Task<string> SummariseAsync(SummaryRequest req)
+    {
+        string summary = "This is a summary of the YouTube video.";
+
+        return await Task.FromResult(summary).ConfigureAwait(false);
+    }
+}
 
 app.Run();
+
+record SummaryRequest(string? YouTubeLinkUrl, string VideoLanguageCode, string? SummaryLanguageCode);
