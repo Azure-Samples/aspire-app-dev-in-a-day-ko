@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\AspireYouTubeSummariser.WebApp.bundle.scp.css",
+      "PackagePath": "staticwebassets\\AspireYouTubeSummariser.WebApp.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.AspireYouTubeSummariser.WebApp.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.AspireYouTubeSummariser.WebApp.props",
+      "PackagePath": "build\\AspireYouTubeSummariser.WebApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.AspireYouTubeSummariser.WebApp.props",
+      "PackagePath": "buildMultiTargeting\\AspireYouTubeSummariser.WebApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.AspireYouTubeSummariser.WebApp.props",
+      "PackagePath": "buildTransitive\\AspireYouTubeSummariser.WebApp.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
