@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <InvariantGlobalization>true</InvariantGlobalization>
+
+    <AssemblyName>AspireYouTubeSummariser.ApiApp</AssemblyName>
+    <RootNamespace>AspireYouTubeSummariser.ApiApp</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aliencube.YouTubeSubtitlesExtractor" Version="$(YouTubeSubtitlesExtractorVersion)" />
+    <PackageReference Include="Azure.AI.OpenAI" Version="$(AzureOpenAISdkVersion)" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="$(AspNetCoreVersion)" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="$(SwashbuckleVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AspireYouTubeSummariser.ServiceDefaults\AspireYouTubeSummariser.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+</Project>
