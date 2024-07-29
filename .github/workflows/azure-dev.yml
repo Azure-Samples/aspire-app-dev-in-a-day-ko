@@ -1,11 +1,11 @@
 on:
   workflow_dispatch:
   push:
+    # Run when commits are pushed to mainline branch (main or master)
+    # Set this to the mainline branch you are using
     branches:
       - main
       - master
-    paths:
-      - 'workshop/**/*'
 
 # GitHub Actions workflow to deploy to Azure using azd
 # To configure required secrets for connecting to Azure, simply run `azd pipeline config`
@@ -20,11 +20,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
-      AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
-      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-      AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
-      AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      AZURE_ENV_NAME: ${{ secrets.AZURE_ENV_NAME }}
+      AZURE_LOCATION: ${{ secrets.AZURE_LOCATION }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,54 +37,47 @@ jobs:
       - name: Install .NET Aspire workload
         run: dotnet workload install aspire
 
-      - name: Update appsettings.json
-        shell: pwsh
-        run: |
-          pushd ./workshop
-          $appsettings = Get-Content -Path ./AspireYouTubeSummariser.AppHost/appsettings.json | ConvertFrom-Json
-          $appsettings.OpenAI.Endpoint = "${{ secrets.AZURE_OPENAI_ENDPOINT }}"
-          $appsettings.OpenAI.ApiKey = "${{ secrets.AZURE_OPENAI_API_KEY }}"
-          $appsettings.OpenAI.DeploymentName = "${{ secrets.AZURE_OPENAI_DEPLOYMENT_NAME }}"
-          $appsettings | ConvertTo-Json -Depth 100 | Out-File -FilePath ./AspireYouTubeSummariser.AppHost/appsettings.json -Encoding utf8 -Force
-          popd
-
       - name: Install azd
         uses: Azure/setup-azd@v1.0.0
 
       - name: Log in with Azure (Federated Credentials)
         if: ${{ env.AZURE_CLIENT_ID != '' }}
         run: |
-          azd auth login `
-            --client-id "$Env:AZURE_CLIENT_ID" `
-            --federated-credential-provider "github" `
-            --tenant-id "$Env:AZURE_TENANT_ID"
-        shell: pwsh
+          azd auth login --client-id $AZURE_CLIENT_ID --federated-credential-provider "github" --tenant-id $AZURE_TENANT_ID
+        shell: bash
 
       - name: Log in with Azure (Client Credentials)
-        if: ${{ env.AZURE_CREDENTIALS != '' }}
+        if: ${{ secrets.AZURE_CREDENTIALS != '' }}
         run: |
-          $info = $Env:AZURE_CREDENTIALS | ConvertFrom-Json -AsHashtable;
-          Write-Host "::add-mask::$($info.clientSecret)"
-
-          azd auth login `
-            --client-id "$($info.clientId)" `
-            --client-secret "$($info.clientSecret)" `
-            --tenant-id "$($info.tenantId)"
-        shell: pwsh
+          AZURE_CREDENTIALS=${{ secrets.AZURE_CREDENTIALS }}
+          info=$(echo $AZURE_CREDENTIALS | jq -r '.')
+          azd auth login --client-id $(echo $info | jq -r '.clientId') --client-secret $(echo $info | jq -r '.clientSecret') --tenant-id $(echo $info | jq -r '.tenantId')
+        shell: bash
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
-    # 변경후
-    - name: Provision Infrastructure
-      run: |
-        pushd ./workshop
-        azd provision --no-prompt
-        popd
+      - name: Update appsettings.json
+        run: |
+          pushd ./workshop
+          jq '.OpenAI.Endpoint = $AZURE_OPENAI_ENDPOINT | .OpenAI.ApiKey = $AZURE_OPENAI_API_KEY | .OpenAI.DeploymentName = $AZURE_OPENAI_DEPLOYMENT_NAME' \
+             --arg AZURE_OPENAI_ENDPOINT ${{ secrets.AZURE_OPENAI_ENDPOINT }} \
+             --arg AZURE_OPENAI_API_KEY ${{ secrets.AZURE_OPENAI_API_KEY }} \
+             --arg AZURE_OPENAI_DEPLOYMENT_NAME ${{ secrets.AZURE_OPENAI_DEPLOYMENT_NAME }} \
+             ./AspireYouTubeSummariser.AppHost/appsettings.json > ./AspireYouTubeSummariser.AppHost/appsettings.json.tmp
+          mv ./AspireYouTubeSummariser.AppHost/appsettings.json.tmp ./AspireYouTubeSummariser.AppHost/appsettings.json
+          popd
+        shell: bash
+
+      - name: Provision Infrastructure
+        run: |
+          pushd ./workshop
+          azd provision --no-prompt
+          popd
+
+      - name: Deploy Application
+        run: |
+          pushd ./workshop
+          azd deploy --no-prompt
+          popd
         env:
           AZD_INITIAL_ENVIRONMENT_CONFIG: ${{ secrets.AZD_INITIAL_ENVIRONMENT_CONFIG }}
-
-    - name: Deploy Application
-      run: |
-        pushd ./workshop
-        azd deploy --no-prompt
-        popd
