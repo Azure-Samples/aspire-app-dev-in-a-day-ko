@@ -1,23 +1,23 @@
 {
   "Files": [
     {
-      "Id": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\AspireYouTubeSummariser.WebApp.bundle.scp.css",
+      "Id": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\AspireYouTubeSummariser.WebApp.bundle.scp.css",
       "PackagePath": "staticwebassets\\AspireYouTubeSummariser.WebApp.bundle.scp.css"
     },
     {
-      "Id": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\app.css",
+      "Id": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\app.css",
       "PackagePath": "staticwebassets\\app.css"
     },
     {
-      "Id": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Id": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\bootstrap\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Id": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Id": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Id": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\favicon.png",
+      "Id": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {

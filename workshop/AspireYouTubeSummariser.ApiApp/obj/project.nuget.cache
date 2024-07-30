@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rncVHtwF1Ek=",
+  "dgSpecHash": "4dH8D0uMn+w=",
   "success": true,
-  "projectFilePath": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.ApiApp\\AspireYouTubeSummariser.ApiApp.csproj",
+  "projectFilePath": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.ApiApp\\AspireYouTubeSummariser.ApiApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\User\\.nuget\\packages\\aliencube.youtubesubtitlesextractor\\2.0.0\\aliencube.youtubesubtitlesextractor.2.0.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\azure.ai.openai\\2.0.0-beta.2\\azure.ai.openai.2.0.0-beta.2.nupkg.sha512",

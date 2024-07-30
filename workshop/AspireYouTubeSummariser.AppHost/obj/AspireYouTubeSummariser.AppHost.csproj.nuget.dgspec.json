@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.AppHost\\AspireYouTubeSummariser.AppHost.csproj": {}
+    "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.AppHost\\AspireYouTubeSummariser.AppHost.csproj": {}
   },
   "projects": {
-    "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.AppHost\\AspireYouTubeSummariser.AppHost.csproj": {
+    "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.AppHost\\AspireYouTubeSummariser.AppHost.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.AppHost\\AspireYouTubeSummariser.AppHost.csproj",
+        "projectUniqueName": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.AppHost\\AspireYouTubeSummariser.AppHost.csproj",
         "projectName": "AspireYouTubeSummariser.AppHost",
-        "projectPath": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.AppHost\\AspireYouTubeSummariser.AppHost.csproj",
+        "projectPath": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.AppHost\\AspireYouTubeSummariser.AppHost.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.AppHost\\obj\\",
+        "outputPath": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.AppHost\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -7,5 +7,5 @@ namespace Projects;
 [global::System.Diagnostics.DebuggerDisplay("Type = {GetType().Name,nq}, ProjectPath = {ProjectPath}")]
 public class AspireYouTubeSummariser_WebApp : global::Aspire.Hosting.IProjectMetadata
 {
-    public string ProjectPath => """D:\hgrd\aspire-app-dev-in-a-day-ko\workshop\AspireYouTubeSummariser.WebApp\AspireYouTubeSummariser.WebApp.csproj""";
+    public string ProjectPath => """C:\hgrd\aspire-app-dev-in-a-day-ko\workshop\AspireYouTubeSummariser.WebApp\AspireYouTubeSummariser.WebApp.csproj""";
 }

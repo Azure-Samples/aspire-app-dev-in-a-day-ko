@@ -8,5 +8,5 @@ namespace Projects;
 public class AspireYouTubeSummariser_AppHost
 {
     private AspireYouTubeSummariser_AppHost() { }
-    public static string ProjectPath => """D:\hgrd\aspire-app-dev-in-a-day-ko\workshop\AspireYouTubeSummariser.AppHost""";
+    public static string ProjectPath => """C:\hgrd\aspire-app-dev-in-a-day-ko\workshop\AspireYouTubeSummariser.AppHost""";
 }

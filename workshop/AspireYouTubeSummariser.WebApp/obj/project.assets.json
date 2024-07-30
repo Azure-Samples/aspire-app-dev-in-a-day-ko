@@ -2571,11 +2571,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\AspireYouTubeSummariser.WebApp.csproj",
+      "projectUniqueName": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\AspireYouTubeSummariser.WebApp.csproj",
       "projectName": "AspireYouTubeSummariser.WebApp",
-      "projectPath": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\AspireYouTubeSummariser.WebApp.csproj",
+      "projectPath": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\AspireYouTubeSummariser.WebApp.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\",
+      "outputPath": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -2597,8 +2597,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.ServiceDefaults\\AspireYouTubeSummariser.ServiceDefaults.csproj": {
-              "projectPath": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.ServiceDefaults\\AspireYouTubeSummariser.ServiceDefaults.csproj"
+            "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.ServiceDefaults\\AspireYouTubeSummariser.ServiceDefaults.csproj": {
+              "projectPath": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.ServiceDefaults\\AspireYouTubeSummariser.ServiceDefaults.csproj"
             }
           }
         }
