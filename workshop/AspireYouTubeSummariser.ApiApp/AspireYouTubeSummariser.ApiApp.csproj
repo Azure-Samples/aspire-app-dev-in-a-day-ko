@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aliencube.YouTubeSubtitlesExtractor" Version="$(YouTubeSubtitlesExtractorVersion)" />
-    <PackageReference Include="Azure.AI.OpenAI" Version="$(AzureOpenAISdkVersion)" />
+    <PackageReference Include="Aliencube.YouTubeSubtitlesExtractor" Version="2.0.0" />
+    <PackageReference Include="Azure.AI.OpenAI" Version="2.0.0-beta.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="$(SwashbuckleVersion)" />
   </ItemGroup>
