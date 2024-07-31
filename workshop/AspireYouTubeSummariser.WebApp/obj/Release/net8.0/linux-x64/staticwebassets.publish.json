@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "tVKlqEd7GXW37xKDcUdE7VGDxwH3AKlgK78GmCLtw8E=",
+  "Hash": "HIsAjsWeinWh5ZzITTKJPVJw3byD6dnv2zOtCniRH38=",
   "Source": "AspireYouTubeSummariser.WebApp",
   "BasePath": "_content/AspireYouTubeSummariser.WebApp",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "AspireYouTubeSummariser.WebApp\\wwwroot",
       "Source": "AspireYouTubeSummariser.WebApp",
-      "ContentRoot": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\",
+      "ContentRoot": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\",
       "BasePath": "_content/AspireYouTubeSummariser.WebApp",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\Release\\net8.0\\linux-x64\\scopedcss\\bundle\\AspireYouTubeSummariser.WebApp.styles.css",
+      "Identity": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\Release\\net8.0\\linux-x64\\scopedcss\\bundle\\AspireYouTubeSummariser.WebApp.styles.css",
       "SourceId": "AspireYouTubeSummariser.WebApp",
       "SourceType": "Computed",
-      "ContentRoot": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\Release\\net8.0\\linux-x64\\scopedcss\\bundle\\",
+      "ContentRoot": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\Release\\net8.0\\linux-x64\\scopedcss\\bundle\\",
       "BasePath": "_content/AspireYouTubeSummariser.WebApp",
       "RelativePath": "AspireYouTubeSummariser.WebApp.styles.css",
       "AssetKind": "All",
@@ -33,13 +33,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\Release\\net8.0\\linux-x64\\scopedcss\\bundle\\AspireYouTubeSummariser.WebApp.styles.css"
+      "OriginalItemSpec": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\Release\\net8.0\\linux-x64\\scopedcss\\bundle\\AspireYouTubeSummariser.WebApp.styles.css"
     },
     {
-      "Identity": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\Release\\net8.0\\linux-x64\\scopedcss\\projectbundle\\AspireYouTubeSummariser.WebApp.bundle.scp.css",
+      "Identity": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\Release\\net8.0\\linux-x64\\scopedcss\\projectbundle\\AspireYouTubeSummariser.WebApp.bundle.scp.css",
       "SourceId": "AspireYouTubeSummariser.WebApp",
       "SourceType": "Computed",
-      "ContentRoot": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\Release\\net8.0\\linux-x64\\scopedcss\\projectbundle\\",
+      "ContentRoot": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\Release\\net8.0\\linux-x64\\scopedcss\\projectbundle\\",
       "BasePath": "_content/AspireYouTubeSummariser.WebApp",
       "RelativePath": "AspireYouTubeSummariser.WebApp.bundle.scp.css",
       "AssetKind": "All",
@@ -52,13 +52,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\Release\\net8.0\\linux-x64\\scopedcss\\projectbundle\\AspireYouTubeSummariser.WebApp.bundle.scp.css"
+      "OriginalItemSpec": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\obj\\Release\\net8.0\\linux-x64\\scopedcss\\projectbundle\\AspireYouTubeSummariser.WebApp.bundle.scp.css"
     },
     {
-      "Identity": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\app.css",
+      "Identity": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\app.css",
       "SourceId": "AspireYouTubeSummariser.WebApp",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\",
+      "ContentRoot": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\",
       "BasePath": "_content/AspireYouTubeSummariser.WebApp",
       "RelativePath": "app.css",
       "AssetKind": "All",
@@ -74,10 +74,10 @@
       "OriginalItemSpec": "wwwroot\\app.css"
     },
     {
-      "Identity": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Identity": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\bootstrap\\bootstrap.min.css",
       "SourceId": "AspireYouTubeSummariser.WebApp",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\",
+      "ContentRoot": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\",
       "BasePath": "_content/AspireYouTubeSummariser.WebApp",
       "RelativePath": "bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -93,10 +93,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Identity": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Identity": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "SourceId": "AspireYouTubeSummariser.WebApp",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\",
+      "ContentRoot": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\",
       "BasePath": "_content/AspireYouTubeSummariser.WebApp",
       "RelativePath": "bootstrap/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -112,10 +112,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Identity": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\favicon.png",
+      "Identity": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\favicon.png",
       "SourceId": "AspireYouTubeSummariser.WebApp",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\",
+      "ContentRoot": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\wwwroot\\",
       "BasePath": "_content/AspireYouTubeSummariser.WebApp",
       "RelativePath": "favicon.png",
       "AssetKind": "All",
