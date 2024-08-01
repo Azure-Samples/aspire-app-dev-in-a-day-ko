@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AspireYouTubeSummariser.ServiceDefaults")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9a3f3453bdc7e09b81f4b0e588dc4e18153af451")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8935df19b8824a489927c76621e0267e717b70c2")]
 [assembly: System.Reflection.AssemblyProductAttribute("AspireYouTubeSummariser.ServiceDefaults")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AspireYouTubeSummariser.ServiceDefaults")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
