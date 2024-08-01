@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "kBMUhetE0Ypjik9qiv0buMPnRDdcwecT2cE2jo56e6U=",
+  "Source": "AspireYouTubeSummariser.ApiApp",
+  "BasePath": "_content/AspireYouTubeSummariser.ApiApp",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
