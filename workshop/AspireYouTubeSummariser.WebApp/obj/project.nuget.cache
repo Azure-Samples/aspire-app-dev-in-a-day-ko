@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "xpC1YqfVTww=",
+  "dgSpecHash": "BCeD+2yp+tU=",
   "success": true,
   "projectFilePath": "C:\\hgrd\\aspire-app-dev-in-a-day-ko\\workshop\\AspireYouTubeSummariser.WebApp\\AspireYouTubeSummariser.WebApp.csproj",
   "expectedPackageFiles": [
@@ -60,7 +60,8 @@
     "C:\\Users\\User\\.nuget\\packages\\system.diagnostics.diagnosticsource\\8.0.0\\system.diagnostics.diagnosticsource.8.0.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
-    "C:\\Users\\User\\.nuget\\packages\\system.threading.ratelimiting\\8.0.0\\system.threading.ratelimiting.8.0.0.nupkg.sha512"
+    "C:\\Users\\User\\.nuget\\packages\\system.threading.ratelimiting\\8.0.0\\system.threading.ratelimiting.8.0.0.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\8.0.6\\microsoft.netcore.app.host.linux-x64.8.0.6.nupkg.sha512"
   ],
   "logs": []
 }
