@@ -1,6 +1,6 @@
 # 세션 04: Azure 배포 - Azure Container Apps
 
-이 세션에서는 [.NET Aspire](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-121695-juyoo)로 개발한 애플리케이션을 [Azure Developer CLI](https://learn.microsoft.com/ko-kr/azure/developer/azure-developer-cli/overview?WT.mc_id=dotnet-121695-juyoo)를 이용해 [Azure Container Apps](https://learn.microsoft.com/ko-kr/azure/container-apps/overview?WT.mc_id=dotnet-121695-juyoo)로 배포해 보겠습니다.
+이 세션에서는 [Aspire](https://learn.microsoft.com/ko-kr/dotnet/aspire/get-started/aspire-overview?WT.mc_id=dotnet-121695-juyoo)로 개발한 애플리케이션을 [Azure Developer CLI](https://learn.microsoft.com/ko-kr/azure/developer/azure-developer-cli/overview?WT.mc_id=dotnet-121695-juyoo)를 이용해 [Azure Container Apps](https://learn.microsoft.com/ko-kr/azure/container-apps/overview?WT.mc_id=dotnet-121695-juyoo)로 배포해 보겠습니다.
 
 > [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 또는 [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=dotnet-121695-juyoo) 환경에서 작업하는 것을 기준으로 합니다.
 
@@ -193,11 +193,11 @@
 
     ![Web App deployed](./images/04-azure-deployment-08.png)
 
-1. Azure Portal에서 `cae-`로 시작하는 Container Apps Environment를 클릭하고 `Overview` 블레이드에서 .NET Aspire Dashboard의 `Open dashboard` 링크가 보이는 것을 확인합니다.
+1. Azure Portal에서 `cae-`로 시작하는 Container Apps Environment를 클릭하고 `Overview` 블레이드에서 Aspire Dashboard의 `Open dashboard` 링크가 보이는 것을 확인합니다.
 
     ![Container Apps Environment](./images/04-azure-deployment-09.png)
 
-1. .NET Aspire Dashboard 링크를 클릭해서 아래와 같이 대시보드 화면이 보이는 것을 확인합니다.
+1. Aspire Dashboard 링크를 클릭해서 아래와 같이 대시보드 화면이 보이는 것을 확인합니다.
 
     ![Dashboard deployed](./images/04-azure-deployment-10.png)
 
@@ -284,7 +284,7 @@
       with:
         dotnet-version: 8.x
     
-    - name: Install .NET Aspire workload
+    - name: Install Aspire workload
       run: dotnet workload install aspire
 
     - name: Update appsettings.json
