@@ -10,7 +10,7 @@ git config --global core.autocrlf input
 ## Enable local HTTPS for .NET
 dotnet dev-certs https --trust
 
-## Add .NET Aspire workload
+## Add Aspire workload
 sudo dotnet workload update && sudo dotnet workload install aspire
 
 # D2Coding Nerd Font
