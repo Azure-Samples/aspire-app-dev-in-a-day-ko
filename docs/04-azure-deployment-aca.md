@@ -276,11 +276,11 @@
 
     ```yaml
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
     
     # 아래 액션 추가 👇
     - name: Install .NET 8 SDK
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v6
       with:
         dotnet-version: 8.x
     
@@ -300,7 +300,7 @@
     # 위 액션 추가 👆
     
     - name: Install azd
-      uses: Azure/setup-azd@v1.0.0
+      uses: azure/setup-azd@v2
     ```
 
 1. `azre-dev.yml` 파일의 맨 마지막 부분에 있는 액션을 아래와 같이 수정합니다. YAML 파일은 들여쓰기가 중요하므로 주의해서 수정하세요.
